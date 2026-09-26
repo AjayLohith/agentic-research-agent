@@ -428,6 +428,7 @@ Every completed run produces synchronized artifacts:
 
 All required assessment submission artifacts are available in the repository:
 
+* **[Tech Stack & Feature Testing Guide](docs/tech_stack_and_testing_guide.md):** Complete breakdown of libraries, engineering rationale, and copy-pasteable runnable commands for every feature.
 * **[Assessment Checklist & Traceability Matrix](docs/assessment_checklist.md):** Verification of all required and bonus capabilities.
 * **[One-Page Architectural Write-Up](docs/writeup.md):** Engineering summary covering approach, architecture, autonomous behavior, evidence grounding, and design decisions.
 * **[Sample Run Transcripts](docs/sample_runs.md):** Annotated execution traces for 3 distinct research queries:
