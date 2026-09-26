@@ -3,6 +3,8 @@ from typing import Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
 
+from app.exceptions import ConfigurationError
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -11,37 +13,69 @@ class Settings(BaseSettings):
         extra="ignore"
     )
 
-    # LLM Settings
-    LLM_PROVIDER: str = Field(default="openai", description="LLM provider name: 'openai' or 'mock'")
-    LLM_MODEL: str = Field(default="gpt-4o-mini", description="Model name")
-    OPENAI_API_KEY: Optional[str] = Field(default=None, description="OpenAI API key")
+    # Primary LLM Settings (Free Groq by default, OpenAI-compatible)
+    LLM_PROVIDER: str = Field(default="groq", description="LLM provider: 'groq', 'openai', or 'mock'")
+    LLM_MODEL: str = Field(default="llama-3.3-70b-versatile", description="Model name")
+    GROQ_API_KEY: Optional[str] = Field(default=None, description="Groq API key")
+    GROQ_BASE_URL: str = Field(default="https://api.groq.com/openai/v1", description="Groq API base URL")
+
+    # Optional OpenAI settings
+    OPENAI_API_KEY: Optional[str] = Field(default=None, description="OpenAI API key (if using OpenAI)")
     OPENAI_BASE_URL: str = Field(default="https://api.openai.com/v1", description="OpenAI base URL")
 
-    # Search Settings
-    SEARCH_PROVIDER: str = Field(default="duckduckgo", description="Search provider: 'duckduckgo', 'tavily', or 'mock'")
-    TAVILY_API_KEY: Optional[str] = Field(default=None, description="Tavily API key if using Tavily")
+    # Primary Search Settings (Tavily free tier by default)
+    SEARCH_PROVIDER: str = Field(default="tavily", description="Search provider: 'tavily', 'duckduckgo', or 'mock'")
+    TAVILY_API_KEY: Optional[str] = Field(default=None, description="Tavily API key")
 
     # Execution Modes
-    MOCK_MODE: bool = Field(default=False, description="Run deterministically offline with test fixtures")
+    MOCK_MODE: bool = Field(default=False, description="Run offline with deterministic fixtures")
     DEMO_FAILURE_MODE: str = Field(default="none", description="Failure injection: 'none', 'timeout', 'http_500', 'empty_response'")
 
     # Research Budget and Safety Limits
     MAX_AGENT_STEPS: int = Field(default=15, description="Maximum agent execution cycles")
     MAX_TOOL_CALLS: int = Field(default=25, description="Maximum tool invocations per session")
-    MAX_RETRIES_PER_TOOL: int = Field(default=2, description="Retries per tool call failure before fallback")
+    MAX_RETRIES_PER_TOOL: int = Field(default=2, description="Retries per tool call before fallback")
     MAX_RESEARCH_TIME_SECONDS: int = Field(default=300, description="Session timeout in seconds")
     MAX_SOURCE_COUNT: int = Field(default=15, description="Maximum distinct sources to record")
     MAX_FETCH_CONTENT_LENGTH: int = Field(default=20000, description="Max character length for web page text")
 
     # Outputs
     OUTPUT_DIR: str = Field(default="output", description="Directory where report artifacts are saved")
-    LOG_LEVEL: str = Field(default="INFO", description="Log level: DEBUG, INFO, WARNING, ERROR")
+    LOG_LEVEL: str = Field(default="INFO", description="Log level")
 
     @property
     def output_path(self) -> Path:
         p = Path(self.OUTPUT_DIR)
         p.mkdir(parents=True, exist_ok=True)
         return p
+
+    def validate_runtime(self, is_mock: bool = False) -> None:
+        """Validates that necessary API keys are present for the active provider."""
+        if is_mock or self.MOCK_MODE:
+            return
+
+        provider = self.LLM_PROVIDER.lower()
+        if provider == "groq" and not self.GROQ_API_KEY:
+            raise ConfigurationError(
+                "GROQ_API_KEY is not set.\n"
+                "To use the free Groq provider in live mode, add your key to .env:\n"
+                "  GROQ_API_KEY=your_groq_key_here\n"
+                "Or run offline without API keys using --mock."
+            )
+        elif provider == "openai" and not self.OPENAI_API_KEY:
+            raise ConfigurationError(
+                "OPENAI_API_KEY is not set.\n"
+                "Please add OPENAI_API_KEY to your .env file, or set LLM_PROVIDER=groq."
+            )
+
+        search_provider = self.SEARCH_PROVIDER.lower()
+        if search_provider == "tavily" and not self.TAVILY_API_KEY:
+            raise ConfigurationError(
+                "TAVILY_API_KEY is not set.\n"
+                "To use the Tavily search provider in live mode, add your key to .env:\n"
+                "  TAVILY_API_KEY=your_tavily_key_here\n"
+                "Or set SEARCH_PROVIDER=duckduckgo for keyless search, or run with --mock."
+            )
 
 
 settings = Settings()

@@ -1,14 +1,24 @@
-from app.providers.llm import LLMProvider, OpenAICompatibleProvider, MockLLMProvider, get_llm_provider
-from app.providers.search import SearchProvider, DuckDuckGoSearchProvider, TavilySearchProvider, MockSearchProvider, get_search_provider
+from app.providers.llm import LLMProvider, GroqProvider, MockLLMProvider, get_llm_provider
+from app.providers.search import (
+    SearchProvider,
+    TavilySearchProvider,
+    DuckDuckGoSearchProvider,
+    MockSearchProvider,
+    get_search_provider,
+)
+
+# Backward compatibility alias
+OpenAICompatibleProvider = GroqProvider
 
 __all__ = [
     "LLMProvider",
-    "OpenAICompatibleProvider",
+    "GroqProvider",
     "MockLLMProvider",
+    "OpenAICompatibleProvider",
     "get_llm_provider",
     "SearchProvider",
-    "DuckDuckGoSearchProvider",
     "TavilySearchProvider",
+    "DuckDuckGoSearchProvider",
     "MockSearchProvider",
     "get_search_provider",
 ]

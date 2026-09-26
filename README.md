@@ -2,10 +2,57 @@
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Code style: Pydantic](https://img.shields.io/badge/validation-Pydantic%20v2-green.svg)](https://docs.pydantic.dev/)
-[![Tests: Pytest](https://img.shields.io/badge/tests-21%20passed-brightgreen.svg)](tests/)
+[![Validation: Pydantic v2](https://img.shields.io/badge/validation-Pydantic%20v2-green.svg)](https://docs.pydantic.dev/)
+[![Tests: Pytest](https://img.shields.io/badge/tests-24%20passed-brightgreen.svg)](tests/)
 
-An autonomous, multi-tool AI research agent built from first principles for competitive intelligence, architectural benchmarking, and deep domain research. It dynamically decomposes high-level user goals, orchestrates live web searches and HTTP page inspections, performs verifiable mathematical calculations, autonomously detects and recovers from tool failures, and synthesizes structured, citation-grounded intelligence reports.
+An autonomous, multi-tool AI research agent built from first principles for competitive intelligence, architectural benchmarking, and deep domain research. It dynamically decomposes high-level user goals, orchestrates web searches and HTTP page inspections, performs verifiable mathematical calculations, autonomously detects and recovers from tool failures, and synthesizes structured, citation-grounded intelligence reports.
+
+Designed to run using **free developer-tier resources** by default (**Groq** for high-speed LLM inference and **Tavily** for AI web search).
+
+---
+
+## Quick Start
+
+### 1. Create environment
+```bash
+python -m venv .venv
+```
+
+### 2. Activate
+**Windows (PowerShell / Command Prompt):**
+```powershell
+.venv\Scripts\activate
+```
+
+**Linux / macOS:**
+```bash
+source .venv/bin/activate
+```
+
+### 3. Install
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure
+```bash
+# Windows
+copy .env.example .env
+
+# Linux / macOS
+cp .env.example .env
+```
+
+Add your free developer keys to `.env`:
+```env
+GROQ_API_KEY=gsk_your_groq_api_key_here
+TAVILY_API_KEY=tvly-your_tavily_api_key_here
+```
+
+### 5. Run
+```bash
+python -m app.main --goal "Analyze the current competitive landscape for AI agent frameworks"
+```
 
 ---
 
@@ -13,32 +60,31 @@ An autonomous, multi-tool AI research agent built from first principles for comp
 
 1. [Overview](#1-overview)
 2. [Why This Project](#2-why-this-project)
-3. [Key Features](#3-features)
-4. [Architecture](#4-architecture)
-5. [Repository Structure](#5-project-structure)
-6. [Requirements](#6-requirements)
-7. [Installation](#7-installation)
-8. [Configuration](#8-configuration)
-9. [Running the Agent](#9-running)
-10. [Main Demonstration](#10-demo)
-11. [Failure Recovery Demonstration](#11-failure-recovery-demo)
-12. [Testing & Coverage](#12-testing)
-13. [Output Artifacts](#13-output)
-14. [Design Decisions](#14-design-decisions)
-15. [Limitations](#15-limitations)
-16. [Production Roadmap](#16-production-improvements)
+3. [Architecture](#3-architecture)
+4. [Technology Stack](#4-technology-stack)
+5. [Free Development Setup](#5-free-development-setup)
+6. [Environment Variables](#6-environment-variables)
+7. [Repository Structure](#7-repository-structure)
+8. [Running the Agent](#8-running-the-agent)
+9. [Failure Recovery Demonstration](#9-failure-recovery-demonstration)
+10. [Deterministic Mock Mode](#10-deterministic-mock-mode)
+11. [Testing & Coverage](#11-testing--coverage)
+12. [Output Artifacts](#12-output-artifacts)
+13. [Design Decisions](#13-design-decisions)
+14. [Limitations](#14-limitations)
+15. [Production Improvements](#15-production-improvements)
 
 ---
 
 ## 1. Overview
 
 The **Autonomous Research & Competitive Intelligence Agent** accepts arbitrary natural-language research goals—such as analyzing competitive frameworks, comparing backend platforms, or benchmarking cloud databases—and executes the complete research lifecycle autonomously:
-* **Decomposes** the user's objective into a structured execution plan.
+* **Decomposes** the user's objective into a structured execution plan (`ResearchPlan`).
 * **Selects and orchestrates** tools (`search_web`, `fetch_url`, `calculator`) dynamically based on accumulated observations.
 * **Extracts verifiable evidence** (verbatim quotes, claims, source classifications) rather than hallucinating.
-* **Detects anomalies & failures** (e.g. HTTP timeouts, 500s) and replans or retries without halting.
+* **Detects anomalies & failures** (e.g. HTTP timeouts, 429s, 500s) and retries or replans without crashing.
 * **Calculates quantitative metrics** via an AST-sandboxed calculator.
-* **Synthesizes grounded reports** formatted as validated JSON (`report.json`) and publication-grade Markdown (`report.md`).
+* **Synthesizes grounded reports** formatted as validated JSON (`output/report.json`) and publication-grade Markdown (`output/report.md`).
 
 ---
 
@@ -49,134 +95,157 @@ Standard LLM workflows fail in competitive intelligence because:
 2. **Fixed Pipelines Are Fragile:** A hardcoded sequence (`search -> search -> summarize`) crashes if a page is offline or returns an unexpected schema.
 3. **No Explainable Confidence:** LLMs cannot objectively justify why they are "90% confident."
 
-This project solves these challenges by combining **deterministic scaffolding** (safety limits, state tracking, retry loops, AST math) with **LLM dynamic reasoning** (decomposition, adaptive tool selection, and semantic synthesis).
+This project solves these challenges by combining **deterministic scaffolding** (safety limits, state tracking, retry loops, in-memory query caching, AST math) with **LLM dynamic reasoning** (decomposition, adaptive tool selection, and semantic synthesis).
 
 ---
 
-## 3. Features
+## 3. Architecture
 
-* **Autonomous Planning:** Dynamic goal decomposition into an inspectable `ResearchPlan` without exposing private chain-of-thought.
-* **Dynamic Tool Orchestration:** Agent autonomously determines which tool to call based on intermediate findings.
-* **3 Distinct Production Tools:**
-  * `search_web`: Live public web search via DuckDuckGo Lite (no API key required) or Tavily.
-  * `fetch_url`: Robust HTTP page fetching with BeautifulSoup HTML normalization and content bounding.
-  * `calculator`: Safe AST mathematical evaluator for ratios, percentages, and metrics.
-* **Failure Recovery & Replanning:** Two-tiered resilience: automatic retry with backoff, followed by adaptive replanning to alternative sources if a tool remains unresponsive.
-* **Failure Injection Hook:** CLI flag (`--demo-failure`) deliberately simulates a timeout on the first call to demonstrate real-time autonomous recovery.
-* **Evidence Grounding:** Every factual finding references a source URL and verbatim supporting quote.
-* **Explainable Confidence Model:** Mathematical weighting combining Source Authority, Evidence Directness, Independent Corroboration, and Conflict Penalties.
-* **Loop Detection & Research Budget:** Automatically detects repetitive queries and enforces step/tool limits to prevent token burn.
-* **Prompt Injection Defense:** Web content is treated strictly as passive data, stripping adversarial prompt override attempts.
-* **Deterministic Mock Mode:** Zero-cost offline mode (`--mock`) utilizing rich fixtures for testing and CI without external network access.
+### Orchestration Flow
 
----
-
-## 4. Architecture
-
-### Orchestration Diagram
-
-```mermaid
-flowchart TD
-    subgraph Input_Layer ["Input & Goal Deconstruction"]
-        UG["User Research Goal\n(Natural Language)"] --> GV["Input Validator &\nSanitizer"]
-        GV --> AP["Autonomous Planner\n(LLM Decomposition)"]
-        AP -->|Structured ResearchPlan| AG["Agent Controller\n(ResearchAgentGraph)"]
-    end
-
-    subgraph Orchestration_Layer ["Autonomous Execution Loop"]
-        AG --> SA["Select Next Action\n(Context & State Aware)"]
-        SA --> LD{"Loop Detected\nor Budget Exceeded?"}
-        LD -->|Yes| PI["Pivot Strategy /\nRefine Query"]
-        PI --> SA
-        LD -->|No| TC["Tool Controller\n& Schema Validation"]
-    end
-
-    subgraph Tool_Ecosystem ["Pluggable Tool Suite"]
-        TC -->|Query| ST["search_web\n(DuckDuckGo / Tavily / Mock)"]
-        TC -->|URL| FT["fetch_url\n(HTTPX / BeautifulSoup / Sanitizer)"]
-        TC -->|Arithmetic| CT["calculator\n(Safe AST Math Evaluator)"]
-    end
-
-    subgraph Observation_Layer ["Observation & Anomaly Handling"]
-        ST --> OBS["Observation Collector"]
-        FT --> OBS
-        CT --> OBS
-        OBS --> SC["Source Classifier &\nAuthority Scorer"]
-        OBS --> EE["Evidence Extractor &\nQuote Verifier"]
-        OBS --> FD{"Tool Failure\nor Timeout?"}
-    end
-
-    subgraph Recovery_Layer ["Failure Recovery & Adaptive Replanning"]
-        FD -->|Failure| RC{"Retry Count < Max?"}
-        RC -->|Yes| RT["Exponential Backoff\n& Retry Tool"]
-        RT --> TC
-        RC -->|No (Exceeded)| RP["Autonomous Replanner\n(Alternative Source / Replan)"]
-        RP -->|Updated Steps| AG
-    end
-
-    subgraph Synthesis_Layer ["Evidence Grounding & Structured Reporting"]
-        FD -->|Success| CHK{"Remaining Steps\nor Budget Left?"}
-        CHK -->|Yes| AG
-        CHK -->|No| EV["Evidence Coverage\n& Discrepancy Validator"]
-        EV --> CS["Explainable Confidence\nScoring Engine"]
-        CS --> AS["Autonomous Synthesizer\n(LLM Synthesis)"]
-        AS --> SR["Structured ResearchReport\n(Pydantic Model)"]
-        SR --> MD["output/report.md\n(Publication Markdown)"]
-        SR --> JS["output/report.json\n(Validated JSON Artifact)"]
-        SR --> LG["output/sample_run.log\n(Structured Trace Log)"]
-    end
+```text
+User
+ │
+ ▼
+CLI (Typer / app.main)
+ │
+ ▼
+Research Agent (app.agent.graph)
+ │
+ ├── Planner (app/agent/planner.py)
+ ├── Executor (app/agent/executor.py)
+ ├── Recovery & Replanning (app/agent/recovery.py)
+ ├── Evidence Validator (app/services/evidence.py)
+ └── Synthesizer (app/agent/synthesizer.py)
+       │
+       ├──────────────┐
+       ▼              ▼
+   LLM Provider    Tool Layer
+       │              │
+       ▼              ├── Web Search (Tavily + in-memory cache)
+     Groq             ├── URL Fetch (HTTPX + BeautifulSoup)
+                      └── Calculator (Safe AST Evaluator)
+                         │
+                         ▼
+                  External Web
 ```
 
-For full architectural specifications, see [`docs/architecture.md`](docs/architecture.md).
+For full architectural diagrams and specifications, see [`docs/architecture.mmd`](docs/architecture.mmd) and [`docs/architecture.md`](docs/architecture.md).
 
 ---
 
-## 5. Project Structure
+## 4. Technology Stack
+
+The project prioritizes free, lightweight, battle-tested developer tools:
+* **Core Runtime:** Python 3.11+
+* **State Machine & Control:** Explicit typed state graph (`app.agent.graph`)
+* **Default LLM Provider:** Groq (`llama-3.3-70b-versatile` or `openai/gpt-oss-120b` via OpenAI-compatible endpoint with exponential backoff on 429s)
+* **Default Search Provider:** Tavily AI Search (free tier, 1,000 queries/month) with in-memory deduplication caching
+* **Web Fetching & Parsing:** HTTPX (async client with timeouts) + BeautifulSoup4 (HTML extraction & tag cleaning)
+* **Data Validation:** Pydantic v2 (strict models across all inputs, steps, and outputs)
+* **Safe Mathematics:** Python AST math evaluator (zero `eval()` usage)
+* **CLI Interface:** Typer + Rich
+* **Testing:** Pytest + Pytest-Asyncio + Pytest-Cov
+
+---
+
+## 5. Free Development Setup
+
+The project is designed to run using **free developer-tier resources**:
+* **Default LLM:** Groq provides free-tier API access to open models with high inference speed.
+* **Default Web Search:** Tavily provides a free tier with 1,000 search API credits/month and no credit card requirement.
+* **Web Fetching:** Standard HTTPX and BeautifulSoup, with no paid proxy or scraping service needed.
+
+> **Note on Free Tiers:** Free developer resources are subject to provider rate limits (e.g. Groq requests-per-minute limits, Tavily monthly quotas). The agent includes automated in-memory search caching, rate-limit retry backoff (`Retry-After`), and URL deduplication to conserve your developer quotas.
+
+### API Configuration
+The application automatically loads credentials from `.env`.
+
+For the default live setup you only need:
+```env
+GROQ_API_KEY=gsk_...
+TAVILY_API_KEY=tvly-...
+```
+
+* You do **not** need to modify Python files.
+* You do **not** need to pass keys through the CLI.
+* You do **not** need to configure individual tools separately.
+* Missing credentials produce a clean, friendly configuration message rather than a cryptic stack trace.
+
+---
+
+## 6. Environment Variables
+
+| Variable | Required | Default | Purpose |
+|---|---|---|---|
+| `LLM_PROVIDER` | No | `groq` | Active LLM backend (`groq` or `mock`) |
+| `LLM_MODEL` | No | `llama-3.3-70b-versatile` | Model identifier for LLM requests |
+| `GROQ_API_KEY` | Yes (for Groq) | — | Groq API authentication key |
+| `SEARCH_PROVIDER` | No | `tavily` | Search provider (`tavily`, `duckduckgo`, `mock`) |
+| `TAVILY_API_KEY` | Yes (for Tavily) | — | Tavily API search key |
+| `MOCK_MODE` | No | `false` | Enable zero-key offline deterministic execution |
+| `DEMO_FAILURE_MODE` | No | `none` | Injected failure (`none`, `timeout`, `http_500`) |
+| `MAX_AGENT_STEPS` | No | `20` | Maximum state transitions before bounded finish |
+| `MAX_TOOL_CALLS` | No | `30` | Maximum external tool calls allowed per run |
+| `MAX_RETRIES_PER_TOOL` | No | `2` | Maximum retry attempts per tool failure |
+| `MAX_SEARCH_CALLS` | No | `5` | Maximum search calls per research run |
+| `MAX_CONTENT_LENGTH` | No | `8000` | Smart-truncated webpage character budget |
+| `LOG_LEVEL` | No | `INFO` | Logging verbosity (`DEBUG`, `INFO`, `WARNING`, `ERROR`) |
+
+---
+
+## 7. Repository Structure
 
 ```text
 agentic-research-agent/
 │
 ├── app/
-│   ├── __init__.py
-│   ├── main.py                     # Typer CLI application entry point
-│   ├── config.py                   # Pydantic BaseSettings management
-│   ├── logging_config.py           # Structured JSON logging & token sanitizer
+│   ├── main.py                     # CLI entry point and decoupled ResearchAgent runner
+│   ├── config.py                   # Central settings and startup credential validation
+│   ├── exceptions.py               # Application-level exceptions (ConfigurationError, ToolError)
+│   ├── logging_config.py           # Structured JSON lines logging & token sanitizer
 │   │
-│   ├── agent/                      # Core agent state machine & cognitive nodes
-│   │   ├── __init__.py
-│   │   ├── graph.py                # ResearchAgentGraph state machine controller
-│   │   ├── state.py                # AgentState representation
+│   ├── agent/                      # Core agent state machine and cognitive components
+│   │   ├── graph.py                # ResearchAgentGraph controller
+│   │   ├── state.py                # AgentState with URL normalization & deduplication
 │   │   ├── planner.py              # Goal decomposition into ResearchPlan
 │   │   ├── executor.py             # Action selector, loop detector & executor
-│   │   ├── replanner.py            # Failure recovery & adaptive replanner
-│   │   ├── synthesizer.py          # Evidence synthesis into ResearchReport
-│   │   └── prompts.py              # Standardized prompt templates & schemas
+│   │   ├── recovery.py             # Centralized retry policy & adaptive replanner
+│   │   ├── synthesizer.py          # Evidence-grounded synthesis into ResearchReport
+│   │   └── prompts/                # Provider-neutral prompt modules
+│   │       ├── planner.py          # Plan decomposition prompts
+│   │       ├── executor.py         # Action selection prompts
+│   │       ├── replanner.py        # Failure recovery prompts
+│   │       ├── evidence.py         # Evidence extraction prompts
+│   │       └── synthesis.py        # Final synthesis prompts
 │   │
-│   ├── tools/                      # Deterministic tool interfaces
-│   │   ├── __init__.py
-│   │   ├── base.py                 # BaseTool contract with timing & validation
-│   │   ├── search.py               # search_web tool
-│   │   ├── fetch.py                # fetch_url tool with BeautifulSoup sanitizer
-│   │   ├── calculator.py           # Safe AST mathematical evaluator
-│   │   └── failure_injector.py     # Deterministic failure injection hook
-│   │
-│   ├── models/                     # Strongly-typed Pydantic v2 data models
-│   │   ├── __init__.py
+│   ├── models/                     # Strongly-typed Pydantic v2 schemas
 │   │   ├── plan.py                 # ResearchPlan, PlanStep, ReplanningDecision
 │   │   ├── tool.py                 # SearchResult, FetchResult, CalculatorResult
 │   │   ├── evidence.py             # Evidence, Source, ConfidenceBreakdown
 │   │   └── report.py               # ResearchReport schema & metadata
 │   │
-│   ├── providers/                  # Vendor-decoupled provider abstractions
-│   │   ├── __init__.py
-│   │   ├── llm.py                  # OpenAI-compatible & MockLLMProvider
-│   │   └── search.py               # DuckDuckGo, Tavily & MockSearchProvider
+│   ├── providers/                  # Vendor-decoupled provider implementations
+│   │   ├── llm/
+│   │   │   ├── base.py             # Abstract LLMProvider interface
+│   │   │   ├── groq.py             # Groq implementation with 429 backoff & JSON repair
+│   │   │   └── mock.py             # Deterministic MockLLMProvider for offline testing
+│   │   └── search/
+│   │       ├── base.py             # Abstract SearchProvider with in-memory caching
+│   │       ├── tavily.py           # Tavily API search provider
+│   │       ├── duckduckgo.py       # DuckDuckGo Lite keyless fallback provider
+│   │       └── mock.py             # Deterministic MockSearchProvider
 │   │
-│   └── services/                   # Business logic services
-│       ├── __init__.py
-│       ├── source_service.py       # Domain classification & authority scoring
-│       ├── evidence_service.py     # Confidence formula & conflict detection
-│       └── report_service.py       # Markdown renderer & JSON serializer
+│   ├── tools/                      # Deterministic tool interfaces
+│   │   ├── base.py                 # BaseTool contract with timing & metrics
+│   │   ├── search.py               # search_web tool wrapper
+│   │   ├── fetch.py                # fetch_url tool with smart sentence-boundary truncation
+│   │   ├── calculator.py           # Safe AST mathematical sandbox
+│   │   └── failure_injector.py     # Deterministic failure injection hook
+│   │
+│   └── services/                   # Business logic and report formatters
+│       ├── evidence.py             # 4-factor confidence scoring & authority calculation
+│       └── reports.py              # Markdown generator & JSON serializer
 │
 ├── tests/
 │   ├── unit/
@@ -184,9 +253,14 @@ agentic-research-agent/
 │   │   ├── test_tools.py           # Search & fetch tool validation tests
 │   │   ├── test_models.py          # Pydantic serialization & report tests
 │   │   └── test_failure_recovery.py# FailureInjector & replanning tests
-│   │
 │   └── integration/
 │       └── test_agent.py           # End-to-end agent graph & recovery tests
+│
+├── docs/
+│   ├── architecture.md             # Comprehensive architecture documentation
+│   ├── architecture.mmd            # Mermaid architecture diagram source
+│   ├── design_decisions.md         # One-page architectural write-up
+│   └── final_review.md             # Assessment rubric compliance audit
 │
 ├── examples/
 │   ├── example_goals.txt           # Multi-domain research prompt examples
@@ -197,147 +271,58 @@ agentic-research-agent/
 │   ├── report.json                 # Machine-consumable Pydantic JSON artifact
 │   └── sample_run.log              # Structured JSON lines execution trace log
 │
-├── docs/
-│   ├── architecture.md             # Comprehensive architecture documentation
-│   ├── architecture.mmd            # Raw Mermaid source file
-│   ├── design_decisions.md         # One-page architectural write-up
-│   └── final_review.md             # Assessment rubric compliance audit
-│
 ├── .env.example                    # Environment variable template
 ├── .gitignore                      # Git exclusion rules
 ├── requirements.txt                # Production and test dependencies
 ├── pyproject.toml                  # Python package & Pytest configuration
-├── LICENSE                         # MIT License
 └── README.md                       # Comprehensive guide (this document)
 ```
 
 ---
 
-## 6. Requirements
+## 8. Running the Agent
 
-* **Python:** 3.11 or higher
-* **Operating System:** Windows, macOS, or Linux
-* **Optional API Keys:**
-  * `OPENAI_API_KEY`: Required only for live LLM mode. (Deterministic mock mode works out of the box with zero keys!)
-  * `TAVILY_API_KEY`: Optional; live web search defaults to keyless DuckDuckGo Lite.
-
----
-
-## 7. Installation
-
-Clone the repository and set up a virtual environment:
-
-```bash
-git clone <repo-url>
-cd agentic-research-agent
-
-# Create virtual environment
-python -m venv .venv
-
-# Activate virtual environment
-# Windows (PowerShell / Command Prompt):
-.venv\Scripts\activate
-# Linux / macOS:
-source .venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-Create your `.env` configuration file:
-
-```bash
-# Windows:
-copy .env.example .env
-
-# Linux / macOS:
-cp .env.example .env
-```
-
----
-
-## 8. Configuration
-
-Edit `.env` to configure your preferred execution settings:
-
-| Variable | Default | Description |
-|---|---|---|
-| `LLM_PROVIDER` | `openai` | LLM backend: `openai` or `mock`. |
-| `LLM_MODEL` | `gpt-4o-mini` | Model name (e.g. `gpt-4o-mini`, `gpt-4o`, `llama3`). |
-| `OPENAI_API_KEY` | *(empty)* | OpenAI or OpenAI-compatible provider API key. |
-| `OPENAI_BASE_URL` | `https://api.openai.com/v1` | Endpoint URL (supports Ollama, Groq, OpenRouter). |
-| `SEARCH_PROVIDER` | `duckduckgo` | Public search: `duckduckgo` (free, keyless), `tavily`, or `mock`. |
-| `MOCK_MODE` | `false` | Set to `true` for offline deterministic test runs without keys. |
-| `DEMO_FAILURE_MODE` | `none` | Failure simulation: `none`, `timeout`, `http_500`, `empty_response`. |
-| `MAX_AGENT_STEPS` | `15` | Maximum execution cycles before forced termination. |
-| `MAX_TOOL_CALLS` | `25` | Maximum tool calls allowed per session. |
-| `MAX_RETRIES_PER_TOOL`| `2` | Maximum retry attempts on tool failure before replanning. |
-| `MAX_RESEARCH_TIME_SECONDS`| `300`| Total execution timeout in seconds. |
-
----
-
-## 9. Running
-
-Show command-line options:
-
+### Command Help
 ```bash
 python -m app.main --help
 ```
 
-### Command Flags:
-* `--goal` / `-g`: The natural-language research goal to investigate.
-* `--mock` / `-m`: Run in deterministic offline mock mode (zero cost, zero keys needed).
-* `--demo-failure` / `-d`: Intentionally induce a first-attempt tool timeout to demonstrate autonomous recovery.
-* `--output` / `-o`: Directory to write `report.md`, `report.json`, and `sample_run.log` (default: `output/`).
-* `--interactive` / `-i`: Launch interactive prompt to type research goals dynamically.
+### Live Research Run (Default: Groq + Tavily)
+Requires `GROQ_API_KEY` and `TAVILY_API_KEY` in `.env`:
+```bash
+python -m app.main --goal "Analyze the current competitive landscape for AI agent frameworks"
+```
+
+### Custom Goal
+```bash
+python -m app.main --goal "Compare FastAPI and Spring Boot for building high-concurrency microservices"
+```
 
 ---
 
-## 10. Demo
+## 9. Failure Recovery Demonstration
 
-### Demo 1: Primary Competitive Intelligence Goal (Offline / Mock)
-Runs instantly with zero configuration:
-
-```bash
-python -m app.main --mock \
-  --goal "Analyze the current competitive landscape for AI agent frameworks and identify the major players, their capabilities, positioning, recent developments, and important differences."
-```
-
-### Demo 2: Cross-Domain Architecture Comparison
-Demonstrating that the agent autonomously adapts its plan to arbitrary technical topics:
-
-```bash
-python -m app.main --mock \
-  --goal "Compare FastAPI and Spring Boot for building production backend APIs."
-```
-
-### Demo 3: Live Mode with Real External Web Data
-Provide your `OPENAI_API_KEY` in `.env` and run:
+The agent features an intentional failure-injection hook to demonstrate autonomous error detection, retry backoff, and replanning without human intervention:
 
 ```bash
 python -m app.main \
-  --goal "Research recent developments in AI agent frameworks in 2026."
-```
-
----
-
-## 11. Failure Recovery Demo
-
-To deliberately verify autonomous failure detection, retry backoff, and replanning, run with `--demo-failure`:
-
-```bash
-python -m app.main --mock --demo-failure
+  --goal "Analyze the current competitive landscape for AI agent frameworks" \
+  --demo-failure
 ```
 
 ### What Happens:
-1. The agent decomposes the goal and issues its first fetch action.
-2. The `FailureInjector` triggers a simulated network timeout:
+1. The planner decomposes the goal and issues its first action (`fetch_url`).
+2. The `FailureInjector` triggers a simulated network timeout on the first call:
    ```text
-   [FAILURE DETECTED] Tool: fetch_url | Error: Simulated HTTP connection timeout (read timed out after 10.0s)
+   WARNING Tool fetch failed: Simulated HTTP connection timeout
    ```
-3. The `AutonomousReplanner` catches the failure, logs the incident, and initiates retry 1/2.
-4. The second attempt succeeds, and the agent continues its execution plan without crashing.
-5. The final execution summary records:
+3. The centralized retry policy catches the transient error and retries with exponential backoff:
+   ```text
+   INFO Retrying fetch_url (attempt 1/2)...
+   ```
+4. The second attempt succeeds, and the agent continues executing the remaining plan steps.
+5. If retries are exhausted, the agent invokes `AutonomousReplanner` to dynamically pivot to an alternative source.
+6. The final execution summary records:
    ```text
    Failures Detected: 1
    Recoveries Performed: 1
@@ -345,71 +330,97 @@ python -m app.main --mock --demo-failure
 
 ---
 
-## 12. Testing
+## 10. Deterministic Mock Mode
 
-The repository includes a comprehensive Pytest test suite covering tool validation, AST sandboxing, model serialization, failure injection, and end-to-end integration:
+Reviewers can run and evaluate the agent completely offline without any API keys or network connection:
 
 ```bash
-# Run full test suite
-pytest
+# Using CLI flag
+python -m app.main --mock --goal "Analyze the current competitive landscape for AI agent frameworks"
 
-# Run tests with coverage report
-pytest --cov=app
+# Or using environment variable
+MOCK_MODE=true python -m app.main --goal "Compare FastAPI and Spring Boot"
 ```
 
-All 21 tests pass with zero network dependency requirements.
+In mock mode:
+* The LLM uses a deterministic mock provider returning structured plans and syntheses.
+* The search tool returns pre-configured authoritative fixtures.
+* The fetch tool parses clean fixture content without network calls.
 
 ---
 
-## 13. Output
+## 11. Testing & Coverage
 
-After each run, the agent writes artifacts to the specified output folder (`output/`):
+All unit and integration tests run offline without external API keys:
 
-1. **[`output/report.md`](output/report.md):** Publication-ready Markdown report including:
+```bash
+# Run all tests
+pytest
+
+# Run tests with code coverage report
+pytest --cov=app --cov-report=term-missing
+```
+
+### Test Suite Highlights:
+* `test_calculator.py`: Validates arithmetic evaluation and verifies that arbitrary code execution (`import`, `eval`, `open`, `__subclasses__`) is blocked by the AST sandbox.
+* `test_tools.py`: Validates search normalization, content truncation, and fetch error handling.
+* `test_models.py`: Validates strict Pydantic model schemas and JSON serialization.
+* `test_failure_recovery.py`: Asserts that injected tool failures trigger retries and adaptive replanning.
+* `test_agent.py`: End-to-end integration tests verifying complete agent execution runs and report generation.
+
+**All 24 tests pass with zero warnings.**
+
+---
+
+## 12. Output Artifacts
+
+Every completed run produces three synchronized artifacts in `output/`:
+
+1. **[`output/report.md`](output/report.md):** Publication-grade Markdown report including:
    * Executive Summary
-   * Research Objective, Scope & Assumptions
-   * Key Findings with Category & Grounded Confidence Scores
-   * Entity / Competitor Comparison Table & Detailed Profiles
-   * Comparative Matrix across technical dimensions
-   * Safe Quantitative Calculations
-   * Grounded Evidence Register & Numbered Source Directory (`[1]`, `[2]`, `[3]`)
-   * Agent Execution Summary (steps, tool calls, failures, recoveries)
-   * Limitations & Production Improvements
+   * Research Scope & Methodology
+   * Key Findings with Grounded Confidence Scores
+   * Entity Comparison Table & Detailed Profiles
+   * Quantitative Metrics & AST Calculations
+   * Grounded Evidence Register with Direct Source Quotes & URLs
+   * Execution Audit (steps, tool calls, failures, recoveries)
+   * Limitations & Confidence Assessment
 
-2. **[`output/report.json`](output/report.json):** Validated machine-consumable JSON conforming directly to the Pydantic `ResearchReport` schema.
+2. **[`output/report.json`](output/report.json):** Validated machine-readable JSON strictly conforming to the Pydantic `ResearchReport` model.
 
-3. **[`output/sample_run.log`](output/sample_run.log):** Structured JSON lines log tracing every plan generation, tool execution, observation, failure, and recovery event with timestamp and sanitized tokens.
+3. **[`output/sample_run.log`](output/sample_run.log):** Structured JSON lines log tracing every plan step, tool execution, observation, failure, and recovery event with timestamps and redacted credentials.
 
 ---
 
-## 14. Design Decisions
+## 13. Design Decisions
 
 For an in-depth architectural justification, see [`docs/design_decisions.md`](docs/design_decisions.md).
 
 Key highlights:
-* **Custom State Graph over Heavy Frameworks:** Rather than hiding agent state inside black-box agent frameworks (CrewAI/AutoGen), a lightweight state graph makes every cycle, failure, and transition inspectable.
-* **AST Calculator Sandbox:** Evaluates arithmetic expressions strictly via Python's AST parser, completely blocking arbitrary execution, imports, and system calls.
-* **Explainable Confidence:** Avoids arbitrary LLM confidence guessing by evaluating:
+* **Vendor-Neutral Provider Abstraction:** `LLMProvider` and `SearchProvider` interfaces keep the agent core completely decoupled from Groq or Tavily specifics.
+* **In-Memory Query Cache:** Caches search results by normalized query hash to protect developer quotas and eliminate redundant external calls.
+* **AST Calculator Sandbox:** Evaluates arithmetic strictly via Python's AST parser, completely preventing arbitrary code execution.
+* **Explainable Confidence Model:** Avoids LLM self-scoring guesses by computing:
   $$\text{Confidence} = (\text{Authority} \times 0.40) + (\text{Directness} \times 0.35) + (\text{Corroboration} \times 0.25) - \text{Conflict Penalty}$$
+* **Prompt Injection Isolation:** Web page content is cleanly wrapped in untrusted data boundaries with explicit instructions to ignore embedded commands.
 
 ---
 
-## 15. Limitations
+## 14. Limitations
 
-1. **JavaScript-Heavy SPAs:** The built-in fetch tool relies on `httpx` and `BeautifulSoup`. Pages that require dynamic client-side JavaScript execution (React/Vue SPAs) require a headless browser (e.g. Playwright).
-2. **Rate Limits & Anti-Bot Shields:** Public websites may present Cloudflare CAPTCHAs or strict IP rate limits during heavy scraping.
-3. **Temporal Horizon:** Information is bounded by publicly indexed documentation available at the time of execution.
+1. **JavaScript-Rendered Content:** The built-in fetch tool relies on `HTTPX` + `BeautifulSoup`. Client-side rendered Single-Page Applications (SPAs) requiring JavaScript evaluation require a headless browser (e.g. Playwright).
+2. **Provider Rate Limits:** Under free developer tiers, Groq enforces requests-per-minute (RPM) limits and Tavily limits free usage to 1,000 queries/month.
+3. **Temporal Horizon:** Web research is limited to publicly indexed documentation available at the time of execution.
 
 ---
 
-## 16. Production Improvements
+## 15. Production Improvements
 
 To scale this agent to an enterprise production environment:
+* **Distributed Workflow Orchestrator:** Migrate the graph state machine to Temporal or Celery for long-running, fault-tolerant execution.
 * **Persistent Vector & Document Graph:** Introduce Milvus or Qdrant for semantic chunk retrieval across multi-page documentation trees.
-* **Distributed Task Execution:** Migrate graph nodes to distributed async workflows (Temporal or Celery) with parallel proxy rotation.
 * **Continuous Fact Verification:** Integrate automated hallucination benchmarking frameworks (Ragas, TruLens) into CI/CD pipelines.
-* **Human-in-the-Loop Gateways:** Add interactive checkpoints allowing human domain experts to approve strategic decisions or increase tool budgets.
-* **OpenTelemetry Instrumentation:** Stream live spans and token costs to Datadog or LangSmith.
+* **Human-in-the-Loop Checkpoints:** Add interactive approval gates allowing human analysts to refine search queries or inspect intermediate evidence.
 
 ---
 

@@ -87,9 +87,12 @@ class FetchUrlTool(BaseTool):
             # Prompt injection defense: Strip obvious adversarial system overrides
             text = re.sub(r"(?i)ignore\s+(all\s+)?previous\s+instructions", "[REDACTED UNTRUSTED STRING]", text)
 
-            # Enforce max content length boundary
             if len(text) > self.max_content_length:
-                text = text[: self.max_content_length] + " ... [TRUNCATED DUE TO LENGTH LIMIT]"
+                cutoff = text.rfind(". ", 0, self.max_content_length)
+                if cutoff > self.max_content_length // 2:
+                    text = text[: cutoff + 1] + " ... [TRUNCATED DUE TO LENGTH LIMIT]"
+                else:
+                    text = text[: self.max_content_length] + " ... [TRUNCATED DUE TO LENGTH LIMIT]"
 
             return FetchResult(
                 url=url,
@@ -165,7 +168,11 @@ class FetchUrlTool(BaseTool):
             )
 
         if len(content) > self.max_content_length:
-            content = content[: self.max_content_length] + " ... [TRUNCATED DUE TO LENGTH LIMIT]"
+            cutoff = content.rfind(". ", 0, self.max_content_length)
+            if cutoff > self.max_content_length // 2:
+                content = content[: cutoff + 1] + " ... [TRUNCATED DUE TO LENGTH LIMIT]"
+            else:
+                content = content[: self.max_content_length] + " ... [TRUNCATED DUE TO LENGTH LIMIT]"
 
         return FetchResult(
             url=url,

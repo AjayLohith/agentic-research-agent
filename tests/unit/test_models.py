@@ -166,3 +166,38 @@ def test_report_service_markdown_generation(tmp_path):
     paths = ReportService.save_reports(report, tmp_path)
     assert paths["json"].exists()
     assert paths["markdown"].exists()
+
+
+def test_config_validation_raises_when_keys_missing():
+    from app.config import Settings
+    from app.exceptions import ConfigurationError
+
+    # Groq selected without key
+    cfg1 = Settings(LLM_PROVIDER="groq", GROQ_API_KEY=None, MOCK_MODE=False)
+    with pytest.raises(ConfigurationError) as exc1:
+        cfg1.validate_runtime(is_mock=False)
+    assert "GROQ_API_KEY" in str(exc1.value)
+
+    # Tavily selected without key
+    cfg2 = Settings(LLM_PROVIDER="groq", GROQ_API_KEY="test-key", SEARCH_PROVIDER="tavily", TAVILY_API_KEY=None, MOCK_MODE=False)
+    with pytest.raises(ConfigurationError) as exc2:
+        cfg2.validate_runtime(is_mock=False)
+    assert "TAVILY_API_KEY" in str(exc2.value)
+
+
+def test_groq_provider_json_extraction():
+    from app.providers.llm.groq import GroqProvider
+
+    provider = GroqProvider(api_key="dummy")
+
+    # Clean JSON
+    res1 = provider._extract_json('{"key": "value"}')
+    assert res1 == {"key": "value"}
+
+    # Markdown fenced JSON
+    res2 = provider._extract_json('```json\n{"status": "ok", "count": 5}\n```')
+    assert res2 == {"status": "ok", "count": 5}
+
+    # Text preamble and postamble surrounding JSON
+    res3 = provider._extract_json('Here is the requested output:\n{"data": [1, 2, 3]}\nHope this helps!')
+    assert res3 == {"data": [1, 2, 3]}

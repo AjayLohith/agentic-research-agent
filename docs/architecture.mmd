@@ -1,9 +1,9 @@
 flowchart TD
-    %% Autonomous Research Agent Architecture
+    %% Autonomous Research Agent Architecture (Free-First Developer Stack)
     subgraph Input_Layer ["Input & Goal Deconstruction"]
-        UG["User Research Goal\n(Natural Language)"] --> GV["Input Validator &\nSanitizer"]
-        GV --> AP["Autonomous Planner\n(LLM Decomposition)"]
-        AP -->|Structured ResearchPlan| AG["Agent Controller\n(ResearchAgentGraph)"]
+        UG["User Research Goal\n(Natural Language)"] --> GV["Input Validator &\nStartup Config Check"]
+        GV --> AP["Autonomous Planner\n(Decomposition into ResearchPlan)"]
+        AP -->|Structured Plan| AG["Agent Controller\n(ResearchAgentGraph)"]
     end
 
     subgraph Orchestration_Layer ["Autonomous Execution Loop"]
@@ -15,9 +15,14 @@ flowchart TD
     end
 
     subgraph Tool_Ecosystem ["Pluggable Tool Suite"]
-        TC -->|Query| ST["search_web\n(DuckDuckGo / Tavily / Mock)"]
-        TC -->|URL| FT["fetch_url\n(HTTPX / BeautifulSoup / Sanitizer)"]
+        TC -->|Query| ST["search_web\n(Tavily Default / DuckDuckGo / In-Memory Cache)"]
+        TC -->|URL| FT["fetch_url\n(HTTPX / BeautifulSoup / Smart Truncate)"]
         TC -->|Arithmetic| CT["calculator\n(Safe AST Math Evaluator)"]
+    end
+
+    subgraph LLM_Layer ["LLM Provider Abstraction"]
+        AP -.-> LLM["LLM Provider\n(Groq Llama-3.3-70b Default / Mock)"]
+        SA -.-> LLM
     end
 
     subgraph Observation_Layer ["Observation & Anomaly Handling"]
@@ -42,7 +47,7 @@ flowchart TD
         CHK -->|Yes| AG
         CHK -->|No| EV["Evidence Coverage\n& Discrepancy Validator"]
         EV --> CS["Explainable Confidence\nScoring Engine"]
-        CS --> AS["Autonomous Synthesizer\n(LLM Synthesis)"]
+        CS --> AS["Autonomous Synthesizer\n(Grounded Report Generation)"]
         AS --> SR["Structured ResearchReport\n(Pydantic Model)"]
         SR --> MD["output/report.md\n(Publication Markdown)"]
         SR --> JS["output/report.json\n(Validated JSON Artifact)"]

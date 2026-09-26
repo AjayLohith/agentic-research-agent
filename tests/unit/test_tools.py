@@ -48,8 +48,24 @@ async def test_fetch_url_invalid_protocol(fetch_tool):
 
 @pytest.mark.asyncio
 async def test_fetch_url_length_truncation():
-    # Enforce very small character limit
     tool = FetchUrlTool(max_content_length=80, mock_mode=True)
     res = await tool.run(url="https://docs.crewai.com/introduction")
     assert res.success is True
     assert "[TRUNCATED" in res.data["content"]
+
+
+@pytest.mark.asyncio
+async def test_search_provider_in_memory_caching(search_tool):
+    # First search
+    res1 = await search_tool.run(query="caching test query", max_results=2)
+    assert res1.success is True
+
+    # Provider cache should now have the entry
+    provider = search_tool.provider
+    key = provider._normalize_key("caching test query", 2)
+    assert key in provider._cache
+
+    # Second search should return cached object without reprocessing
+    res2 = await search_tool.run(query="caching test query", max_results=2)
+    assert res2.success is True
+    assert res2.data["results"] == res1.data["results"]

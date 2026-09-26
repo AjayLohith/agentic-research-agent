@@ -1,12 +1,16 @@
 # Autonomous Research Agent — Design Decisions & Trade-Offs
 
 ## 1. Problem Statement
-Automated competitive intelligence and technical research require synthesizing dynamic public data across unstructured web pages, technical documentation, and quantitative benchmarks. Traditional LLM prompting suffers from three fatal flaws: **hallucination of non-existent facts/URLs**, **stale pre-training cutoff**, and **inability to recover when network requests fail**. This project designs and implements an autonomous agent that plans, verifies, calculates, recovers, and grounds research in verifiable evidence.
+Automated competitive intelligence and technical research require synthesizing dynamic public data across unstructured web pages, technical documentation, and quantitative benchmarks. Traditional LLM prompting suffers from three fatal flaws: **hallucination of non-existent facts/URLs**, **stale pre-training cutoff**, and **inability to recover when network requests fail**. This project designs and implements an autonomous agent that plans, verifies, calculates, recovers, and grounds research in verifiable evidence using free-first developer resources.
 
-## 2. Architectural Design & Orchestration
+## 2. Architectural Design & Free-First Technology Stack
 Rather than introducing heavy agent abstractions (CrewAI, AutoGen) that obscure state transitions, this solution implements an explicit, typed state graph (`ResearchAgentGraph`).
 * **Explicit State Transitions:** The loop moves through discrete stages: `GOAL` $\rightarrow$ `PLAN` $\rightarrow$ `SELECT ACTION` $\rightarrow$ `TOOL EXECUTION` $\rightarrow$ `OBSERVE` $\rightarrow$ `EVALUATE/REPLAN` $\rightarrow$ `EVIDENCE VALIDATION` $\rightarrow$ `SYNTHESIS`.
-* **Provider Abstraction:** Decoupled interfaces (`LLMProvider`, `SearchProvider`) allow swapping between OpenAI, Ollama, Groq, DuckDuckGo, Tavily, and offline Mock fixtures with zero agent modifications.
+* **Free-Tier Provider Abstraction:**
+  - **LLM:** Groq (`llama-3.3-70b-versatile` via OpenAI-compatible endpoint `https://api.groq.com/openai/v1`). High speed, zero cost on developer tier, with rate-limit backoff and JSON repair.
+  - **Search:** Tavily API (free tier: 1,000 queries/month) with in-memory query caching to preserve credits.
+  - **Web Fetching:** HTTPX + BeautifulSoup (free, clean text extraction, smart sentence-boundary truncation).
+  - **Offline Testing:** Deterministic mock providers allowing 100% test pass rate with zero API keys.
 
 ## 3. Genuine Agentic Behavior vs. Hardcoded Workflows
 The agent avoids static scripted sequences (e.g. `search() -> fetch() -> summarize()`). Instead:
@@ -15,8 +19,8 @@ The agent avoids static scripted sequences (e.g. `search() -> fetch() -> summari
 3. **Execution Budgets & Loop Detection:** Protects against runaway token burn by enforcing step limits and intercepting repeated identical tool calls.
 
 ## 4. Multi-Tool Ecosystem & Safety
-* **`search_web`:** Retrieves public sources without mandatory paid API keys (DuckDuckGo Lite), with Tavily support.
-* **`fetch_url`:** Strips scripts, navigation chrome, and styles using BeautifulSoup; enforces content length limits (`MAX_FETCH_CONTENT_LENGTH`).
+* **`search_web`:** Retrieves public sources via Tavily with query normalization and in-memory session caching.
+* **`fetch_url`:** Strips scripts, navigation chrome, and styles using BeautifulSoup; enforces content length limits (`MAX_FETCH_CONTENT_LENGTH`) with sentence-aware truncation.
 * **`calculator`:** Implements an AST evaluator for `+`, `-`, `*`, `/`, `%`, `**`. Strictly rejects function invocations, imports, and variables to prevent arbitrary code execution vulnerabilities.
 
 ## 5. Failure Detection & Autonomous Recovery
@@ -28,10 +32,10 @@ Real-world networks are unreliable. The agent demonstrates resilience through a 
 ## 6. Evidence Grounding & Explainable Confidence
 To eliminate hallucination:
 * Every factual claim must be backed by a verbatim excerpt, classified source URL, and authority score.
-* Confidence is not an arbitrary LLM estimate; it is calculated deterministically:
+* Confidence is calculated deterministically:
   $$\text{Confidence} = (\text{Authority} \times 0.40) + (\text{Directness} \times 0.35) + (\text{Corroboration} \times 0.25) - \text{Conflict Penalty}$$
-* Conflicts between disagreeing sources are detected, presented transparently, and resolved methodologically.
+* Discrepancies between sources are detected, presented transparently, and resolved methodologically.
 
 ## 7. Limitations & Production Roadmap
-* **Current Limitations:** Web scraping is bound by robot exclusions and anti-bot challenges; JS-rendered single-page apps (SPAs) require headless browser integration.
-* **Production Improvements:** Distributed worker queues (Celery/Temporal), persistent vector memory stores, real-time OpenTelemetry tracing, and human-in-the-loop checkpoints for critical strategic assessments.
+* **Current Limitations:** Web scraping is bound by robot exclusions; client-side JS single-page apps (SPAs) require headless browser integration.
+* **Production Improvements:** Distributed worker queues (Celery/Temporal), persistent vector memory stores, real-time OpenTelemetry tracing, and human-in-the-loop checkpoints for high-budget queries.

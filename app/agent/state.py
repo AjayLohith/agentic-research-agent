@@ -63,9 +63,18 @@ class AgentState(BaseModel):
         return self.retries.get(key, 0)
 
     def add_source(self, source: Source):
-        # Prevent duplicate source URLs
-        existing_urls = {s.url.lower().rstrip("/") for s in self.sources}
-        if source.url.lower().rstrip("/") not in existing_urls:
+        def _norm(u: str) -> str:
+            u = u.strip().lower().rstrip("/")
+            if "?" in u:
+                base, query = u.split("?", 1)
+                # Filter out analytics tracking params
+                clean_params = [p for p in query.split("&") if not p.startswith(("utm_", "ref=", "source="))]
+                u = f"{base}?{'&'.join(clean_params)}" if clean_params else base
+            return u
+
+        target_norm = _norm(source.url)
+        existing_norms = {_norm(s.url) for s in self.sources}
+        if target_norm not in existing_norms:
             self.sources.append(source)
 
     def add_evidence(self, ev: Evidence):
