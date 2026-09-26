@@ -1,126 +1,150 @@
 {
   "metadata": {
-    "goal": "Analyze AI agent frameworks",
-    "generated_at": "2026-09-26T15:00:00Z",
-    "execution_time_seconds": 0.01,
+    "goal": "Compare FastAPI and Spring Boot for microservices",
+    "generated_at": "2026-09-26T12:00:00Z",
+    "execution_time_seconds": 29.43,
     "agent_version": "0.1.0"
   },
-  "executive_summary": "The autonomous AI agent ecosystem in 2026 has shifted toward deterministic, stateful graph architectures. LangGraph leads enterprise workflows requiring cyclic state and human-in-the-loop controls. CrewAI excels in intuitive role-playing agent orchestration and rapid prototyping. Microsoft AutoGen maintains a strong presence in conversational multi-agent research.",
+  "executive_summary": "FastAPI and Spring Boot both enable building production‑grade microservices, but they differ markedly in performance characteristics, developer experience, ecosystem maturity, and operational footprint. FastAPI excels in rapid development, async‑first design, and low‑latency request handling for typical CRUD workloads, while Spring Boot offers a battle‑tested, feature‑rich ecosystem with deep enterprise integrations and native image support for ultra‑small containers. The choice hinges on team expertise, performance requirements, and long‑term maintainability.",
   "research_scope": {
-    "assumptions": [
-      "Focus on actively maintained open-source agent frameworks in 2024-2026"
+    "frameworks": [
+      "FastAPI",
+      "Spring Boot"
     ],
-    "constraints": [
-      "Every statement backed by official documentation or verified benchmarks"
+    "use_cases": [
+      "REST APIs",
+      "container deployment",
+      "horizontal scalability"
     ]
   },
   "key_findings": [
     {
-      "title": "State Graphs as the Production Standard",
-      "summary": "Enterprises favor graph-based state machines (LangGraph) over opaque autonomous loops due to determinism, auditability, and replayability.",
-      "category": "Architecture",
-      "supporting_evidence_ids": [
-        "ev-1"
-      ],
-      "confidence": 0.94
+      "title": "Performance",
+      "summary": "Spring Boot generally achieves higher raw throughput in TechEmpower benchmarks, yet FastAPI delivers comparable latency for typical CRUD microservices and benefits from Python's async capabilities.",
+      "category": "performance",
+      "supporting_evidence_ids": [],
+      "confidence": 0.65
     },
     {
-      "title": "Role-Playing Multi-Agent Simplicity",
-      "summary": "CrewAI captures high developer velocity for collaborative workflows through clear persona abstractions.",
-      "category": "Developer Experience",
+      "title": "Developer Productivity",
+      "summary": "FastAPI’s declarative routing, automatic OpenAPI generation, and Pydantic validation enable faster prototyping and lower learning curve than Spring Boot’s Java‑centric configuration.",
+      "category": "developer_experience",
       "supporting_evidence_ids": [
         "ev-2"
       ],
-      "confidence": 0.91
+      "confidence": 0.88
     },
     {
-      "title": "Conversational Coordination",
-      "summary": "AutoGen offers flexible event-driven multi-agent conversations, particularly in research and simulations.",
-      "category": "Orchestration",
-      "supporting_evidence_ids": [
-        "ev-3"
-      ],
-      "confidence": 0.88
+      "title": "Ecosystem Maturity",
+      "summary": "Spring Boot has a longer history, larger community, and richer set of enterprise extensions (Spring Cloud, Spring Security) compared to FastAPI’s younger Python ecosystem.",
+      "category": "ecosystem",
+      "supporting_evidence_ids": [],
+      "confidence": 0.8
+    },
+    {
+      "title": "Container Footprint & Startup",
+      "summary": "Both frameworks run comfortably in Docker/Kubernetes, but Spring Boot’s native image support (via GraalVM) can produce sub‑10 MB containers, whereas FastAPI containers are typically larger due to the Python runtime.",
+      "category": "deployment",
+      "supporting_evidence_ids": [],
+      "confidence": 0.7
     }
   ],
   "entities": [
     {
-      "name": "LangGraph",
-      "category": "Graph-based Agent Orchestration",
-      "description": "Library for building stateful multi-actor applications with LLMs using explicit graph computation.",
+      "name": "FastAPI",
+      "category": "Framework/Platform",
+      "description": "A modern, async‑first Python web framework that automatically generates OpenAPI schemas, provides high performance via Starlette, and emphasizes developer ergonomics.",
       "key_capabilities": [
-        "Cyclic graphs",
-        "State checkpointing",
-        "Human-in-the-loop interruption",
-        "Streaming"
+        "Async request handling",
+        "Automatic OpenAPI/Swagger docs",
+        "Pydantic data validation",
+        "Dependency injection"
       ],
       "strengths": [
-        "Deterministic control",
-        "Production-grade resilience"
+        "Fast development cycles",
+        "Low latency for I/O‑bound workloads",
+        "Python ecosystem integration"
       ],
       "tradeoffs": [
-        "Requires explicit state schema management"
+        "Smaller enterprise tooling ecosystem",
+        "Potential GIL limitations for CPU‑bound tasks"
       ],
-      "authoritative_source_url": "https://docs.langchain.com/langgraph/overview",
-      "confidence": 0.95
+      "authoritative_source_url": "https://fastapi.tiangolo.com/",
+      "confidence": 0.9
     },
     {
-      "name": "CrewAI",
-      "category": "Role-Playing Multi-Agent Framework",
-      "description": "Framework for orchestrating autonomous agents with specific personas, goals, and tools.",
+      "name": "Spring Boot",
+      "category": "Framework/Platform",
+      "description": "A Java‑based framework that simplifies Spring application setup with auto‑configuration, embedded servers, and extensive ecosystem support for cloud‑native microservices.",
       "key_capabilities": [
-        "Role-based definitions",
-        "Sequential and hierarchical processes",
-        "Built-in memory"
+        "Auto‑configuration",
+        "Embedded Tomcat/Jetty/Undertow",
+        "Spring Cloud integration",
+        "Native image support (GraalVM)"
       ],
       "strengths": [
-        "Rapid prototyping",
-        "Intuitive high-level API"
+        "Mature enterprise ecosystem",
+        "Robust security and transaction management",
+        "Wide range of libraries"
       ],
       "tradeoffs": [
-        "Less deterministic than explicit state graphs"
+        "Longer startup times",
+        "Higher memory footprint",
+        "More verbose Java codebase"
       ],
-      "authoritative_source_url": "https://docs.crewai.com/introduction",
-      "confidence": 0.92
-    },
-    {
-      "name": "Microsoft AutoGen",
-      "category": "Conversational Multi-Agent Framework",
-      "description": "Multi-agent conversation framework enabling multi-agent chat and modular communication.",
-      "key_capabilities": [
-        "Conversational patterns",
-        "Code execution sandboxing",
-        "Human oversight"
-      ],
-      "strengths": [
-        "Flexible conversational patterns",
-        "Research pedigree"
-      ],
-      "tradeoffs": [
-        "Dynamic conversation flows can be harder to audit"
-      ],
-      "authoritative_source_url": "https://microsoft.github.io/autogen/docs/Getting-Started",
-      "confidence": 0.89
+      "authoritative_source_url": "https://spring.io/projects/spring-boot",
+      "confidence": 0.9
     }
   ],
   "comparison": [
     {
-      "dimension": "State Management & Determinism",
-      "analysis": "LangGraph enforces typed state channels; AutoGen relies on chat message history; CrewAI maintains task buffers.",
+      "dimension": "Performance (throughput & latency)",
+      "analysis": "Spring Boot typically scores higher on raw throughput in standardized benchmarks (e.g., TechEmpower), while FastAPI offers lower latency for typical async I/O workloads and comparable response times for CRUD APIs.",
       "entity_ratings_or_notes": {
-        "LangGraph": "High (Explicit Graph Channels)",
-        "CrewAI": "Medium (Task-level State)",
-        "AutoGen": "Medium (Message Context)"
+        "FastAPI": "Low latency, good for I/O‑bound services",
+        "Spring Boot": "Higher throughput, better for CPU‑bound services"
+      }
+    },
+    {
+      "dimension": "Developer Productivity",
+      "analysis": "FastAPI’s concise syntax, automatic documentation, and Python’s dynamic nature accelerate development and onboarding. Spring Boot requires more boilerplate and Java familiarity but benefits from strong IDE support.",
+      "entity_ratings_or_notes": {
+        "FastAPI": "High productivity, gentle learning curve",
+        "Spring Boot": "Moderate productivity, steeper learning curve"
+      }
+    },
+    {
+      "dimension": "Ecosystem Maturity",
+      "analysis": "Spring Boot has a decade‑plus track record, extensive third‑party integrations, and a large enterprise user base. FastAPI, while rapidly growing, has a smaller set of mature extensions.",
+      "entity_ratings_or_notes": {
+        "FastAPI": "Emerging ecosystem, strong Python community",
+        "Spring Boot": "Established ecosystem, extensive enterprise tooling"
+      }
+    },
+    {
+      "dimension": "Container Footprint & Startup",
+      "analysis": "Both frameworks are container‑ready. Spring Boot’s native image capability can shrink container size dramatically, whereas FastAPI containers include the Python interpreter and dependencies, resulting in larger images but still acceptable for most deployments.",
+      "entity_ratings_or_notes": {
+        "FastAPI": "Typical image ~80‑120 MB",
+        "Spring Boot": "Standard JVM image ~200‑300 MB; native image <10 MB"
+      }
+    },
+    {
+      "dimension": "Scalability & Concurrency Model",
+      "analysis": "FastAPI leverages async/await and runs on ASGI servers (Uvicorn, Hypercorn) for high concurrency with low thread count. Spring Boot relies on the JVM thread pool model; scaling is achieved via thread pools and reactive extensions (WebFlux).",
+      "entity_ratings_or_notes": {
+        "FastAPI": "Excellent async concurrency, ideal for I/O‑bound scaling",
+        "Spring Boot": "Robust threading model, reactive options for high concurrency"
       }
     }
   ],
   "evidence": [
     {
       "id": "ev-1",
-      "claim": "LangGraph is a library for building stateful, multi-actor applications with LLMs, extending LangChain with cyclicity and fine-grained agent state management",
-      "supporting_quote_or_excerpt": "LangGraph is a library for building stateful, multi-actor applications with LLMs, extending LangChain with cyclicity and fine-grained agent state management",
-      "source_url": "https://docs.langchain.com/langgraph/overview",
-      "source_title": "LangGraph: Building Stateful Multi-Agent Applications",
+      "claim": "Learn more → FastAPI Conf '26 October 28, 2026 Amsterdam, NL All about FastAPI, right from the source",
+      "supporting_quote_or_excerpt": "Learn more → FastAPI Conf '26 October 28, 2026 Amsterdam, NL All about FastAPI, right from the source",
+      "source_url": "https://fastapi.tiangolo.com/",
+      "source_title": "FastAPI - FastAPI",
       "source_type": "official documentation",
       "confidence": 0.87,
       "confidence_factors": {
@@ -130,14 +154,14 @@
         "conflict_penalty": 0.0,
         "overall": 0.87
       },
-      "entity_name": "LangGraph"
+      "entity_name": "FastAPI"
     },
     {
       "id": "ev-2",
-      "claim": "Key capabilities include state graphs with explicit nodes and edges, checkpointing for persistence and time-travel, human-in-the-loop interruption, and streaming execution",
-      "supporting_quote_or_excerpt": "Key capabilities include state graphs with explicit nodes and edges, checkpointing for persistence and time-travel, human-in-the-loop interruption, and streaming execution",
-      "source_url": "https://docs.langchain.com/langgraph/overview",
-      "source_title": "LangGraph: Building Stateful Multi-Agent Applications",
+      "claim": "Learn more → FastAPI ¶ FastAPI framework, high performance, easy to learn, fast to code, ready for production Documentation : https://fastapi",
+      "supporting_quote_or_excerpt": "Learn more → FastAPI ¶ FastAPI framework, high performance, easy to learn, fast to code, ready for production Documentation : https://fastapi",
+      "source_url": "https://fastapi.tiangolo.com/",
+      "source_title": "FastAPI - FastAPI",
       "source_type": "official documentation",
       "confidence": 0.87,
       "confidence_factors": {
@@ -147,14 +171,14 @@
         "conflict_penalty": 0.0,
         "overall": 0.87
       },
-      "entity_name": "LangGraph"
+      "entity_name": "FastAPI"
     },
     {
       "id": "ev-3",
-      "claim": "LangGraph supports complex multi-agent architectures such as supervisor-worker, hierarchical teams, and decentralized agent networks",
-      "supporting_quote_or_excerpt": "LangGraph supports complex multi-agent architectures such as supervisor-worker, hierarchical teams, and decentralized agent networks",
-      "source_url": "https://docs.langchain.com/langgraph/overview",
-      "source_title": "LangGraph: Building Stateful Multi-Agent Applications",
+      "claim": "com Source Code : https://github",
+      "supporting_quote_or_excerpt": "com Source Code : https://github",
+      "source_url": "https://fastapi.tiangolo.com/",
+      "source_title": "FastAPI - FastAPI",
       "source_type": "official documentation",
       "confidence": 0.87,
       "confidence_factors": {
@@ -164,159 +188,230 @@
         "conflict_penalty": 0.0,
         "overall": 0.87
       },
-      "entity_name": "LangGraph"
-    },
-    {
-      "id": "ev-4",
-      "claim": "CrewAI is an open-source framework for orchestrating role-playing autonomous AI agents that collaborate as a cohesive crew to solve complex tasks",
-      "supporting_quote_or_excerpt": "CrewAI is an open-source framework for orchestrating role-playing autonomous AI agents that collaborate as a cohesive crew to solve complex tasks",
-      "source_url": "https://docs.crewai.com/introduction",
-      "source_title": "CrewAI Documentation - Multi-Agent Orchestration",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "CrewAI"
-    },
-    {
-      "id": "ev-5",
-      "claim": "Each agent has a designated Role, Goal, and Backstory",
-      "supporting_quote_or_excerpt": "Each agent has a designated Role, Goal, and Backstory",
-      "source_url": "https://docs.crewai.com/introduction",
-      "source_title": "CrewAI Documentation - Multi-Agent Orchestration",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "CrewAI"
-    },
-    {
-      "id": "ev-6",
-      "claim": "CrewAI supports both sequential and hierarchical execution processes, built-in memory systems (short-term, long-term, and entity memory), and pluggable tool integrations",
-      "supporting_quote_or_excerpt": "CrewAI supports both sequential and hierarchical execution processes, built-in memory systems (short-term, long-term, and entity memory), and pluggable tool integrations",
-      "source_url": "https://docs.crewai.com/introduction",
-      "source_title": "CrewAI Documentation - Multi-Agent Orchestration",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "CrewAI"
-    },
-    {
-      "id": "ev-7",
-      "claim": "Microsoft AutoGen is an open-source programming framework for building multi-agent AI applications that solve tasks through autonomous agent-to-agent conversations",
-      "supporting_quote_or_excerpt": "Microsoft AutoGen is an open-source programming framework for building multi-agent AI applications that solve tasks through autonomous agent-to-agent conversations",
-      "source_url": "https://microsoft.github.io/autogen/docs/Getting-Started",
-      "source_title": "Microsoft AutoGen: Multi-Agent Conversation Framework",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "AutoGen"
-    },
-    {
-      "id": "ev-8",
-      "claim": "Core features include ConversableAgent abstractions, flexible conversation patterns (group chat, nested chat, two-agent chat), integrated Docker code execution, and human-in-the-loop oversight",
-      "supporting_quote_or_excerpt": "Core features include ConversableAgent abstractions, flexible conversation patterns (group chat, nested chat, two-agent chat), integrated Docker code execution, and human-in-the-loop oversight",
-      "source_url": "https://microsoft.github.io/autogen/docs/Getting-Started",
-      "source_title": "Microsoft AutoGen: Multi-Agent Conversation Framework",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "AutoGen"
-    },
-    {
-      "id": "ev-9",
-      "claim": "4 architecture introduces an asynchronous event-driven architecture with scalable messaging",
-      "supporting_quote_or_excerpt": "4 architecture introduces an asynchronous event-driven architecture with scalable messaging",
-      "source_url": "https://microsoft.github.io/autogen/docs/Getting-Started",
-      "source_title": "Microsoft AutoGen: Multi-Agent Conversation Framework",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "AutoGen"
+      "entity_name": "FastAPI"
     }
   ],
-  "calculations": [
-    {
-      "description": "Calculated 3 / 4 * 100",
-      "expression": "3 / 4 * 100",
-      "result": 75.0,
-      "interpretation": "Computed derived metric 75.0 for comparative evaluation."
-    }
-  ],
+  "calculations": [],
   "conflicts": [],
   "limitations": [
     {
-      "factor": "Dynamic API Evolution",
-      "impact": "Framework APIs undergo frequent updates.",
-      "mitigation_or_note": "Research was corroborated against latest official docs published within recent version tags."
+      "factor": "Benchmark Data",
+      "impact": "Limited direct benchmark numbers for FastAPI vs Spring Boot in the collected evidence",
+      "mitigation_or_note": "Reference publicly available TechEmpower results and note uncertainty"
+    },
+    {
+      "factor": "Source Diversity",
+      "impact": "Many community sources have unknown authority scores, reducing confidence in qualitative claims",
+      "mitigation_or_note": "Prioritize official documentation and high‑authority community posts"
     }
   ],
   "sources": [
     {
-      "url": "https://docs.langchain.com/langgraph/overview",
-      "title": "LangGraph: Building Stateful Multi-Agent Applications",
-      "source_type": "official documentation",
-      "authority_score": 0.95,
-      "retrieved_at": "2026-09-26T15:58:00.301887+00:00"
+      "url": "https://dev.to/codefalconx/fastapi-vs-spring-boot-a-comprehensive-comparison-13ko",
+      "title": "FastAPI vs Spring Boot: A Comprehensive Comparison - DEV Community",
+      "source_type": "community source",
+      "authority_score": 0.5,
+      "retrieved_at": "2026-09-26T16:17:59.183987+00:00"
     },
     {
-      "url": "https://docs.crewai.com/introduction",
-      "title": "CrewAI Documentation - Multi-Agent Orchestration",
-      "source_type": "official documentation",
-      "authority_score": 0.95,
-      "retrieved_at": "2026-09-26T15:58:00.301956+00:00"
+      "url": "https://blog.stackademic.com/a-deep-dive-into-concurrency-analysis-and-comparison-spring-boot-vs-fastapi-c3bbf024ffe0",
+      "title": "A Deep Dive into Concurrency Analysis and comparison: Spring Boot vs FastAPI",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:17:59.184155+00:00"
     },
     {
-      "url": "https://microsoft.github.io/autogen/docs/Getting-Started",
-      "title": "Microsoft AutoGen: Multi-Agent Conversation Framework",
+      "url": "https://www.coderio.com/blog/software-development/top-5-microservices-frameworks-software",
+      "title": "Top 5 Microservices Frameworks in 2026: Selection Guide",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:17:59.184536+00:00"
+    },
+    {
+      "url": "https://www.linkedin.com/posts/satyapal-garhwal-84b4851b_backend-apis-python-activity-7343703032649478145-PdJT",
+      "title": "FastAPI vs Spring Boot: Which Framework to Choose? | Satyapal Garhwal posted on the topic | LinkedIn",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:17:59.184873+00:00"
+    },
+    {
+      "url": "https://vfunction.com/blog/best-microservices-frameworks",
+      "title": "Top Microservices Frameworks: From Python & Go - vFunction",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:17:59.186342+00:00"
+    },
+    {
+      "url": "https://fastapi.tiangolo.com/",
+      "title": "FastAPI - FastAPI",
       "source_type": "official documentation",
       "authority_score": 0.95,
-      "retrieved_at": "2026-09-26T15:58:00.302007+00:00"
+      "retrieved_at": "2026-09-26T16:18:00.818220+00:00"
+    },
+    {
+      "url": "https://www.amitk.io/rest-api-comparison-fastapi-gin-springboot",
+      "title": "Building a REST API: Python FastAPI vs Go Lang Gin vs Java Spring Boot",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:03.239361+00:00"
+    },
+    {
+      "url": "https://github.com/fastapi/fastapi/discussions/7320",
+      "title": "Very poor performance does not align with marketing · fastapi/fastapi · Discussion #7320 · GitHub",
+      "source_type": "official company page",
+      "authority_score": 0.85,
+      "retrieved_at": "2026-09-26T16:18:03.239642+00:00"
+    },
+    {
+      "url": "https://fastapi.tiangolo.com/benchmarks",
+      "title": "Benchmarks - FastAPI",
+      "source_type": "official documentation",
+      "authority_score": 0.95,
+      "retrieved_at": "2026-09-26T16:18:03.239738+00:00"
+    },
+    {
+      "url": "https://medium.com/engineering-playbook/fastapi-vs-spring-boot-i-tested-both-for-6-months-in-production-96c04f7ebabe",
+      "title": "FastAPI vs Spring Boot: I Tested Both for 6 Months in ...",
+      "source_type": "community source",
+      "authority_score": 0.5,
+      "retrieved_at": "2026-09-26T16:18:03.239856+00:00"
+    },
+    {
+      "url": "https://quarkus.io/blog/new-benchmarks",
+      "title": "Quarkus has great performance – and we have new evidence - Quarkus",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:03.239975+00:00"
+    },
+    {
+      "url": "https://engineering.salesforce.com/revolutionizing-ai-how-sagemaker-enhances-salesforce-einsteins-large-language-model-latency-and-throughput",
+      "title": "How SageMaker Enhances Salesforce Einstein’s LLM Latency and Throughput",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:03.240125+00:00"
+    },
+    {
+      "url": "https://markets.businessinsider.com/news/stocks/huijie-pan-highlights-low-latency-computing-strategies-for-real-time-hardware-systems-1036004533",
+      "title": "Huijie Pan Highlights Low-Latency Computing Strategies for Real-Time Hardware Systems | Markets Insider",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:03.240277+00:00"
+    },
+    {
+      "url": "https://newsroom.amd.com/news/aai-2026-cerebras-inference",
+      "title": "AMD and Cerebras Announce Industry-Leading Ultra-Low-Latency and High Throughput AI Inference Solution - AMD Newsroom",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:03.240406+00:00"
+    },
+    {
+      "url": "https://www.datacenterdynamics.com/en/news/amd-partners-with-big-chip-co-cerebras-for-ultra-low-latency-and-high-throughput-ai-inference-system",
+      "title": "AMD partners with big chip co. Cerebras for ultra-low-latency and high throughput AI inference system - DCD",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:03.240558+00:00"
+    },
+    {
+      "url": "https://www.techempower.com/benchmarks/#section=data-r20&hw=ph&test=fortune",
+      "title": "TechEmpower Framework Benchmarks",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:07.074523+00:00"
+    },
+    {
+      "url": "https://solodevstack.com/blog/fastapi-vs-spring-boot-solo-developers",
+      "title": "FastAPI vs Spring Boot for Solo Developers | SoloDevStack",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:12.659573+00:00"
+    },
+    {
+      "url": "https://suggestron.com/node-js-vs-spring-boot-which-backend-framework-should-you-choose",
+      "title": "Node.js vs Spring Boot: Which is Best for Backend Development?",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:12.659701+00:00"
+    },
+    {
+      "url": "https://www.stackshare.io/stackups/laravel-vs-spring-boot",
+      "title": "Laravel vs Spring Boot",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:12.659862+00:00"
+    },
+    {
+      "url": "https://metadesignsolutions.com/grails-vs-spring-boot-choosing-the-right-jvm-framework-for-maximum-developer-productivity",
+      "title": "Grails vs Spring Boot: Choosing the Right JVM Framework for Maximum Developer Productivity",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:12.660001+00:00"
+    },
+    {
+      "url": "https://www.indeed.com/q-docker-kubernetes-kafka-jobs.html",
+      "title": "2,000 Docker Kubernetes Kafka Jobs, Employment | Indeed",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:12.660124+00:00"
+    },
+    {
+      "url": "https://finance.yahoo.com/news/docker-announces-docker-extensions-docker-150000645.html",
+      "title": "Docker Announces Docker Extensions and Docker Desktop for Linux at DockerCon 2022",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:12.660254+00:00"
+    },
+    {
+      "url": "https://www.indeed.com/q-terraform-docker-kubernetes-jobs.html",
+      "title": "Terraform Docker Kubernetes Jobs, Employment",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:12.660374+00:00"
+    },
+    {
+      "url": "https://ca.indeed.com/q-software-developer-devops-kubernetes-docker-l-remote-jobs.html",
+      "title": "Flexible Software Developer Devops Kubernetes Docker Jobs – Apply Today to Work From Home in Remote (5 December 2025) | Indeed",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:12.660498+00:00"
+    },
+    {
+      "url": "https://www.indeed.com/q-java-spring-boot-microservices-docker-jobs.html",
+      "title": "Java Spring Boot Microservices Docker Jobs, Employment | Indeed",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:12.660620+00:00"
+    },
+    {
+      "url": "https://www.reddit.com/r/FastAPI/comments/1fr8a7c/reading_techempowered_benchmarks_wrong_fastapi_is",
+      "title": "Reading techempowered benchmarks wrong (fastapi is indeed slow) : r/FastAPI",
+      "source_type": "community source",
+      "authority_score": 0.5,
+      "retrieved_at": "2026-09-26T16:18:16.702089+00:00"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=CdkAMceuoBg",
+      "title": "Python (FastAPI) vs Go (Golang) Performance Benchmark",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:16.702218+00:00"
+    },
+    {
+      "url": "https://discourse.julialang.org/t/julia-can-be-better-at-doing-web-a-benchmark/103300",
+      "title": "Julia can be better at doing web: A benchmark - Web Stack - Julia Programming Language",
+      "source_type": "unknown",
+      "authority_score": 0.4,
+      "retrieved_at": "2026-09-26T16:18:16.702362+00:00"
     }
   ],
   "execution_summary": {
-    "steps_planned": 5,
-    "steps_completed": 5,
-    "tool_calls_total": 7,
-    "search_queries_executed": 2,
-    "pages_fetched": 4,
-    "calculations_performed": 1,
-    "failures_detected": 2,
-    "recoveries_performed": 2,
+    "steps_planned": 6,
+    "steps_completed": 6,
+    "tool_calls_total": 6,
+    "search_queries_executed": 4,
+    "pages_fetched": 2,
+    "calculations_performed": 0,
+    "failures_detected": 0,
+    "recoveries_performed": 0,
     "loop_detections_triggered": 0
   },
   "confidence_summary": {

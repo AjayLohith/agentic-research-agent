@@ -74,5 +74,5 @@ class ResearchReport(BaseModel):
     conflicts: List[ConflictRecord] = Field(default_factory=list)
     limitations: List[LimitationRecord] = Field(default_factory=list)
     sources: List[Source] = Field(default_factory=list)
-    execution_summary: ExecutionSummary
+    execution_summary: ExecutionSummary = Field(default_factory=ExecutionSummary)
     confidence_summary: Dict[str, Any] = Field(default_factory=dict)

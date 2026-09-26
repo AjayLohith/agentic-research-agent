@@ -15,7 +15,8 @@ class Settings(BaseSettings):
 
     # Primary LLM Settings (Free Groq by default, OpenAI-compatible)
     LLM_PROVIDER: str = Field(default="groq", description="LLM provider: 'groq', 'openai', or 'mock'")
-    LLM_MODEL: str = Field(default="llama-3.3-70b-versatile", description="Model name")
+    LLM_MODEL: str = Field(default="openai/gpt-oss-120b", description="Model name")
+    GROQ_MODEL: Optional[str] = Field(default=None, description="Groq model alias")
     GROQ_API_KEY: Optional[str] = Field(default=None, description="Groq API key")
     GROQ_BASE_URL: str = Field(default="https://api.groq.com/openai/v1", description="Groq API base URL")
 
@@ -26,6 +27,7 @@ class Settings(BaseSettings):
     # Primary Search Settings (Tavily free tier by default)
     SEARCH_PROVIDER: str = Field(default="tavily", description="Search provider: 'tavily', 'duckduckgo', or 'mock'")
     TAVILY_API_KEY: Optional[str] = Field(default=None, description="Tavily API key")
+    tavily: Optional[str] = Field(default=None, description="Tavily key alias")
 
     # Execution Modes
     MOCK_MODE: bool = Field(default=False, description="Run offline with deterministic fixtures")
@@ -48,6 +50,12 @@ class Settings(BaseSettings):
         p = Path(self.OUTPUT_DIR)
         p.mkdir(parents=True, exist_ok=True)
         return p
+
+    def model_post_init(self, __context: object) -> None:
+        if self.GROQ_MODEL and self.GROQ_MODEL.strip():
+            self.LLM_MODEL = self.GROQ_MODEL.strip()
+        if not self.TAVILY_API_KEY and self.tavily and self.tavily.strip():
+            self.TAVILY_API_KEY = self.tavily.strip()
 
     def validate_runtime(self, is_mock: bool = False) -> None:
         """Validates that necessary API keys are present for the active provider."""

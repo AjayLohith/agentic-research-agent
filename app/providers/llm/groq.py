@@ -22,7 +22,7 @@ class GroqProvider(LLMProvider):
     def __init__(
         self,
         api_key: str,
-        model: str = "llama-3.3-70b-versatile",
+        model: str = "openai/gpt-oss-120b",
         base_url: str = "https://api.groq.com/openai/v1",
         max_retries: int = 3
     ):
@@ -102,11 +102,14 @@ class GroqProvider(LLMProvider):
             except (json.JSONDecodeError, ValidationError) as parse_err:
                 logger.warning(f"JSON validation failed on attempt {attempt}: {parse_err}. Attempting schema repair.")
                 repair_prompt = (
-                    f"Your previous response failed validation: {parse_err}.\n"
-                    f"Return ONLY valid JSON conforming to this schema:\n{schema_json}"
+                    f"{prompt}\n\n"
+                    f"CRITICAL: Previous response failed validation: {parse_err}.\n"
+                    f"Please output strictly valid JSON conforming to the schema."
                 )
-                messages.append({"role": "assistant", "content": raw_text})
-                messages.append({"role": "user", "content": repair_prompt})
+                messages = [
+                    {"role": "system", "content": system_msg},
+                    {"role": "user", "content": repair_prompt}
+                ]
 
             except Exception as e:
                 if attempt == self.max_retries:
