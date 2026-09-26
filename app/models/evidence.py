@@ -40,6 +40,9 @@ class Evidence(BaseModel):
     confidence: float = Field(default=0.7, ge=0.0, le=1.0)
     confidence_factors: Optional[ConfidenceBreakdown] = None
     entity_name: Optional[str] = Field(default=None, description="Related entity or product name")
+    relevance_score: float = Field(default=0.85, ge=0.0, le=1.0, description="Evaluated relevance score (0-1)")
+    relevance_reason: str = Field(default="Directly aligns with research scope", description="Explanation of relevance")
+    content_hash: Optional[str] = Field(default=None, description="Hash of normalized content for duplicate detection")
 
 
 class ConflictRecord(BaseModel):

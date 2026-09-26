@@ -50,8 +50,24 @@ class ReportService:
                     lines.append(f"- {c}")
                 lines.append("")
 
-        # 3. Key Findings
-        lines.append("## 3. Key Findings")
+        # 3. Methodology
+        if report.methodology:
+            lines.append("## 3. Methodology")
+            lines.append("")
+            lines.append(report.methodology)
+            lines.append("")
+
+        # 4. Core Key Points
+        if report.key_points:
+            lines.append("## 4. Key Points")
+            lines.append("")
+            for pt in report.key_points:
+                lines.append(f"- {pt}")
+            lines.append("")
+
+        # 5. Important Findings
+        sec_findings = "5" if report.key_points else "4"
+        lines.append(f"## {sec_findings}. Important Findings")
         lines.append("")
         for finding in report.key_findings:
             conf_percent = int(finding.confidence * 100)
@@ -61,8 +77,16 @@ class ReportService:
                 lines.append(f"*Supporting Evidence:* {', '.join(finding.supporting_evidence_ids)}")
             lines.append("")
 
-        # 4. Entity / Competitor Overview Table
-        lines.append("## 4. Entity / Competitor Overview")
+        # 6. Actionable Insights
+        if report.actionable_insights:
+            lines.append("## 6. Actionable Insights & Recommendations")
+            lines.append("")
+            for insight in report.actionable_insights:
+                lines.append(f"- **{insight}**")
+            lines.append("")
+
+        # 7. Entity / Competitor Overview Table
+        lines.append("## 7. Entity Overview")
         lines.append("")
         if report.entities:
             lines.append("| Entity | Category | Key Capabilities | Strengths | Tradeoffs | Primary Source | Confidence |")
@@ -159,6 +183,8 @@ class ReportService:
         lines.append(f"  - Web Searches: {es.search_queries_executed}")
         lines.append(f"  - Web Pages Fetched: {es.pages_fetched}")
         lines.append(f"  - Calculations Performed: {es.calculations_performed}")
+        lines.append(f"- **Sources Evaluated / Deduplicated:** {es.sources_considered} / {es.sources_deduplicated}")
+        lines.append(f"- **Irrelevant Items Filtered:** {es.items_filtered_for_irrelevance}")
         lines.append(f"- **Failures Detected:** {es.failures_detected}")
         lines.append(f"- **Recoveries Performed:** {es.recoveries_performed}")
         lines.append(f"- **Loop Detections Triggered:** {es.loop_detections_triggered}")
@@ -196,17 +222,28 @@ class ReportService:
 
     @classmethod
     def save_reports(cls, report: ResearchReport, output_dir: Path) -> Dict[str, Path]:
+        from app.services.pdf_export import PdfExportService
+
         output_dir.mkdir(parents=True, exist_ok=True)
+        paths = {}
 
         # 1. Save JSON
         json_path = output_dir / "report.json"
         with open(json_path, "w", encoding="utf-8") as f:
             f.write(report.model_dump_json(indent=2))
+        paths["json"] = json_path
 
         # 2. Save Markdown
         md_path = output_dir / "report.md"
         md_content = cls.generate_markdown(report)
         with open(md_path, "w", encoding="utf-8") as f:
             f.write(md_content)
+        paths["markdown"] = md_path
 
-        return {"json": json_path, "markdown": md_path}
+        # 3. Save PDF
+        pdf_path = output_dir / "report.pdf"
+        generated_pdf = PdfExportService.export_report_to_pdf(report, pdf_path)
+        if generated_pdf:
+            paths["pdf"] = generated_pdf
+
+        return paths

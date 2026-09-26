@@ -23,6 +23,14 @@ class PlanStep(BaseModel):
 
 class ResearchPlan(BaseModel):
     objective: str = Field(description="Decomposed understanding of the user research goal")
+    source_strategy: str = Field(
+        default="official_documentation_and_authoritative_technical_sources",
+        description="Autonomously selected external source strategy based on query domain"
+    )
+    target_source_types: List[str] = Field(
+        default_factory=lambda: ["documentation", "github", "benchmarks"],
+        description="Target external source categories (e.g. documentation, technical articles, whitepapers)"
+    )
     assumptions: List[str] = Field(default_factory=list, description="Core assumptions made prior to execution")
     constraints: List[str] = Field(default_factory=list, description="Scope boundaries or domain constraints")
     steps: List[PlanStep] = Field(default_factory=list, description="Ordered execution steps")

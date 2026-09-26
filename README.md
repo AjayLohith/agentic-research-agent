@@ -1,13 +1,34 @@
-# Autonomous Research & Competitive Intelligence Agent
+# Autonomous Research Agent
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Validation: Pydantic v2](https://img.shields.io/badge/validation-Pydantic%20v2-green.svg)](https://docs.pydantic.dev/)
-[![Tests: Pytest](https://img.shields.io/badge/tests-24%20passed-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/tests-36%20passed-brightgreen.svg)](tests/)
 
-An autonomous, multi-tool AI research agent built from first principles for competitive intelligence, architectural benchmarking, and deep domain research. It dynamically decomposes high-level user goals, orchestrates web searches and HTTP page inspections, performs verifiable mathematical calculations, autonomously detects and recovers from tool failures, and synthesizes structured, citation-grounded intelligence reports.
+An autonomous, multi-tool AI research agent built from first principles for **Assessment Option 1 — Autonomous Research Agent**. It dynamically decomposes high-level user queries, orchestrates parallel web investigations, extracts and validates evidence, strips web boilerplate and irrelevant content, removes duplicate sources via URL normalization and content hashing, and synthesizes structured, publication-grade intelligence reports in Markdown, JSON, and PDF formats.
 
-Designed to run using **free developer-tier resources** by default (**Groq** for high-speed LLM inference and **Tavily** for AI web search).
+Designed to run using **free developer-tier resources** by default (**Groq** for high-speed LLM inference and **Tavily** for external web search).
+
+---
+
+## Assessment Option 1 Compliance Matrix
+
+| Requirement | Implementation Component | Verification Status |
+|---|---|---|
+| **Accept user query / topic** | CLI (`app/main.py`) via `--goal` argument | **PASS** (Tested) |
+| **Search external sources** | Multi-source search (`TavilyProvider`, `DuckDuckGoProvider`) | **PASS** (Tested) |
+| **Extract relevant information** | `EvidenceService` & `RelevanceFilter` | **PASS** (Tested) |
+| **Remove duplicate content** | `DeduplicationService` (URL normalization & SHA-256 hash) | **PASS** (Tested) |
+| **Remove irrelevant content** | `RelevanceFilter` (Boilerplate removal & goal keyword scoring) | **PASS** (Tested) |
+| **Structured summary (Key points)** | `ResearchReport.key_points` & Synthesizer | **PASS** (Tested) |
+| **Structured summary (Important findings)** | `ResearchReport.findings` with source provenance | **PASS** (Tested) |
+| **Structured summary (References/Sources)** | `ResearchReport.sources` & direct URL citations | **PASS** (Tested) |
+| **Structured summary (Actionable insights)** | `ResearchReport.actionable_insights` | **PASS** (Tested) |
+| **Autonomous source selection (Bonus)** | `AutonomousPlanner.create_plan` source strategies | **PASS** (Tested) |
+| **Parallel gathering (Bonus)** | `parallel_fetch_urls` (Bounded async semaphore) | **PASS** (Tested) |
+| **Export as Markdown (Bonus)** | `ReportService.render_markdown` (`output/report.md`) | **PASS** (Tested) |
+| **Export as PDF (Bonus)** | `PdfExportService` (`output/report.pdf` via ReportLab) | **PASS** (Tested) |
+| **Store previous searches (Bonus)** | `SearchMemoryStore` (`data/search_history.json`) | **PASS** (Tested) |
 
 ---
 
@@ -49,7 +70,7 @@ GROQ_API_KEY=gsk_your_groq_api_key_here
 TAVILY_API_KEY=tvly-your_tavily_api_key_here
 ```
 
-### 5. Run
+### 5. Run Live Research
 ```bash
 python -m app.main --goal "Analyze the current competitive landscape for AI agent frameworks"
 ```
@@ -59,8 +80,8 @@ python -m app.main --goal "Analyze the current competitive landscape for AI agen
 ## Table of Contents
 
 1. [Overview](#1-overview)
-2. [Why This Project](#2-why-this-project)
-3. [Architecture](#3-architecture)
+2. [Assessment Alignment](#2-assessment-alignment)
+3. [Architecture & Pipeline](#3-architecture--pipeline)
 4. [Technology Stack](#4-technology-stack)
 5. [Free Development Setup](#5-free-development-setup)
 6. [Environment Variables](#6-environment-variables)
@@ -70,9 +91,9 @@ python -m app.main --goal "Analyze the current competitive landscape for AI agen
 10. [Deterministic Mock Mode](#10-deterministic-mock-mode)
 11. [Testing & Coverage](#11-testing--coverage)
 12. [Output Artifacts](#12-output-artifacts)
-13. [Design Decisions](#13-design-decisions)
-14. [Limitations](#14-limitations)
-15. [Production Improvements](#15-production-improvements)
+13. [Deliverables Guide](#13-deliverables-guide)
+14. [Design Decisions](#14-design-decisions)
+15. [Limitations & Future Work](#15-limitations--future-work)
 
 ---
 
@@ -298,6 +319,11 @@ python -m app.main --goal "Analyze the current competitive landscape for AI agen
 python -m app.main --goal "Compare FastAPI and Spring Boot for building high-concurrency microservices"
 ```
 
+### General Technology Research
+```bash
+python -m app.main --goal "Research recent developments in agentic AI and summarize key findings"
+```
+
 ---
 
 ## 9. Failure Recovery Demonstration
@@ -354,51 +380,72 @@ In mock mode:
 All unit and integration tests run offline without external API keys:
 
 ```bash
-# Run all tests
-pytest
+# Run all 36 tests
+python -m pytest -v
 
 # Run tests with code coverage report
-pytest --cov=app --cov-report=term-missing
+python -m pytest --cov=app --cov-report=term-missing
 ```
 
 ### Test Suite Highlights:
+* `test_relevance.py`: Asserts boilerplate removal (cookie notices, nav bars) and keyword relevance scoring.
+* `test_deduplication.py`: Asserts URL normalization (stripping tracking query params, downcasing) and SHA-256 + token Jaccard deduplication.
+* `test_search_memory.py`: Tests persistent session recording in `data/search_history.json` and similarity lookups.
+* `test_pdf_export.py`: Validates binary PDF document synthesis, styles, and file persistence.
 * `test_calculator.py`: Validates arithmetic evaluation and verifies that arbitrary code execution (`import`, `eval`, `open`, `__subclasses__`) is blocked by the AST sandbox.
 * `test_tools.py`: Validates search normalization, content truncation, and fetch error handling.
 * `test_models.py`: Validates strict Pydantic model schemas and JSON serialization.
 * `test_failure_recovery.py`: Asserts that injected tool failures trigger retries and adaptive replanning.
 * `test_agent.py`: End-to-end integration tests verifying complete agent execution runs and report generation.
 
-**All 24 tests pass with zero warnings.**
+**All 36 tests pass with 0 failures.**
 
 ---
 
 ## 12. Output Artifacts
 
-Every completed run produces three synchronized artifacts in `output/`:
+Every completed run produces synchronized artifacts:
 
 1. **[`output/report.md`](output/report.md):** Publication-grade Markdown report including:
    * Executive Summary
    * Research Scope & Methodology
-   * Key Findings with Grounded Confidence Scores
-   * Entity Comparison Table & Detailed Profiles
+   * Key Points & Important Findings with Grounded Confidence Scores
+   * Entity Comparison Table & Profiles
    * Quantitative Metrics & AST Calculations
+   * Actionable Insights
    * Grounded Evidence Register with Direct Source Quotes & URLs
-   * Execution Audit (steps, tool calls, failures, recoveries)
-   * Limitations & Confidence Assessment
+   * Execution Audit (sources considered, deduplicated, relevance-filtered, failures, recoveries)
 
 2. **[`output/report.json`](output/report.json):** Validated machine-readable JSON strictly conforming to the Pydantic `ResearchReport` model.
 
-3. **[`output/sample_run.log`](output/sample_run.log):** Structured JSON lines log tracing every plan step, tool execution, observation, failure, and recovery event with timestamps and redacted credentials.
+3. **[`output/report.pdf`](output/report.pdf):** Multi-page PDF report generated with ReportLab Platypus.
+
+4. **[`data/search_history.json`](data/search_history.json):** Lightweight session memory tracking research objectives, key points, source domains, and execution metrics.
 
 ---
 
-## 13. Design Decisions
+## 13. Deliverables Guide
 
-For an in-depth architectural justification, see [`docs/design_decisions.md`](docs/design_decisions.md).
+All required assessment submission artifacts are available in the repository:
+
+* **[Assessment Checklist & Traceability Matrix](docs/assessment_checklist.md):** Verification of all required and bonus capabilities.
+* **[One-Page Architectural Write-Up](docs/writeup.md):** Engineering summary covering approach, architecture, autonomous behavior, evidence grounding, and design decisions.
+* **[Sample Run Transcripts](docs/sample_runs.md):** Annotated execution traces for 3 distinct research queries:
+  1. *Competitive Intelligence:* AI Agent Frameworks (`output/samples/competitive_frameworks.md`)
+  2. *Technical Comparison:* FastAPI vs Spring Boot (`output/samples/fastapi_vs_springboot.md`)
+  3. *Technology Research:* Agentic AI Developments (`output/samples/agentic_ai_research.md`)
+* **[Architecture Documentation & Diagram](docs/architecture.md):** Detailed technical specifications and Mermaid diagrams (`docs/architecture.mmd`).
+
+---
+
+## 14. Design Decisions
+
+For an in-depth architectural justification, see [`docs/design_decisions.md`](docs/design_decisions.md) and [`docs/writeup.md`](docs/writeup.md).
 
 Key highlights:
 * **Vendor-Neutral Provider Abstraction:** `LLMProvider` and `SearchProvider` interfaces keep the agent core completely decoupled from Groq or Tavily specifics.
-* **In-Memory Query Cache:** Caches search results by normalized query hash to protect developer quotas and eliminate redundant external calls.
+* **Evidence-First Quality Pipeline:** Web content is parsed through `RelevanceFilter` (boilerplate stripping, topic density scoring) and `DeduplicationService` (URL normalization, SHA-256 fingerprinting) before reaching the LLM, preserving token budgets.
+* **Compact Synthesis Budget:** Top-ranked evidence and deduplicated sources are packed into a controlled context window (< 3,000 tokens) to respect free-tier TPM limits while maintaining deep source provenance.
 * **AST Calculator Sandbox:** Evaluates arithmetic strictly via Python's AST parser, completely preventing arbitrary code execution.
 * **Explainable Confidence Model:** Avoids LLM self-scoring guesses by computing:
   $$\text{Confidence} = (\text{Authority} \times 0.40) + (\text{Directness} \times 0.35) + (\text{Corroboration} \times 0.25) - \text{Conflict Penalty}$$
@@ -406,21 +453,11 @@ Key highlights:
 
 ---
 
-## 14. Limitations
+## 15. Limitations & Future Work
 
-1. **JavaScript-Rendered Content:** The built-in fetch tool relies on `HTTPX` + `BeautifulSoup`. Client-side rendered Single-Page Applications (SPAs) requiring JavaScript evaluation require a headless browser (e.g. Playwright).
-2. **Provider Rate Limits:** Under free developer tiers, Groq enforces requests-per-minute (RPM) limits and Tavily limits free usage to 1,000 queries/month.
-3. **Temporal Horizon:** Web research is limited to publicly indexed documentation available at the time of execution.
-
----
-
-## 15. Production Improvements
-
-To scale this agent to an enterprise production environment:
-* **Distributed Workflow Orchestrator:** Migrate the graph state machine to Temporal or Celery for long-running, fault-tolerant execution.
-* **Persistent Vector & Document Graph:** Introduce Milvus or Qdrant for semantic chunk retrieval across multi-page documentation trees.
-* **Continuous Fact Verification:** Integrate automated hallucination benchmarking frameworks (Ragas, TruLens) into CI/CD pipelines.
-* **Human-in-the-Loop Checkpoints:** Add interactive approval gates allowing human analysts to refine search queries or inspect intermediate evidence.
+1. **JavaScript-Rendered Content:** The built-in fetch tool relies on `HTTPX` + `BeautifulSoup`. Client-side rendered Single-Page Applications (SPAs) requiring JavaScript evaluation would benefit from headless browser integration (e.g. Playwright).
+2. **Free-Tier Rate Limits:** Under free developer tiers, Groq enforces tokens-per-minute limits. The agent dynamically compresses evidence contexts to avoid rate limits.
+3. **Persistent Vector Store:** For multi-document corpuses exceeding hundreds of pages, an external vector database (Milvus/Qdrant) can be connected to the provider layer.
 
 ---
 

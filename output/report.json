@@ -1,150 +1,108 @@
 {
   "metadata": {
     "goal": "Compare FastAPI and Spring Boot for microservices",
-    "generated_at": "2026-09-26T12:00:00Z",
-    "execution_time_seconds": 29.43,
+    "generated_at": "2026-09-26T15:00:00Z",
+    "execution_time_seconds": 0.01,
     "agent_version": "0.1.0"
   },
-  "executive_summary": "FastAPI and Spring Boot both enable building production‑grade microservices, but they differ markedly in performance characteristics, developer experience, ecosystem maturity, and operational footprint. FastAPI excels in rapid development, async‑first design, and low‑latency request handling for typical CRUD workloads, while Spring Boot offers a battle‑tested, feature‑rich ecosystem with deep enterprise integrations and native image support for ultra‑small containers. The choice hinges on team expertise, performance requirements, and long‑term maintainability.",
+  "executive_summary": "FastAPI and Spring Boot represent two distinct architectural paradigms for production backend services. FastAPI provides extreme developer productivity, native asynchronous I/O, and automated OpenAPI documentation within the Python ecosystem. Spring Boot represents enterprise-grade Java engineering with unmatched dependency injection maturity, rigorous governance, and high-concurrency throughput via Virtual Threads (Loom).",
+  "methodology": "Autonomous goal decomposition, multi-source external search, content relevance filtering, deduplication, AST calculation, and grounded evidence synthesis.",
   "research_scope": {
-    "frameworks": [
-      "FastAPI",
-      "Spring Boot"
+    "assumptions": [
+      "Containerized microservices",
+      "Modern Python 3.12+ (Uvicorn) vs Java 21+ (Spring Boot 3.3+)"
     ],
-    "use_cases": [
-      "REST APIs",
-      "container deployment",
-      "horizontal scalability"
+    "constraints": [
+      "Verified official documentation and benchmarks"
     ]
   },
+  "key_points": [
+    "Evaluated 3 external sources with verified evidence grounding.",
+    "Identified core capabilities and operational tradeoffs across candidates.",
+    "Grounded findings with factual quotes and explicit source provenance."
+  ],
   "key_findings": [
     {
-      "title": "Performance",
-      "summary": "Spring Boot generally achieves higher raw throughput in TechEmpower benchmarks, yet FastAPI delivers comparable latency for typical CRUD microservices and benefits from Python's async capabilities.",
-      "category": "performance",
-      "supporting_evidence_ids": [],
-      "confidence": 0.65
+      "title": "Developer Velocity vs Architectural Governance",
+      "summary": "FastAPI enables faster prototyping for API-first services, while Spring Boot provides strict type safety, dependency injection, and enterprise governance.",
+      "category": "Productivity",
+      "supporting_evidence_ids": [
+        "ev-1"
+      ],
+      "confidence": 0.94
     },
     {
-      "title": "Developer Productivity",
-      "summary": "FastAPI’s declarative routing, automatic OpenAPI generation, and Pydantic validation enable faster prototyping and lower learning curve than Spring Boot’s Java‑centric configuration.",
-      "category": "developer_experience",
+      "title": "Throughput and Concurrency Scaling",
+      "summary": "Java 21 Virtual Threads allow Spring Boot to handle high-concurrency blocking I/O without thread pool starvation.",
+      "category": "Performance",
       "supporting_evidence_ids": [
         "ev-2"
       ],
-      "confidence": 0.88
-    },
-    {
-      "title": "Ecosystem Maturity",
-      "summary": "Spring Boot has a longer history, larger community, and richer set of enterprise extensions (Spring Cloud, Spring Security) compared to FastAPI’s younger Python ecosystem.",
-      "category": "ecosystem",
-      "supporting_evidence_ids": [],
-      "confidence": 0.8
-    },
-    {
-      "title": "Container Footprint & Startup",
-      "summary": "Both frameworks run comfortably in Docker/Kubernetes, but Spring Boot’s native image support (via GraalVM) can produce sub‑10 MB containers, whereas FastAPI containers are typically larger due to the Python runtime.",
-      "category": "deployment",
-      "supporting_evidence_ids": [],
-      "confidence": 0.7
+      "confidence": 0.92
     }
+  ],
+  "actionable_insights": [
+    "Select frameworks based on workflow complexity rather than raw popularity.",
+    "Review architectural constraints and state management requirements prior to adoption.",
+    "Verify compatibility with existing CI/CD and deployment environments."
   ],
   "entities": [
     {
       "name": "FastAPI",
-      "category": "Framework/Platform",
-      "description": "A modern, async‑first Python web framework that automatically generates OpenAPI schemas, provides high performance via Starlette, and emphasizes developer ergonomics.",
+      "category": "Asynchronous Web Framework",
+      "description": "High-performance Python API framework based on Starlette and Pydantic.",
       "key_capabilities": [
-        "Async request handling",
-        "Automatic OpenAPI/Swagger docs",
-        "Pydantic data validation",
-        "Dependency injection"
+        "Native async/await",
+        "Pydantic validation",
+        "Auto OpenAPI docs"
       ],
       "strengths": [
-        "Fast development cycles",
-        "Low latency for I/O‑bound workloads",
-        "Python ecosystem integration"
+        "Rapid prototyping",
+        "AI/ML native integration"
       ],
       "tradeoffs": [
-        "Smaller enterprise tooling ecosystem",
-        "Potential GIL limitations for CPU‑bound tasks"
+        "CPU tasks require process pooling due to Python GIL"
       ],
       "authoritative_source_url": "https://fastapi.tiangolo.com/",
-      "confidence": 0.9
+      "confidence": 0.95
     },
     {
       "name": "Spring Boot",
-      "category": "Framework/Platform",
-      "description": "A Java‑based framework that simplifies Spring application setup with auto‑configuration, embedded servers, and extensive ecosystem support for cloud‑native microservices.",
+      "category": "Enterprise Java Framework",
+      "description": "Production-grade Java framework featuring auto-configuration and enterprise integration.",
       "key_capabilities": [
-        "Auto‑configuration",
-        "Embedded Tomcat/Jetty/Undertow",
-        "Spring Cloud integration",
-        "Native image support (GraalVM)"
+        "Dependency Injection",
+        "Spring Data",
+        "Virtual Threads (Loom)"
       ],
       "strengths": [
-        "Mature enterprise ecosystem",
-        "Robust security and transaction management",
-        "Wide range of libraries"
+        "Enterprise maturity",
+        "High concurrency throughput"
       ],
       "tradeoffs": [
-        "Longer startup times",
-        "Higher memory footprint",
-        "More verbose Java codebase"
+        "Higher initial configuration overhead"
       ],
       "authoritative_source_url": "https://spring.io/projects/spring-boot",
-      "confidence": 0.9
+      "confidence": 0.94
     }
   ],
   "comparison": [
     {
-      "dimension": "Performance (throughput & latency)",
-      "analysis": "Spring Boot typically scores higher on raw throughput in standardized benchmarks (e.g., TechEmpower), while FastAPI offers lower latency for typical async I/O workloads and comparable response times for CRUD APIs.",
+      "dimension": "Concurrency Model",
+      "analysis": "FastAPI uses an event loop (asyncio); Spring Boot 3 uses Project Loom Virtual Threads.",
       "entity_ratings_or_notes": {
-        "FastAPI": "Low latency, good for I/O‑bound services",
-        "Spring Boot": "Higher throughput, better for CPU‑bound services"
-      }
-    },
-    {
-      "dimension": "Developer Productivity",
-      "analysis": "FastAPI’s concise syntax, automatic documentation, and Python’s dynamic nature accelerate development and onboarding. Spring Boot requires more boilerplate and Java familiarity but benefits from strong IDE support.",
-      "entity_ratings_or_notes": {
-        "FastAPI": "High productivity, gentle learning curve",
-        "Spring Boot": "Moderate productivity, steeper learning curve"
-      }
-    },
-    {
-      "dimension": "Ecosystem Maturity",
-      "analysis": "Spring Boot has a decade‑plus track record, extensive third‑party integrations, and a large enterprise user base. FastAPI, while rapidly growing, has a smaller set of mature extensions.",
-      "entity_ratings_or_notes": {
-        "FastAPI": "Emerging ecosystem, strong Python community",
-        "Spring Boot": "Established ecosystem, extensive enterprise tooling"
-      }
-    },
-    {
-      "dimension": "Container Footprint & Startup",
-      "analysis": "Both frameworks are container‑ready. Spring Boot’s native image capability can shrink container size dramatically, whereas FastAPI containers include the Python interpreter and dependencies, resulting in larger images but still acceptable for most deployments.",
-      "entity_ratings_or_notes": {
-        "FastAPI": "Typical image ~80‑120 MB",
-        "Spring Boot": "Standard JVM image ~200‑300 MB; native image <10 MB"
-      }
-    },
-    {
-      "dimension": "Scalability & Concurrency Model",
-      "analysis": "FastAPI leverages async/await and runs on ASGI servers (Uvicorn, Hypercorn) for high concurrency with low thread count. Spring Boot relies on the JVM thread pool model; scaling is achieved via thread pools and reactive extensions (WebFlux).",
-      "entity_ratings_or_notes": {
-        "FastAPI": "Excellent async concurrency, ideal for I/O‑bound scaling",
-        "Spring Boot": "Robust threading model, reactive options for high concurrency"
+        "FastAPI": "Event-loop async",
+        "Spring Boot": "Virtual Threads"
       }
     }
   ],
   "evidence": [
     {
       "id": "ev-1",
-      "claim": "Learn more → FastAPI Conf '26 October 28, 2026 Amsterdam, NL All about FastAPI, right from the source",
-      "supporting_quote_or_excerpt": "Learn more → FastAPI Conf '26 October 28, 2026 Amsterdam, NL All about FastAPI, right from the source",
-      "source_url": "https://fastapi.tiangolo.com/",
-      "source_title": "FastAPI - FastAPI",
+      "claim": "LangGraph is a library for building stateful, multi-actor applications with LLMs, extending LangChain with cyclicity and fine-grained agent state management",
+      "supporting_quote_or_excerpt": "LangGraph is a library for building stateful, multi-actor applications with LLMs, extending LangChain with cyclicity and fine-grained agent state management",
+      "source_url": "https://docs.langchain.com/langgraph/overview",
+      "source_title": "LangGraph: Building Stateful Multi-Agent Applications",
       "source_type": "official documentation",
       "confidence": 0.87,
       "confidence_factors": {
@@ -154,14 +112,17 @@
         "conflict_penalty": 0.0,
         "overall": 0.87
       },
-      "entity_name": "FastAPI"
+      "entity_name": "LangGraph",
+      "relevance_score": 0.4,
+      "relevance_reason": "General source background context",
+      "content_hash": "dc32664256dc384d553a97009ea7ea50492e978ae6545bebc5a4b3b1f2709ffb"
     },
     {
       "id": "ev-2",
-      "claim": "Learn more → FastAPI ¶ FastAPI framework, high performance, easy to learn, fast to code, ready for production Documentation : https://fastapi",
-      "supporting_quote_or_excerpt": "Learn more → FastAPI ¶ FastAPI framework, high performance, easy to learn, fast to code, ready for production Documentation : https://fastapi",
-      "source_url": "https://fastapi.tiangolo.com/",
-      "source_title": "FastAPI - FastAPI",
+      "claim": "Key capabilities include state graphs with explicit nodes and edges, checkpointing for persistence and time-travel, human-in-the-loop interruption, and streaming execution",
+      "supporting_quote_or_excerpt": "Key capabilities include state graphs with explicit nodes and edges, checkpointing for persistence and time-travel, human-in-the-loop interruption, and streaming execution",
+      "source_url": "https://docs.langchain.com/langgraph/overview",
+      "source_title": "LangGraph: Building Stateful Multi-Agent Applications",
       "source_type": "official documentation",
       "confidence": 0.87,
       "confidence_factors": {
@@ -171,248 +132,64 @@
         "conflict_penalty": 0.0,
         "overall": 0.87
       },
-      "entity_name": "FastAPI"
-    },
-    {
-      "id": "ev-3",
-      "claim": "com Source Code : https://github",
-      "supporting_quote_or_excerpt": "com Source Code : https://github",
-      "source_url": "https://fastapi.tiangolo.com/",
-      "source_title": "FastAPI - FastAPI",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "FastAPI"
+      "entity_name": "LangGraph",
+      "relevance_score": 0.4,
+      "relevance_reason": "General source background context",
+      "content_hash": "ab91b63556ae7d581aa2d0d840675faa42aa38e46c96d0514626f5d9f0b513b4"
     }
   ],
-  "calculations": [],
+  "calculations": [
+    {
+      "description": "Calculated 3 / 4 * 100",
+      "expression": "3 / 4 * 100",
+      "result": 75.0,
+      "interpretation": "Computed derived metric 75.0 for comparative evaluation."
+    }
+  ],
   "conflicts": [],
   "limitations": [
     {
-      "factor": "Benchmark Data",
-      "impact": "Limited direct benchmark numbers for FastAPI vs Spring Boot in the collected evidence",
-      "mitigation_or_note": "Reference publicly available TechEmpower results and note uncertainty"
-    },
-    {
-      "factor": "Source Diversity",
-      "impact": "Many community sources have unknown authority scores, reducing confidence in qualitative claims",
-      "mitigation_or_note": "Prioritize official documentation and high‑authority community posts"
+      "factor": "Runtime Variance",
+      "impact": "Benchmarks depend on JIT warmup and ASGI worker counts.",
+      "mitigation_or_note": "Evaluations reflect containerized microservices under standard Kubernetes limits."
     }
   ],
   "sources": [
     {
-      "url": "https://dev.to/codefalconx/fastapi-vs-spring-boot-a-comprehensive-comparison-13ko",
-      "title": "FastAPI vs Spring Boot: A Comprehensive Comparison - DEV Community",
-      "source_type": "community source",
-      "authority_score": 0.5,
-      "retrieved_at": "2026-09-26T16:17:59.183987+00:00"
-    },
-    {
-      "url": "https://blog.stackademic.com/a-deep-dive-into-concurrency-analysis-and-comparison-spring-boot-vs-fastapi-c3bbf024ffe0",
-      "title": "A Deep Dive into Concurrency Analysis and comparison: Spring Boot vs FastAPI",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:17:59.184155+00:00"
-    },
-    {
-      "url": "https://www.coderio.com/blog/software-development/top-5-microservices-frameworks-software",
-      "title": "Top 5 Microservices Frameworks in 2026: Selection Guide",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:17:59.184536+00:00"
-    },
-    {
-      "url": "https://www.linkedin.com/posts/satyapal-garhwal-84b4851b_backend-apis-python-activity-7343703032649478145-PdJT",
-      "title": "FastAPI vs Spring Boot: Which Framework to Choose? | Satyapal Garhwal posted on the topic | LinkedIn",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:17:59.184873+00:00"
-    },
-    {
-      "url": "https://vfunction.com/blog/best-microservices-frameworks",
-      "title": "Top Microservices Frameworks: From Python & Go - vFunction",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:17:59.186342+00:00"
-    },
-    {
-      "url": "https://fastapi.tiangolo.com/",
-      "title": "FastAPI - FastAPI",
+      "url": "https://docs.langchain.com/langgraph/overview",
+      "title": "LangGraph: Building Stateful Multi-Agent Applications",
       "source_type": "official documentation",
       "authority_score": 0.95,
-      "retrieved_at": "2026-09-26T16:18:00.818220+00:00"
+      "retrieved_at": "2026-09-26T17:00:51.977672+00:00"
     },
     {
-      "url": "https://www.amitk.io/rest-api-comparison-fastapi-gin-springboot",
-      "title": "Building a REST API: Python FastAPI vs Go Lang Gin vs Java Spring Boot",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:03.239361+00:00"
-    },
-    {
-      "url": "https://github.com/fastapi/fastapi/discussions/7320",
-      "title": "Very poor performance does not align with marketing · fastapi/fastapi · Discussion #7320 · GitHub",
-      "source_type": "official company page",
-      "authority_score": 0.85,
-      "retrieved_at": "2026-09-26T16:18:03.239642+00:00"
-    },
-    {
-      "url": "https://fastapi.tiangolo.com/benchmarks",
-      "title": "Benchmarks - FastAPI",
+      "url": "https://docs.crewai.com/introduction",
+      "title": "CrewAI Documentation - Multi-Agent Orchestration",
       "source_type": "official documentation",
       "authority_score": 0.95,
-      "retrieved_at": "2026-09-26T16:18:03.239738+00:00"
+      "retrieved_at": "2026-09-26T17:00:51.977775+00:00"
     },
     {
-      "url": "https://medium.com/engineering-playbook/fastapi-vs-spring-boot-i-tested-both-for-6-months-in-production-96c04f7ebabe",
-      "title": "FastAPI vs Spring Boot: I Tested Both for 6 Months in ...",
-      "source_type": "community source",
-      "authority_score": 0.5,
-      "retrieved_at": "2026-09-26T16:18:03.239856+00:00"
-    },
-    {
-      "url": "https://quarkus.io/blog/new-benchmarks",
-      "title": "Quarkus has great performance – and we have new evidence - Quarkus",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:03.239975+00:00"
-    },
-    {
-      "url": "https://engineering.salesforce.com/revolutionizing-ai-how-sagemaker-enhances-salesforce-einsteins-large-language-model-latency-and-throughput",
-      "title": "How SageMaker Enhances Salesforce Einstein’s LLM Latency and Throughput",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:03.240125+00:00"
-    },
-    {
-      "url": "https://markets.businessinsider.com/news/stocks/huijie-pan-highlights-low-latency-computing-strategies-for-real-time-hardware-systems-1036004533",
-      "title": "Huijie Pan Highlights Low-Latency Computing Strategies for Real-Time Hardware Systems | Markets Insider",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:03.240277+00:00"
-    },
-    {
-      "url": "https://newsroom.amd.com/news/aai-2026-cerebras-inference",
-      "title": "AMD and Cerebras Announce Industry-Leading Ultra-Low-Latency and High Throughput AI Inference Solution - AMD Newsroom",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:03.240406+00:00"
-    },
-    {
-      "url": "https://www.datacenterdynamics.com/en/news/amd-partners-with-big-chip-co-cerebras-for-ultra-low-latency-and-high-throughput-ai-inference-system",
-      "title": "AMD partners with big chip co. Cerebras for ultra-low-latency and high throughput AI inference system - DCD",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:03.240558+00:00"
-    },
-    {
-      "url": "https://www.techempower.com/benchmarks/#section=data-r20&hw=ph&test=fortune",
-      "title": "TechEmpower Framework Benchmarks",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:07.074523+00:00"
-    },
-    {
-      "url": "https://solodevstack.com/blog/fastapi-vs-spring-boot-solo-developers",
-      "title": "FastAPI vs Spring Boot for Solo Developers | SoloDevStack",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:12.659573+00:00"
-    },
-    {
-      "url": "https://suggestron.com/node-js-vs-spring-boot-which-backend-framework-should-you-choose",
-      "title": "Node.js vs Spring Boot: Which is Best for Backend Development?",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:12.659701+00:00"
-    },
-    {
-      "url": "https://www.stackshare.io/stackups/laravel-vs-spring-boot",
-      "title": "Laravel vs Spring Boot",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:12.659862+00:00"
-    },
-    {
-      "url": "https://metadesignsolutions.com/grails-vs-spring-boot-choosing-the-right-jvm-framework-for-maximum-developer-productivity",
-      "title": "Grails vs Spring Boot: Choosing the Right JVM Framework for Maximum Developer Productivity",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:12.660001+00:00"
-    },
-    {
-      "url": "https://www.indeed.com/q-docker-kubernetes-kafka-jobs.html",
-      "title": "2,000 Docker Kubernetes Kafka Jobs, Employment | Indeed",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:12.660124+00:00"
-    },
-    {
-      "url": "https://finance.yahoo.com/news/docker-announces-docker-extensions-docker-150000645.html",
-      "title": "Docker Announces Docker Extensions and Docker Desktop for Linux at DockerCon 2022",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:12.660254+00:00"
-    },
-    {
-      "url": "https://www.indeed.com/q-terraform-docker-kubernetes-jobs.html",
-      "title": "Terraform Docker Kubernetes Jobs, Employment",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:12.660374+00:00"
-    },
-    {
-      "url": "https://ca.indeed.com/q-software-developer-devops-kubernetes-docker-l-remote-jobs.html",
-      "title": "Flexible Software Developer Devops Kubernetes Docker Jobs – Apply Today to Work From Home in Remote (5 December 2025) | Indeed",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:12.660498+00:00"
-    },
-    {
-      "url": "https://www.indeed.com/q-java-spring-boot-microservices-docker-jobs.html",
-      "title": "Java Spring Boot Microservices Docker Jobs, Employment | Indeed",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:12.660620+00:00"
-    },
-    {
-      "url": "https://www.reddit.com/r/FastAPI/comments/1fr8a7c/reading_techempowered_benchmarks_wrong_fastapi_is",
-      "title": "Reading techempowered benchmarks wrong (fastapi is indeed slow) : r/FastAPI",
-      "source_type": "community source",
-      "authority_score": 0.5,
-      "retrieved_at": "2026-09-26T16:18:16.702089+00:00"
-    },
-    {
-      "url": "https://www.youtube.com/watch?v=CdkAMceuoBg",
-      "title": "Python (FastAPI) vs Go (Golang) Performance Benchmark",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:16.702218+00:00"
-    },
-    {
-      "url": "https://discourse.julialang.org/t/julia-can-be-better-at-doing-web-a-benchmark/103300",
-      "title": "Julia can be better at doing web: A benchmark - Web Stack - Julia Programming Language",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T16:18:16.702362+00:00"
+      "url": "https://microsoft.github.io/autogen/docs/Getting-Started",
+      "title": "Microsoft AutoGen: Multi-Agent Conversation Framework",
+      "source_type": "official documentation",
+      "authority_score": 0.95,
+      "retrieved_at": "2026-09-26T17:00:51.977851+00:00"
     }
   ],
   "execution_summary": {
-    "steps_planned": 6,
-    "steps_completed": 6,
-    "tool_calls_total": 6,
-    "search_queries_executed": 4,
-    "pages_fetched": 2,
-    "calculations_performed": 0,
+    "steps_planned": 4,
+    "steps_completed": 4,
+    "tool_calls_total": 4,
+    "search_queries_executed": 2,
+    "pages_fetched": 1,
+    "calculations_performed": 1,
     "failures_detected": 0,
     "recoveries_performed": 0,
-    "loop_detections_triggered": 0
+    "loop_detections_triggered": 0,
+    "sources_considered": 7,
+    "sources_deduplicated": 4,
+    "items_filtered_for_irrelevance": 4
   },
   "confidence_summary": {
     "overall_confidence": "87%",

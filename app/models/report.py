@@ -60,13 +60,22 @@ class ExecutionSummary(BaseModel):
     failures_detected: int = 0
     recoveries_performed: int = 0
     loop_detections_triggered: int = 0
+    sources_considered: int = 0
+    sources_deduplicated: int = 0
+    items_filtered_for_irrelevance: int = 0
 
 
 class ResearchReport(BaseModel):
     metadata: ReportMetadata
     executive_summary: str
+    methodology: str = Field(
+        default="Autonomous goal decomposition, multi-source external search, content relevance filtering, deduplication, AST calculation, and grounded evidence synthesis.",
+        description="High-level research methodology summary"
+    )
     research_scope: Dict[str, Any] = Field(default_factory=dict)
-    key_findings: List[KeyFinding] = Field(default_factory=list)
+    key_points: List[str] = Field(default_factory=list, description="Concise, high-level core takeaways")
+    key_findings: List[KeyFinding] = Field(default_factory=list, description="Detailed evidence-backed findings")
+    actionable_insights: List[str] = Field(default_factory=list, description="Actionable recommendations and strategic guidance")
     entities: List[EntityAnalysis] = Field(default_factory=list)
     comparison: List[ComparisonDimension] = Field(default_factory=list)
     evidence: List[Evidence] = Field(default_factory=list)

@@ -1,65 +1,67 @@
 flowchart TD
-    %% Autonomous Research Agent Architecture (Free-First Developer Stack)
-    subgraph Input_Layer ["Input & Goal Deconstruction"]
-        UG["User Research Goal\n(Natural Language)"] --> GV["Input Validator &\nStartup Config Check"]
-        GV --> AP["Autonomous Planner\n(Decomposition into ResearchPlan)"]
-        AP -->|Structured Plan| AG["Agent Controller\n(ResearchAgentGraph)"]
+    %% Autonomous Research Agent Architecture - Assessment Option 1 Pipeline
+    subgraph Input_Layer ["Input & Memory Layer"]
+        UG["User Research Goal\n(Natural Language)"] --> GV["Input Validator &\nConfig Check"]
+        SM[("Search Memory Store\ndata/search_history.json")] <-->|History Check / Store| GV
+        GV --> AP["Autonomous Planner\n(Source Selection & Strategy)"]
+        AP -->|Structured ResearchPlan| AG["Agent Controller\n(ResearchAgentGraph)"]
     end
 
-    subgraph Orchestration_Layer ["Autonomous Execution Loop"]
-        AG --> SA["Select Next Action\n(Context & State Aware)"]
-        SA --> LD{"Loop Detected\nor Budget Exceeded?"}
-        LD -->|Yes| PI["Pivot Strategy /\nRefine Query"]
-        PI --> SA
-        LD -->|No| TC["Tool Controller\n& Schema Validation"]
-    end
-
-    subgraph Tool_Ecosystem ["Pluggable Tool Suite"]
-        TC -->|Query| ST["search_web\n(Tavily Default / DuckDuckGo / In-Memory Cache)"]
-        TC -->|URL| FT["fetch_url\n(HTTPX / BeautifulSoup / Smart Truncate)"]
+    subgraph Tool_Ecosystem ["Pluggable Tool & Gathering Layer"]
+        AG -->|Tool Action / Dispatch| TC["Tool Controller\n(Validated Pydantic Schemas)"]
+        TC -->|Search Queries| ST["search_web\n(Tavily / DuckDuckGo / Cache)"]
+        TC -->|Parallel URLs| PF["parallel_fetch_urls\n(Bounded Async Semaphore)"]
+        TC -->|Single URL| FT["fetch_url\n(HTTPX / HTML Cleaning)"]
         TC -->|Arithmetic| CT["calculator\n(Safe AST Math Evaluator)"]
     end
 
     subgraph LLM_Layer ["LLM Provider Abstraction"]
-        AP -.-> LLM["LLM Provider\n(Groq Llama-3.3-70b Default / Mock)"]
-        SA -.-> LLM
+        AP -.-> LLM["LLM Provider\n(Groq gpt-oss-120b / Mock)"]
+        AG -.-> LLM
     end
 
-    subgraph Observation_Layer ["Observation & Anomaly Handling"]
-        ST --> OBS["Observation Collector"]
+    subgraph Evidence_Pipeline ["Evidence & Quality Pipeline"]
+        ST --> OBS["Raw Observations"]
+        PF --> OBS
         FT --> OBS
         CT --> OBS
-        OBS --> SC["Source Classifier &\nAuthority Scorer"]
-        OBS --> EE["Evidence Extractor &\nQuote Verifier"]
+        
+        OBS --> RF["Relevance Filter\n(Boilerplate Removal & Goal Scoring)"]
+        RF --> DEDUP["Deduplication Engine\n(URL Normalization & Content Hashing)"]
+        DEDUP --> EV_STORE[("Compact Evidence Store\nRanked & Budget-Controlled")]
+        
         OBS --> FD{"Tool Failure\nor Timeout?"}
     end
 
     subgraph Recovery_Layer ["Failure Recovery & Adaptive Replanning"]
-        FD -->|Failure| RC{"Retry Count < Max?"}
+        FD -->|Retryable Failure| RC{"Retry Count < Max?"}
         RC -->|Yes| RT["Exponential Backoff\n& Retry Tool"]
         RT --> TC
-        RC -->|No (Exceeded)| RP["Autonomous Replanner\n(Alternative Source / Replan)"]
+        RC -->|No (Exceeded)| RP["Autonomous Replanner\n(Alternative Source / Pivot)"]
         RP -->|Updated Steps| AG
     end
 
-    subgraph Synthesis_Layer ["Evidence Grounding & Structured Reporting"]
+    subgraph Synthesis_Layer ["Evidence Grounding & Multi-Format Reporting"]
         FD -->|Success| CHK{"Remaining Steps\nor Budget Left?"}
         CHK -->|Yes| AG
-        CHK -->|No| EV["Evidence Coverage\n& Discrepancy Validator"]
-        EV --> CS["Explainable Confidence\nScoring Engine"]
-        CS --> AS["Autonomous Synthesizer\n(Grounded Report Generation)"]
+        CHK -->|No| EG["Grounding & Provenance\nCross-Validation Engine"]
+        EV_STORE --> EG
+        EG --> AS["Autonomous Synthesizer\n(Structured Report Generator)"]
         AS --> SR["Structured ResearchReport\n(Pydantic Model)"]
         SR --> MD["output/report.md\n(Publication Markdown)"]
-        SR --> JS["output/report.json\n(Validated JSON Artifact)"]
-        SR --> LG["output/sample_run.log\n(Structured Trace Log)"]
+        SR --> JS["output/report.json\n(Validated JSON Schema)"]
+        SR --> PDF["output/report.pdf\n(Publication PDF Report)"]
+        SR --> SM
     end
 
     classDef primary fill:#2563eb,stroke:#1d4ed8,stroke-width:2px,color:#fff;
     classDef tool fill:#059669,stroke:#047857,stroke-width:2px,color:#fff;
+    classDef quality fill:#d97706,stroke:#b45309,stroke-width:2px,color:#fff;
     classDef recovery fill:#dc2626,stroke:#b91c1c,stroke-width:2px,color:#fff;
     classDef output fill:#7c3aed,stroke:#6d28d9,stroke-width:2px,color:#fff;
 
     class UG,AP,AG primary;
-    class ST,FT,CT tool;
+    class ST,PF,FT,CT tool;
+    class RF,DEDUP,EV_STORE,EG quality;
     class FD,RC,RT,RP recovery;
-    class SR,MD,JS,LG output;
+    class SR,MD,JS,PDF output;

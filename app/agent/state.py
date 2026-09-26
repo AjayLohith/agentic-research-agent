@@ -37,6 +37,11 @@ class AgentState(BaseModel):
     start_time: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     execution_time_seconds: float = 0.0
 
+    # Filtering & Deduplication Metrics
+    sources_considered: int = 0
+    sources_deduplicated: int = 0
+    items_filtered_for_irrelevance: int = 0
+
     def record_observation(self, tool_name: str, input_params: Any, result_summary: str):
         self.observations.append({
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -63,18 +68,21 @@ class AgentState(BaseModel):
         return self.retries.get(key, 0)
 
     def add_source(self, source: Source):
-        def _norm(u: str) -> str:
-            u = u.strip().lower().rstrip("/")
-            if "?" in u:
-                base, query = u.split("?", 1)
-                # Filter out analytics tracking params
-                clean_params = [p for p in query.split("&") if not p.startswith(("utm_", "ref=", "source="))]
-                u = f"{base}?{'&'.join(clean_params)}" if clean_params else base
-            return u
+        from app.services.deduplication import DeduplicationService
+        self.sources_considered += 1
+        norm_url = DeduplicationService.normalize_url(source.url)
+        source.url = norm_url
 
-        target_norm = _norm(source.url)
-        existing_norms = {_norm(s.url) for s in self.sources}
-        if target_norm not in existing_norms:
+        existing_urls = {DeduplicationService.normalize_url(s.url) for s in self.sources}
+        if norm_url in existing_urls:
+            self.sources_deduplicated += 1
+            # If new source has higher authority, replace
+            for idx, existing in enumerate(self.sources):
+                if DeduplicationService.normalize_url(existing.url) == norm_url:
+                    if source.authority_score > existing.authority_score:
+                        self.sources[idx] = source
+                    break
+        else:
             self.sources.append(source)
 
     def add_evidence(self, ev: Evidence):

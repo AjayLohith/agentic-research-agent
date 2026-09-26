@@ -178,14 +178,29 @@ async def run_research_pipeline(
         table.add_row("Sources Gathered", str(len(state.sources)))
         table.add_row("Evidence Items Extracted", str(len(state.evidence)))
         table.add_row("Calculations Performed", str(es.calculations_performed))
+        table.add_row("Sources Evaluated / Deduped", f"{es.sources_considered} / {es.sources_deduplicated}")
+        table.add_row("Irrelevant Items Filtered", str(es.items_filtered_for_irrelevance))
         table.add_row("Failures Detected", str(es.failures_detected))
         table.add_row("Recoveries Performed", str(es.recoveries_performed))
         table.add_row("Total Execution Time", f"{state.execution_time_seconds:.2f}s")
         console.print(table)
 
+        # Record run to local search memory
+        from app.services.search_memory import SearchMemoryStore
+        memory = SearchMemoryStore()
+        memory.save_session(
+            goal=state.goal,
+            summary=state.final_report.executive_summary,
+            key_points=state.final_report.key_points,
+            sources=[{"url": s.url, "title": s.title} for s in state.sources],
+            execution_time_seconds=state.execution_time_seconds
+        )
+
         console.print(f"\n[bold green]Report Artifacts Written:[/bold green]")
         console.print(f"  Markdown: [bold underline]{paths['markdown']}[/bold underline]")
         console.print(f"  JSON:     [bold underline]{paths['json']}[/bold underline]")
+        if "pdf" in paths:
+            console.print(f"  PDF:      [bold underline]{paths['pdf']}[/bold underline]")
         console.print(f"  Log:      [bold underline]{log_file}[/bold underline]\n")
 
 

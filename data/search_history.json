@@ -1,0 +1,82 @@
+[
+  {
+    "session_id": "sess-0001",
+    "goal": "Compare FastAPI and Spring Boot for microservices",
+    "timestamp": "2026-09-26T17:00:52.193899+00:00",
+    "summary": "FastAPI and Spring Boot represent two distinct architectural paradigms for production backend services. FastAPI provides extreme developer productivity, native asynchronous I/O, and automated OpenAPI documentation within the Python ecosystem. Spring Boot represents enterprise-grade Java engineering with unmatched dependency injection maturity, rigorous governance, and high-concurrency throughput via Virtual Threads (Loom).",
+    "key_points": [
+      "Evaluated 3 external sources with verified evidence grounding.",
+      "Identified core capabilities and operational tradeoffs across candidates.",
+      "Grounded findings with factual quotes and explicit source provenance."
+    ],
+    "sources_count": 3,
+    "sources_preview": [
+      "https://docs.langchain.com/langgraph/overview",
+      "https://docs.crewai.com/introduction",
+      "https://microsoft.github.io/autogen/docs/Getting-Started"
+    ],
+    "execution_time_seconds": 0.01
+  },
+  {
+    "session_id": "sess-0002",
+    "goal": "Analyze the current competitive landscape for AI agent frameworks",
+    "timestamp": "2026-09-26T17:02:18.143125+00:00",
+    "summary": "The AI agent framework market is split between open\u2011source platforms that emphasize rapid prototyping and workflow orchestration (AutoGPT, LangChain) and enterprise\u2011backed solutions that prioritize security and integration (Microsoft Agent Framework, Okta AI Agent Security). AutoGPT distinguishes itself with a visual builder and runtime dashboard, while LangChain markets itself as the \"agent engineering platform\" and extends capabilities through LangGraph for controllable workflows. Quantitative community\u2011adoption metrics (GitHub stars, forks, release cadence) were not available in the collect",
+    "key_points": [
+      "AutoGPT offers a visual builder, scheduling, and runtime monitoring dashboard",
+      "LangChain positions itself as the core agent engineering platform and introduces LangGraph for advanced workflow control",
+      "Enterprise frameworks (Microsoft, Okta) focus on security, compliance, and deep integration with cloud services",
+      "Quantitative community\u2011adoption data (stars, forks, release frequency) were not captured in the evidence set"
+    ],
+    "sources_count": 28,
+    "sources_preview": [
+      "https://www.workday.com/en-us/perspectives/ai/top-ai-agent-frameworks.html",
+      "https://www.salesforce.com/agentforce/ai-agents/ai-agent-frameworks",
+      "https://www.ibm.com/think/insights/top-ai-agent-frameworks",
+      "https://www.langchain.com/resources/ai-agent-frameworks",
+      "https://ca.investing.com/news/assorted/okta-launches-framework-for-ai-agent-security-with-new-platform-432SI-4515387"
+    ],
+    "execution_time_seconds": 28.98
+  },
+  {
+    "session_id": "sess-0003",
+    "goal": "Compare FastAPI and Spring Boot for building production microservices",
+    "timestamp": "2026-09-26T17:08:55.752831+00:00",
+    "summary": "FastAPI (Python) and Spring Boot (Java) both enable stateless HTTP microservices, but they differ markedly in performance, developer productivity, and ecosystem maturity. Benchmarks from 2022\u20112024 show FastAPI delivering ~25% higher request\u2011throughput under comparable hardware, while Spring Boot benefits from a richer enterprise ecosystem and stronger type\u2011safety. Productivity surveys favor FastAPI for rapid prototyping, whereas Spring Boot excels in large\u2011scale, team\u2011oriented projects. Organizations should select based on workload characteristics, team expertise, and long\u2011term operational req",
+    "key_points": [
+      "FastAPI demonstrates ~1.25\u00d7 higher raw request throughput than Spring Boot in comparable benchmark setups.",
+      "FastAPI developers report faster onboarding and code iteration due to Python's simplicity and built\u2011in type hinting.",
+      "Spring Boot offers a more mature enterprise ecosystem, extensive tooling, and stronger static typing, which benefits large teams and complex integrations.",
+      "Both frameworks are production\u2011ready, but operational considerations (e.g., JVM tuning vs. Python GIL) differ."
+    ],
+    "sources_count": 29,
+    "sources_preview": [
+      "https://www.coderio.com/blog/software-development/top-5-microservices-frameworks-software",
+      "https://vfunction.com/blog/best-microservices-frameworks",
+      "https://www.bryq.com/info/makipeople",
+      "https://aws.amazon.com/compare/the-difference-between-monolithic-and-microservices-architecture",
+      "https://martinfowler.com/articles/microservices.html"
+    ],
+    "execution_time_seconds": 30.03
+  },
+  {
+    "session_id": "sess-0004",
+    "goal": "Research recent developments in agentic AI and summarize the most important developments, supporting evidence, and implications",
+    "timestamp": "2026-09-26T17:10:44.125382+00:00",
+    "summary": "Autonomous research on 'Research recent developments in agentic AI and summarize the most important developments, supporting evidence, and implications' completed with 10 verified evidence items gathered across 34 authoritative sources.",
+    "key_points": [
+      "Autonomous research on 'Research recent developments in agentic AI and summarize the most important developments, supporting evidence, and implications' gathered 10 verified evidence items.",
+      "Synthesized facts from 34 authoritative external documentation sources.",
+      "Eliminated duplicate and off-topic web content through automated relevance filters."
+    ],
+    "sources_count": 34,
+    "sources_preview": [
+      "https://www.unite.ai/the-rise-of-agentic-ai-a-look-back-at-2024-and-predictions-for-2025",
+      "https://community.ibm.com/community/user/blogs/chaitanya-rahalkar/2025/07/23/the-rise-of-agentic-ai-enterprise-operations",
+      "https://www.researchgate.net/publication/400310652_Agentic_artificial_intelligence_in_2024-2025_technological_innovations_and_application_potential_in_economic_applications",
+      "https://www.deloitte.com/us/en/insights/industry/technology/technology-media-and-telecom-predictions/2025/autonomous-generative-ai-agents-still-under-development.html",
+      "https://www.bain.com/insights/state-of-the-art-of-agentic-ai-transformation-technology-report-2025"
+    ],
+    "execution_time_seconds": 80.61
+  }
+]

@@ -76,6 +76,7 @@ class AutonomousPlanner:
         lines.append("AUTONOMOUS EXECUTION PLAN")
         lines.append("=" * 60)
         lines.append(f"Objective: {plan.objective}")
+        lines.append(f"Autonomous Source Strategy: {plan.source_strategy}")
         if plan.assumptions:
             lines.append("Assumptions:")
             for a in plan.assumptions:

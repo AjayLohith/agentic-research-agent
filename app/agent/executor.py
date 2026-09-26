@@ -1,6 +1,7 @@
+import asyncio
 import logging
 import re
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 from app.models.tool import ToolCall, ToolExecutionResult
 from app.models.plan import PlanStep
 from app.models.report import CalculationRecord
@@ -18,6 +19,8 @@ from app.agent.prompts import (
 from app.agent.state import AgentState
 from app.services.source_service import SourceClassificationService
 from app.services.evidence_service import EvidenceService
+from app.services.relevance import RelevanceFilter
+from app.services.deduplication import DeduplicationService
 
 logger = logging.getLogger("agentic_research.executor")
 
@@ -25,8 +28,8 @@ logger = logging.getLogger("agentic_research.executor")
 class AutonomousExecutor:
     """
     Decides and executes individual tool actions dynamically.
-    Performs loop detection, safety budget enforcement, observation recording,
-    and automatic evidence extraction from web content.
+    Performs loop detection, safety budget enforcement, parallel information gathering,
+    content relevance filtering, and duplicate removal.
     """
 
     def __init__(
@@ -38,6 +41,7 @@ class AutonomousExecutor:
         self.llm = llm_provider
         self.tools = tools
         self.max_tool_calls = max_tool_calls
+        self.relevance_filter = RelevanceFilter(min_relevance_score=0.30)
 
     async def select_action(self, state: AgentState, step: PlanStep) -> ToolCall:
         """
@@ -166,6 +170,44 @@ class AutonomousExecutor:
             state.calculations.append(calc_record)
             state.record_observation(tool_name, expr, f"Computed result: {val}")
 
+    async def parallel_fetch_urls(
+        self,
+        urls: List[str],
+        state: AgentState,
+        max_concurrency: int = 3
+    ) -> List[ToolExecutionResult]:
+        """
+        Gathers content concurrently from multiple URLs using an asyncio Semaphore.
+        Implements parallel information gathering for high-efficiency external research.
+        """
+        fetch_tool = self.tools.get("fetch_url")
+        if not fetch_tool:
+            return []
+
+        # Normalize and filter URLs
+        clean_urls = []
+        seen = set()
+        for u in urls:
+            norm = DeduplicationService.normalize_url(u)
+            if norm and norm not in seen:
+                seen.add(norm)
+                clean_urls.append(norm)
+
+        sem = asyncio.Semaphore(max_concurrency)
+
+        async def _fetch_single(target_url: str):
+            async with sem:
+                tool_call = ToolCall(
+                    tool_name="fetch_url",
+                    arguments={"url": target_url},
+                    rationale="Parallel information gathering across candidate sources."
+                )
+                return await self.execute_tool(tool_call, state)
+
+        tasks = [_fetch_single(u) for u in clean_urls[:max_concurrency]]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        return [r for r in results if isinstance(r, ToolExecutionResult)]
+
     async def _extract_evidence_from_content(
         self,
         url: str,
@@ -173,17 +215,47 @@ class AutonomousExecutor:
         content: str,
         state: AgentState
     ):
-        """Extracts factual claims and verbatim quotes from retrieved web text."""
+        """
+        Extracts factual claims and verbatim quotes from retrieved web text.
+        Applies relevance filtering to drop boilerplate and off-topic snippets,
+        and content-level deduplication to eliminate redundancy.
+        """
         if not content or len(content.strip()) < 50:
             return
 
-        # Heuristic extraction for robust offline / mock resilience
-        # Take key sentences as candidate factual claims
-        sentences = [s.strip() for s in content.split(".") if len(s.strip()) > 30 and len(s.strip()) < 250]
-        for s in sentences[:3]:
+        raw_sentences = [s.strip() for s in content.split(".") if len(s.strip()) > 30 and len(s.strip()) < 300]
+
+        # 1. Relevance filtering
+        relevant_candidates = []
+        for s in raw_sentences:
+            is_rel, score, reason = self.relevance_filter.evaluate_relevance(s, state.goal)
+            if is_rel:
+                relevant_candidates.append((s, score, reason))
+            else:
+                state.items_filtered_for_irrelevance += 1
+
+        # Fallback if strict filter caught all sentences on valid technical documentation
+        if not relevant_candidates and raw_sentences:
+            for s in raw_sentences[:2]:
+                relevant_candidates.append((s, 0.40, "General source background context"))
+
+        # 2. Content deduplication
+        seen_hashes = {ev.content_hash for ev in state.evidence if ev.content_hash}
+        seen_quotes = [ev.supporting_quote_or_excerpt for ev in state.evidence]
+
+        for s, score, reason in relevant_candidates[:4]:
+            is_dup, dup_reason = DeduplicationService.is_duplicate_content(
+                s,
+                seen_hashes=seen_hashes,
+                seen_texts=seen_quotes
+            )
+            if is_dup:
+                state.sources_deduplicated += 1
+                continue
+
             # Guess entity name
             entity_name = None
-            for candidate in ["LangGraph", "CrewAI", "AutoGen", "FastAPI", "Spring Boot"]:
+            for candidate in ["LangGraph", "CrewAI", "AutoGen", "FastAPI", "Spring Boot", "LlamaIndex"]:
                 if candidate.lower() in s.lower() or candidate.lower() in title.lower():
                     entity_name = candidate
                     break
@@ -196,5 +268,12 @@ class AutonomousExecutor:
                 entity_name=entity_name,
                 existing_evidence=state.evidence
             )
+            ev.relevance_score = score
+            ev.relevance_reason = reason
+            ev_hash = DeduplicationService.compute_content_hash(s)
+            ev.content_hash = ev_hash
+            seen_hashes.add(ev_hash)
+            seen_quotes.append(s)
+
             state.add_evidence(ev)
             state.intermediate_findings.append(f"{ev.entity_name or 'Finding'}: {ev.claim}")
