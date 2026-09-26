@@ -1,0 +1,18 @@
+# ==============================================================================
+# Autonomous Research & Competitive Intelligence Agent - Example Goals
+# ==============================================================================
+
+# Goal 1: Competitive Intelligence in AI Agent Frameworks (Primary Demonstration)
+Analyze the current competitive landscape for AI agent frameworks and identify the major players, their capabilities, positioning, recent developments, and important differences.
+
+# Goal 2: Architectural Comparison in Modern Backend APIs (Cross-Domain)
+Compare FastAPI and Spring Boot for building production backend APIs. Focus on architecture, developer productivity, ecosystem, performance considerations, deployment, and typical use cases. Use authoritative documentation and current sources.
+
+# Goal 3: Vector Database Scaling & Cloud Architecture
+Evaluate Qdrant, Pinecone, and Milvus for enterprise retrieval-augmented generation (RAG) at 100M+ vector scale. Compare latency, hybrid search capabilities, memory efficiency, and operational costs.
+
+# Goal 4: Modern Frontend Framework Performance
+Compare Next.js, Remix, and SvelteKit for high-performance e-commerce applications, focusing on SSR hydration overhead, server components, bundle sizes, and developer ergonomics.
+
+# Goal 5: Failure Recovery & Anomaly Demonstration (Use with --demo-failure)
+Investigate leading open-source model evaluation frameworks with intentional network timeout injection to observe autonomous retry and replanning behaviors.
