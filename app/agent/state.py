@@ -14,7 +14,9 @@ class AgentState(BaseModel):
     Maintains all observations, evidence, plans, execution traces, and recovery attempts.
     """
 
-    goal: str = Field(description="The original user-specified research goal")
+    goal: str = Field(description="The active user-specified research goal")
+    original_goal: Optional[str] = Field(default=None, description="The unmodified original user input goal")
+    interpreted_objective: Optional[str] = Field(default=None, description="The LLM-derived research objective")
     constraints: List[str] = Field(default_factory=list, description="Operational boundaries or constraints")
     plan: Optional[ResearchPlan] = Field(default=None, description="Current decomposed research plan")
     current_step: Optional[PlanStep] = Field(default=None, description="Currently active execution step")

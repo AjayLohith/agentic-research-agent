@@ -132,7 +132,20 @@ class GroqProvider(LLMProvider):
         if start != -1 and end != -1:
             text = text[start:end + 1]
 
-        return json.loads(text)
+        data = json.loads(text)
+
+        # Unpack any stringified JSON objects in lists (e.g. evidence, entities)
+        if isinstance(data, dict):
+            for k, v in data.items():
+                if isinstance(v, list):
+                    for idx, item in enumerate(v):
+                        if isinstance(item, str) and item.strip().startswith("{") and item.strip().endswith("}"):
+                            try:
+                                v[idx] = json.loads(item)
+                            except Exception:
+                                pass
+
+        return data
 
     def _extract_retry_after(self, error: Exception, attempt: int) -> float:
         """Extracts Retry-After value from response headers if available, or uses exponential backoff."""

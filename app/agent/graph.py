@@ -44,6 +44,7 @@ class ResearchAgentGraph:
         start_time = time.perf_counter()
         state = AgentState(
             goal=goal,
+            original_goal=goal,
             constraints=constraints or [],
             status="planning"
         )
@@ -51,8 +52,16 @@ class ResearchAgentGraph:
 
         # 1. NODE: PLANNER
         state.plan = await self.planner.plan(goal, constraints)
+        state.interpreted_objective = state.plan.objective if state.plan else goal
         state.pending_steps = list(state.plan.steps)
         state.status = "executing"
+
+        # Query-specific observability logging (Section 15)
+        logger.info(f"Original Goal: '{state.original_goal}'")
+        logger.info(f"Interpreted Objective: '{state.interpreted_objective}'")
+        logger.info(f"Autonomous Source Strategy: '{state.plan.source_strategy}'")
+        logger.info(f"Target Source Types: {state.plan.target_source_types}")
+
         step_cycle = 0
 
         # 2. EXECUTION LOOP

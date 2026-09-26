@@ -115,7 +115,38 @@ class FetchUrlTool(BaseTool):
 
     def _generate_mock_content(self, url: str) -> FetchResult:
         u_lower = url.lower()
-        if "langgraph" in u_lower or "langchain" in u_lower:
+        if "gpt" in u_lower or "astra" in u_lower:
+            title = "GPT 6 Astra: Technical Architecture and Autonomous Capabilities"
+            content = (
+                "GPT 6 Astra represents next-generation frontier intelligence engineered for autonomous agent systems. "
+                "Core architectural breakthroughs include native cyclic reasoning buffers, multi-modal tool calling, "
+                "and an integrated verification engine that validates facts against external sources before response synthesis. "
+                "Benchmarks indicate a 40% reduction in planning loops and stateful memory retention across long horizons."
+            )
+        elif "postgres" in u_lower:
+            title = "PostgreSQL Documentation - Architectural Fundamentals"
+            content = (
+                "PostgreSQL is a powerful, open-source object-relational database system with over 35 years of active development. "
+                "It features full ACID transaction compliance, sophisticated query optimization, multi-version concurrency control (MVCC), "
+                "and advanced indexing options including B-Tree, Hash, GiST, SP-GiST, GIN, and BRIN. "
+                "It provides robust support for structured relational tables as well as native JSONB document storage."
+            )
+        elif "mongo" in u_lower:
+            title = "MongoDB Documentation - Document Model & Distributed Scaling"
+            content = (
+                "MongoDB is a leading document-oriented database designed for high availability, horizontal scaling, and developer velocity. "
+                "Data is modeled in flexible, JSON-like BSON documents allowing dynamic schema evolution. "
+                "Key capabilities include automated sharding for horizontal scale-out, replica sets with automatic failover, "
+                "and rich aggregation pipelines for real-time analytics and vector search integrations."
+            )
+        elif "rag" in u_lower or "retrieval" in u_lower:
+            title = "Architectural Patterns for Advanced Retrieval-Augmented Generation"
+            content = (
+                "Retrieval-Augmented Generation (RAG) grounds language model outputs by retrieving relevant context chunks from authoritative knowledge bases. "
+                "Modern production RAG pipelines incorporate dense vector semantic search, BM25 keyword matching via hybrid search, "
+                "cross-encoder reranking, and dynamic query rewriting. These techniques drastically minimize hallucinations and ensure auditability."
+            )
+        elif "langgraph" in u_lower or "langchain" in u_lower:
             title = "LangGraph: Building Stateful Multi-Agent Applications"
             content = (
                 "LangGraph is a library for building stateful, multi-actor applications with LLMs, "
@@ -160,11 +191,14 @@ class FetchUrlTool(BaseTool):
                 "native image compilation for sub-second startup times."
             )
         else:
-            title = f"Documentation for {url}"
+            # Clean subject name from URL
+            domain_part = url.split("//")[-1].split("/")[0].replace("docs.", "").replace(".org", "").replace(".com", "").replace(".io", "")
+            title = f"Technical Overview and Architecture - {domain_part.title()}"
             content = (
                 f"Authoritative technical overview retrieved from {url}. Detailed documentation "
-                "covering architectural paradigms, performance benchmarks, integration capabilities, "
-                "and operational characteristics."
+                f"covering architectural paradigms, performance benchmarks, integration capabilities, "
+                f"and operational characteristics for {domain_part.title()}. Production systems prioritize "
+                "maintainability, high-throughput reliability, and clear error boundaries."
             )
 
         if len(content) > self.max_content_length:

@@ -253,12 +253,8 @@ class AutonomousExecutor:
                 state.sources_deduplicated += 1
                 continue
 
-            # Guess entity name
-            entity_name = None
-            for candidate in ["LangGraph", "CrewAI", "AutoGen", "FastAPI", "Spring Boot", "LlamaIndex"]:
-                if candidate.lower() in s.lower() or candidate.lower() in title.lower():
-                    entity_name = candidate
-                    break
+            # Dynamic entity identification from query, title, and sentence
+            entity_name = self._identify_entity(s, title, state.goal)
 
             ev = EvidenceService.register_evidence(
                 claim=s,
@@ -277,3 +273,32 @@ class AutonomousExecutor:
 
             state.add_evidence(ev)
             state.intermediate_findings.append(f"{ev.entity_name or 'Finding'}: {ev.claim}")
+
+    def _identify_entity(self, sentence: str, title: str, goal: str) -> Optional[str]:
+        """Dynamically identifies candidate entity from query, title, or sentence."""
+        combined = f"{title} {sentence}"
+        
+        # 1. Extract proper nouns/phrases from user goal (e.g., "FastAPI", "Spring Boot", "GPT 6 Astra", "PostgreSQL", "MongoDB")
+        clean_goal = re.sub(r"(?i)\b(analyze|compare|research|the|current|landscape|for|versus|vs|and|in|of|latest|developments|evaluation)\b", " ", goal)
+        goal_phrases = [p.strip() for p in re.split(r"[,;]|\s+vs\.?\s+|\s+versus\s+", clean_goal) if len(p.strip()) > 2]
+        
+        for gp in goal_phrases:
+            for term in gp.split():
+                if len(term) > 2 and term.lower() in combined.lower():
+                    # Preserve exact casing if in goal
+                    for token in goal.split():
+                        if token.lower() == term.lower():
+                            return token.strip(".,;:\"'")
+                    return term
+
+        # 2. Check title subject (before colon or hyphen)
+        if ":" in title:
+            candidate = title.split(":")[0].strip()
+            if len(candidate) > 2 and len(candidate) < 30:
+                return candidate
+        if " - " in title:
+            candidate = title.split(" - ")[0].strip()
+            if len(candidate) > 2 and len(candidate) < 30:
+                return candidate
+
+        return None

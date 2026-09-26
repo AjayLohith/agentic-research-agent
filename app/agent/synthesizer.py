@@ -85,17 +85,17 @@ class AutonomousSynthesizer:
         # Ensure key_points are present
         if not report.key_points:
             report.key_points = [
-                f"Evaluated {len(state.sources)} external sources with verified evidence grounding.",
-                f"Identified core capabilities and operational tradeoffs across candidates.",
-                f"Grounded findings with factual quotes and explicit source provenance."
+                f"Evaluated {len(state.sources)} external sources with verified evidence grounding for '{state.goal}'.",
+                "Identified core technical capabilities, architectural features, and operational tradeoffs.",
+                "Grounded findings with factual quotes, direct URL citations, and explicit source provenance."
             ]
 
         # Ensure actionable_insights are present
         if not report.actionable_insights:
             report.actionable_insights = [
-                "Select frameworks based on workflow complexity rather than raw popularity.",
-                "Review architectural constraints and state management requirements prior to adoption.",
-                "Verify compatibility with existing CI/CD and deployment environments."
+                f"Align architectural and implementation decisions with verified production requirements for {state.goal}.",
+                "Conduct isolated proof-of-concept latency and throughput benchmarks under representative workloads.",
+                "Verify compatibility with existing CI/CD, governance, and deployment environments prior to adoption."
             ]
 
         # Finalize execution summary
