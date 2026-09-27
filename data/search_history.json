@@ -466,5 +466,23 @@
       "https://docs.investigate.org/overview"
     ],
     "execution_time_seconds": 0.06
+  },
+  {
+    "session_id": "sess-0026",
+    "goal": "Analyze the current competitive landscape for AI agent frameworks",
+    "timestamp": "2026-09-27T16:47:58.959961+00:00",
+    "summary": "The autonomous AI agent ecosystem in 2026 has shifted toward deterministic, stateful graph architectures. LangGraph leads enterprise workflows requiring cyclic state and human-in-the-loop controls. CrewAI excels in intuitive role-playing agent orchestration and rapid prototyping. Microsoft AutoGen maintains a strong presence in conversational multi-agent research.",
+    "key_points": [
+      "State graphs (LangGraph) have become the de facto enterprise standard for agent resilience.",
+      "Role-playing frameworks (CrewAI) maximize developer velocity for collaborative workflows.",
+      "Conversational patterns (AutoGen) support flexible multi-agent research simulations."
+    ],
+    "sources_count": 3,
+    "sources_preview": [
+      "https://docs.langchain.com/langgraph/overview",
+      "https://docs.crewai.com/introduction",
+      "https://microsoft.github.io/autogen/docs/Getting-Started"
+    ],
+    "execution_time_seconds": 0.21
   }
 ]
