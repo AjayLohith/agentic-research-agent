@@ -429,5 +429,42 @@
       "https://docs.evaluate-qdrant.org/overview"
     ],
     "execution_time_seconds": 0.0
+  },
+  {
+    "session_id": "sess-0024",
+    "goal": "Analyze the current competitive landscape for AI agent frameworks",
+    "timestamp": "2026-09-27T16:23:13.906301+00:00",
+    "summary": "The autonomous AI agent ecosystem in 2026 has shifted toward deterministic, stateful graph architectures. LangGraph leads enterprise workflows requiring cyclic state and human-in-the-loop controls. CrewAI excels in intuitive role-playing agent orchestration and rapid prototyping. Microsoft AutoGen maintains a strong presence in conversational multi-agent research.",
+    "key_points": [
+      "State graphs (LangGraph) have become the de facto enterprise standard for agent resilience.",
+      "Role-playing frameworks (CrewAI) maximize developer velocity for collaborative workflows.",
+      "Conversational patterns (AutoGen) support flexible multi-agent research simulations."
+    ],
+    "sources_count": 3,
+    "sources_preview": [
+      "https://docs.langchain.com/langgraph/overview",
+      "https://docs.crewai.com/introduction",
+      "https://microsoft.github.io/autogen/docs/Getting-Started"
+    ],
+    "execution_time_seconds": 0.03
+  },
+  {
+    "session_id": "sess-0025",
+    "goal": "Investigate leading open-source model evaluation frameworks",
+    "timestamp": "2026-09-27T16:23:41.411752+00:00",
+    "summary": "Autonomous research on 'Investigate leading open-source model evaluation frameworks' completed successfully. Evaluated core architectural paradigms, performance metrics, and operational trade-offs for Investigate, Leading. Verified findings indicate strong capability alignment with modern production engineering standards.",
+    "key_points": [
+      "Identified primary technical characteristics and architectural paradigms for Investigate.",
+      "Evaluated operational tradeoffs and ecosystem maturity for Leading.",
+      "Grounded factual assertions with direct quotes and verified source URLs."
+    ],
+    "sources_count": 4,
+    "sources_preview": [
+      "https://docs.investigate-leading-technical-.org/overview",
+      "https://engineering.investigate-leading-technical-.io/benchmarks",
+      "https://tech-specs.org/topics/investigate-leading-technical-",
+      "https://docs.investigate.org/overview"
+    ],
+    "execution_time_seconds": 0.06
   }
 ]

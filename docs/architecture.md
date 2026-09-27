@@ -9,7 +9,13 @@ Rather than implementing a hardcoded workflow (`search -> fetch -> summarize`), 
 
 ---
 
-## 2. Mermaid State & Orchestration Diagram
+## 2. Architecture Diagram
+
+![Architecture Diagram](architecture_diagram.jpg)
+
+*Rendered pipeline diagram showing the complete data flow from user query through plan generation, tool execution, quality pipeline, failure recovery, and multi-format artifact export.*
+
+## 3. Mermaid State & Orchestration Diagram
 
 ```mermaid
 flowchart TD

@@ -69,4 +69,3 @@ The agent addresses the domain of **Autonomous Technical Research & Competitive 
 ## 11. Assumptions & Mock Data Declaration
 - **Assumptions:** Target sources are accessible via public HTTP GET endpoints without requiring interactive logins or CAPTCHA solving. LLM endpoints follow standard OpenAI-compatible `/chat/completions` specifications.
 - **Mock Data Declaration:** For zero-credential local evaluation and deterministic CI testing, the agent provides an offline mock mode (`--mock` or `MOCK_MODE=true`). Mock data fixtures are strictly isolated in `app/providers/llm/mock.py` and `app/providers/search/mock.py`, dynamically extracting entities from the query to simulate multi-tool research without network dependencies. Live execution mode uses live Groq LLM inference and live Tavily search.
-

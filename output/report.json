@@ -1,29 +1,29 @@
 {
   "metadata": {
-    "goal": "Evaluate Qdrant versus Pinecone for enterprise vector search",
+    "goal": "Investigate leading open-source model evaluation frameworks",
     "generated_at": "2026-09-26T15:00:00Z",
-    "execution_time_seconds": 0.0,
+    "execution_time_seconds": 0.06,
     "agent_version": "0.1.0"
   },
-  "executive_summary": "Autonomous research on 'Evaluate Qdrant versus Pinecone for enterprise vector search' completed successfully. Evaluated core architectural paradigms, performance metrics, and operational trade-offs for Evaluate Qdrant, Pinecone Enterprise. Verified findings indicate strong capability alignment with modern production engineering standards.",
+  "executive_summary": "Autonomous research on 'Investigate leading open-source model evaluation frameworks' completed successfully. Evaluated core architectural paradigms, performance metrics, and operational trade-offs for Investigate, Leading. Verified findings indicate strong capability alignment with modern production engineering standards.",
   "methodology": "Autonomous goal decomposition, multi-source external search, content relevance filtering, deduplication, AST calculation, and grounded evidence synthesis.",
   "research_scope": {
     "assumptions": [
-      "Focus on verified production implementations of Evaluate Qdrant, Pinecone Enterprise"
+      "Focus on verified production implementations of Investigate, Leading"
     ],
     "constraints": [
       "All claims backed by authoritative technical documentation"
     ]
   },
   "key_points": [
-    "Identified primary technical characteristics and architectural paradigms for Evaluate Qdrant.",
-    "Evaluated operational tradeoffs and ecosystem maturity for Pinecone Enterprise.",
+    "Identified primary technical characteristics and architectural paradigms for Investigate.",
+    "Evaluated operational tradeoffs and ecosystem maturity for Leading.",
     "Grounded factual assertions with direct quotes and verified source URLs."
   ],
   "key_findings": [
     {
-      "title": "Architectural Capabilities of Evaluate Qdrant",
-      "summary": "Evaluate Qdrant provides validated performance and clear integration boundaries for production deployments.",
+      "title": "Architectural Capabilities of Investigate",
+      "summary": "Investigate provides validated performance and clear integration boundaries for production deployments.",
       "category": "Architecture",
       "supporting_evidence_ids": [
         "ev-1"
@@ -32,15 +32,15 @@
     }
   ],
   "actionable_insights": [
-    "Align deployment and implementation strategies with verified requirements for Evaluate Qdrant versus Pinecone for enterprise vector search.",
+    "Align deployment and implementation strategies with verified requirements for Investigate leading open-source model evaluation frameworks.",
     "Conduct isolated proof-of-concept testing under representative traffic workloads.",
     "Ensure observability, structured logging, and error handling are incorporated early."
   ],
   "entities": [
     {
-      "name": "Evaluate Qdrant",
+      "name": "Investigate",
       "category": "Core Architecture / Platform",
-      "description": "Authoritative architecture and technical specifications for Evaluate Qdrant.",
+      "description": "Authoritative architecture and technical specifications for Investigate.",
       "key_capabilities": [
         "High throughput execution",
         "Standardized interface",
@@ -53,13 +53,13 @@
       "tradeoffs": [
         "Requires proper resource allocation and monitoring"
       ],
-      "authoritative_source_url": "https://docs.evaluate-qdrant.org/overview",
+      "authoritative_source_url": "https://docs.investigate.org/overview",
       "confidence": 0.94
     },
     {
-      "name": "Pinecone Enterprise",
+      "name": "Leading",
       "category": "Complementary / Comparative System",
-      "description": "Technical specifications and integration characteristics for Pinecone Enterprise.",
+      "description": "Technical specifications and integration characteristics for Leading.",
       "key_capabilities": [
         "Modular integration",
         "Fault tolerance",
@@ -72,27 +72,27 @@
       "tradeoffs": [
         "Configuration overhead under complex topologies"
       ],
-      "authoritative_source_url": "https://docs.pinecone-enterprise.org/overview",
+      "authoritative_source_url": "https://docs.leading.org/overview",
       "confidence": 0.91
     }
   ],
   "comparison": [
     {
       "dimension": "Architectural Alignment",
-      "analysis": "Evaluated subjects demonstrate production-ready characteristics suited to 'Evaluate Qdrant versus Pinecone for enterprise vector search'.",
+      "analysis": "Evaluated subjects demonstrate production-ready characteristics suited to 'Investigate leading open-source model evaluation frameworks'.",
       "entity_ratings_or_notes": {
-        "Evaluate Qdrant": "Production Ready",
-        "Pinecone Enterprise": "Production Ready"
+        "Investigate": "Production Ready",
+        "Leading": "Production Ready"
       }
     }
   ],
   "evidence": [
     {
       "id": "ev-1",
-      "claim": "Authoritative technical overview retrieved from https://docs",
-      "supporting_quote_or_excerpt": "Authoritative technical overview retrieved from https://docs",
-      "source_url": "https://docs.evaluate-qdrant.org/overview",
-      "source_title": "Technical Overview and Architecture - Evaluate-Qdrant",
+      "claim": "Detailed documentation covering architectural paradigms, performance benchmarks, integration capabilities, and operational characteristics for Investigate",
+      "supporting_quote_or_excerpt": "Detailed documentation covering architectural paradigms, performance benchmarks, integration capabilities, and operational characteristics for Investigate",
+      "source_url": "https://docs.investigate.org/overview",
+      "source_title": "Technical Overview and Architecture - Investigate",
       "source_type": "official documentation",
       "confidence": 0.87,
       "confidence_factors": {
@@ -102,30 +102,10 @@
         "conflict_penalty": 0.0,
         "overall": 0.87
       },
-      "entity_name": "Evaluate",
+      "entity_name": "Investigate",
       "relevance_score": 0.4,
-      "relevance_reason": "General source background context",
-      "content_hash": "bf8546795b40041daaf7c3ea9fd9f854de4026dea42c22264ebad7cc687e8c20"
-    },
-    {
-      "id": "ev-2",
-      "claim": "Detailed documentation covering architectural paradigms, performance benchmarks, integration capabilities, and operational characteristics for Evaluate-Qdrant",
-      "supporting_quote_or_excerpt": "Detailed documentation covering architectural paradigms, performance benchmarks, integration capabilities, and operational characteristics for Evaluate-Qdrant",
-      "source_url": "https://docs.evaluate-qdrant.org/overview",
-      "source_title": "Technical Overview and Architecture - Evaluate-Qdrant",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "Evaluate",
-      "relevance_score": 0.4,
-      "relevance_reason": "General source background context",
-      "content_hash": "de5a23ea436f8e901f871c5bc134e3a6f1f79e400c3a24b55ca475f97043ef23"
+      "relevance_reason": "Matches core keywords: ['investigate']",
+      "content_hash": "fa82c958c5c15625840ca585436a5f1adc7535175e1d9cab338c92aaf86288d6"
     }
   ],
   "calculations": [
@@ -146,47 +126,47 @@
   ],
   "sources": [
     {
-      "url": "https://docs.evaluate-qdrant-pinecone-enter.org/overview",
-      "title": "Technical Overview and Architecture of Evaluate Qdrant Pinecone Enterprise technical architecture documentation capabilities",
+      "url": "https://docs.investigate-leading-technical-.org/overview",
+      "title": "Technical Overview and Architecture of Investigate Leading technical architecture documentation capabilities",
       "source_type": "official documentation",
       "authority_score": 0.95,
-      "retrieved_at": "2026-09-27T14:33:20.644200+00:00"
+      "retrieved_at": "2026-09-27T16:23:40.185857+00:00"
     },
     {
-      "url": "https://engineering.evaluate-qdrant-pinecone-enter.io/benchmarks",
-      "title": "Evaluate Qdrant Pinecone Enterprise technical architecture documentation capabilities Performance Benchmarks and Production Guide",
+      "url": "https://engineering.investigate-leading-technical-.io/benchmarks",
+      "title": "Investigate Leading technical architecture documentation capabilities Performance Benchmarks and Production Guide",
       "source_type": "unknown",
       "authority_score": 0.4,
-      "retrieved_at": "2026-09-27T14:33:20.644312+00:00"
+      "retrieved_at": "2026-09-27T16:23:40.186346+00:00"
     },
     {
-      "url": "https://tech-specs.org/topics/evaluate-qdrant-pinecone-enter",
-      "title": "Ecosystem and Feature Comparison for Evaluate Qdrant Pinecone Enterprise technical architecture documentation capabilities",
+      "url": "https://tech-specs.org/topics/investigate-leading-technical-",
+      "title": "Ecosystem and Feature Comparison for Investigate Leading technical architecture documentation capabilities",
       "source_type": "unknown",
       "authority_score": 0.4,
-      "retrieved_at": "2026-09-27T14:33:20.644378+00:00"
+      "retrieved_at": "2026-09-27T16:23:40.186620+00:00"
     },
     {
-      "url": "https://docs.evaluate-qdrant.org/overview",
-      "title": "Technical Overview and Architecture - Evaluate-Qdrant",
+      "url": "https://docs.investigate.org/overview",
+      "title": "Technical Overview and Architecture - Investigate",
       "source_type": "official documentation",
       "authority_score": 0.95,
-      "retrieved_at": "2026-09-27T14:33:20.644809+00:00"
+      "retrieved_at": "2026-09-27T16:23:40.198187+00:00"
     }
   ],
   "execution_summary": {
     "steps_planned": 5,
     "steps_completed": 5,
-    "tool_calls_total": 5,
-    "search_queries_executed": 2,
-    "pages_fetched": 2,
+    "tool_calls_total": 7,
+    "search_queries_executed": 3,
+    "pages_fetched": 3,
     "calculations_performed": 1,
-    "failures_detected": 0,
-    "recoveries_performed": 0,
+    "failures_detected": 2,
+    "recoveries_performed": 2,
     "loop_detections_triggered": 0,
     "sources_considered": 8,
-    "sources_deduplicated": 6,
-    "items_filtered_for_irrelevance": 6
+    "sources_deduplicated": 5,
+    "items_filtered_for_irrelevance": 4
   },
   "confidence_summary": {
     "overall_confidence": "87%",

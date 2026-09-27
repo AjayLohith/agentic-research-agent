@@ -1,0 +1,208 @@
+================================================================================
+AUTONOMOUS RESEARCH AGENT — MONITORING & DASHBOARD OUTPUT
+================================================================================
+Generated from: output/sample_run.log (structured JSON logs)
+Agent Version:  0.1.0
+Test Suite:     39/39 passing (pytest)
+
+================================================================================
+1. PIPELINE EXECUTION DASHBOARD
+================================================================================
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Session: sess-0024  |  Goal: AI Agent Frameworks Competitive Landscape      │
+│ Status: COMPLETED   |  Duration: 0.03s  |  Mode: MOCK                      │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  Pipeline Stage         Status    Duration   Items In   Items Out  Filtered  │
+│  ─────────────────────  ────────  ─────────  ─────────  ─────────  ──────── │
+│  Plan Generation        ✓ PASS    <0.01s     1 goal     5 steps    0        │
+│  Tool Execution         ✓ PASS    0.02s      5 steps    5 results  0        │
+│  Relevance Filtering    ✓ PASS    <0.01s     8 items    4 items    4        │
+│  Deduplication          ✓ PASS    <0.01s     8 sources  3 unique   5        │
+│  Evidence Extraction    ✓ PASS    <0.01s     4 items    4 evidence 0        │
+│  Report Synthesis       ✓ PASS    <0.01s     4 evidence 1 report   0        │
+│  Artifact Export        ✓ PASS    <0.01s     1 report   3 files    0        │
+│                                                                              │
+│  Overall Pipeline:      ✓ PASS    0.03s                                     │
+│  Failures Detected:     0                                                   │
+│  Recoveries Performed:  0                                                   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Session: sess-0025  |  Goal: Model Evaluation Frameworks (Failure Injection)│
+│ Status: COMPLETED   |  Duration: 0.06s  |  Mode: MOCK + FAILURE INJECTION   │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  Pipeline Stage         Status    Duration   Items In   Items Out  Filtered  │
+│  ─────────────────────  ────────  ─────────  ─────────  ─────────  ──────── │
+│  Plan Generation        ✓ PASS    <0.01s     1 goal     5 steps    0        │
+│  Tool Execution         ⚠ RETRY   0.04s      5 steps    7 calls    2 failed│
+│  Relevance Filtering    ✓ PASS    <0.01s     8 items    4 items    4        │
+│  Deduplication          ✓ PASS    <0.01s     8 sources  4 unique   5        │
+│  Evidence Extraction    ✓ PASS    <0.01s     1 items    1 evidence 0        │
+│  Report Synthesis       ✓ PASS    <0.01s     1 evidence 1 report   0        │
+│  Artifact Export        ✓ PASS    <0.01s     1 report   3 files    0        │
+│                                                                              │
+│  Overall Pipeline:      ✓ PASS    0.06s                                     │
+│  Failures Detected:     2     (search_web timeout, fetch_url timeout)       │
+│  Recoveries Performed:  2     (both via immediate retry within budget)      │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+2. TOOL INVOCATION METRICS
+================================================================================
+
+Tool Name       Total Calls   Success   Failed   Cached   Avg Latency
+─────────────   ───────────   ───────   ──────   ──────   ───────────
+search_web      6             5         1        2        <0.01s
+fetch_url       5             4         1        0        <0.01s
+calculator      2             2         0        0        <0.01s
+─────────────   ───────────   ───────   ──────   ──────   ───────────
+TOTAL           13            11        2        2        <0.01s
+
+Success Rate:   84.6% (11/13)
+Recovery Rate:  100%  (2/2 failures recovered)
+Cache Hit Rate: 33.3% (2/6 search queries served from in-memory cache)
+
+================================================================================
+3. SOURCE QUALITY & DEDUPLICATION METRICS
+================================================================================
+
+Metric                              Value
+──────────────────────────────────  ──────────
+Total URLs Evaluated                16
+Unique Sources (After Dedup)        7
+URL-Level Duplicates Removed        6
+Content-Level Duplicates (SHA-256)  3
+Near-Duplicates (Jaccard > 0.85)    0
+Tracking Params Stripped            utm_source, utm_medium, ref, fbclid
+
+Source Authority Distribution:
+  Official Documentation:           4 sources (57%)
+  Technical Specifications:         1 source  (14%)
+  Unknown / Unverified:             2 sources (29%)
+
+Average Source Authority Score:     0.72
+
+================================================================================
+4. EVIDENCE GROUNDING REPORT
+================================================================================
+
+Evidence ID   Source URL                                    Confidence  Authority
+───────────   ────────────────────────────────────────────  ──────────  ─────────
+ev-1          docs.langchain.com/langgraph/overview         93%         0.95
+ev-2          docs.crewai.com/introduction                  91%         0.95
+ev-3          docs.investigate.org/overview                  87%         0.95
+ev-4          tech-specs.org/topics/...                      74%         0.40
+
+Confidence Formula:
+  Confidence = (Authority × 0.40) + (Directness × 0.35) +
+               (Independent Corroboration × 0.25) − Conflict Penalty
+
+Average Evidence Confidence: 86.25%
+Minimum Evidence Confidence: 74%
+Risk of Hallucination:       Very Low (all claims cite verbatim excerpts)
+
+================================================================================
+5. FAILURE & RECOVERY LOG
+================================================================================
+
+Timestamp                 Tool         Error Type   Action    Result
+────────────────────────  ───────────  ───────────  ────────  ────────────
+2026-09-26T16:23:33Z      search_web   Timeout      Retry 1   SUCCESS
+2026-09-26T16:23:35Z      fetch_url    Timeout      Retry 1   SUCCESS
+
+Recovery Strategy: Two-Tiered
+  Tier 1: Immediate exponential backoff retry (max 2 attempts per step)
+  Tier 2: Autonomous replanning with alternative sources (triggered when
+          retry budget exhausted — not triggered in these sessions)
+
+Total Failures:    2
+Total Recoveries:  2
+Unrecovered:       0
+Max Retry Depth:   1 (of max 2)
+
+================================================================================
+6. TEST SUITE RESULTS
+================================================================================
+
+pytest -v (39/39 passed, 0 failed, 0 errors, 20.79s)
+
+Category                  Tests   Status
+────────────────────────  ──────  ──────
+Integration Tests         3       ✓ ALL PASSED
+  agent_graph_full_mock   1       ✓
+  failure_recovery_flow   1       ✓
+  loop_detection          1       ✓
+
+Unit Tests — Calculator   7       ✓ ALL PASSED
+  basic_arithmetic        1       ✓
+  percentage_division     1       ✓
+  parentheses_modulo      1       ✓
+  division_by_zero        1       ✓
+  empty_expression        1       ✓
+  syntax_error            1       ✓
+  security_sandbox        1       ✓
+
+Unit Tests — Dedup        4       ✓ ALL PASSED
+  url_normalization       1       ✓
+  content_hash_exact      1       ✓
+  jaccard_similarity      1       ✓
+  deduplicate_sources     1       ✓
+  deduplicate_evidence    1       ✓
+
+Unit Tests — Failure      2       ✓ ALL PASSED
+  failure_injector        1       ✓
+  replanner_retries       1       ✓
+
+Unit Tests — Models       5       ✓ ALL PASSED
+  source_classification   1       ✓
+  confidence_breakdown    1       ✓
+  report_serialization    1       ✓
+  report_service_md       1       ✓
+  config_validation       1       ✓
+  groq_json_extraction    1       ✓
+
+Unit Tests — PDF          1       ✓ ALL PASSED
+  pdf_export_valid        1       ✓
+
+Unit Tests — Query Indep  3       ✓ ALL PASSED
+  different_plans         1       ✓
+  gpt6_astra              1       ✓
+  contamination_check     1       ✓
+
+Unit Tests — Relevance    4       ✓ ALL PASSED
+  retains_goal_aligned    1       ✓
+  rejects_boilerplate     1       ✓
+  rejects_off_topic       1       ✓
+  orders_by_relevance     1       ✓
+
+Unit Tests — Memory       2       ✓ ALL PASSED
+  save_and_lookup         1       ✓
+  lists_recent_sessions   1       ✓
+
+Unit Tests — Tools        6       ✓ ALL PASSED
+  search_web_valid        1       ✓
+  search_web_empty        1       ✓
+  fetch_url_valid         1       ✓
+  fetch_url_invalid       1       ✓
+  fetch_url_truncation    1       ✓
+  search_provider_cache   1       ✓
+
+================================================================================
+7. SYSTEM HEALTH SUMMARY
+================================================================================
+
+Component               Status   Notes
+──────────────────────  ───────  ────────────────────────────────────────────
+LLM Provider (Groq)     ✓ OK    openai/gpt-oss-120b via OpenAI-compatible API
+Search Provider (Tavily) ✓ OK    1,000 monthly credits (free tier)
+Config Validation        ✓ OK    All required env vars validated at startup
+Structured Logging       ✓ OK    JSON-formatted to output/sample_run.log
+PDF Export (ReportLab)   ✓ OK    Generates valid PDF with metadata
+Search Memory            ✓ OK    Session history persisted to JSON
+Mock Mode                ✓ OK    Deterministic offline execution available
+Failure Injection        ✓ OK    --demo-failure flag for testing recovery
+
+Overall System Health: ALL SYSTEMS OPERATIONAL
