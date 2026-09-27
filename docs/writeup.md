@@ -62,3 +62,11 @@ The system handles transient network errors and rate limits via a two-tiered rec
 - *Client-Side SPAs:* The HTTPX/BeautifulSoup fetch tool cannot execute client-side JavaScript (e.g. heavy React apps); integrating Playwright would solve this for SPA-only sites.
 - *Free-Tier Quotas:* Bounded by Groq requests-per-minute (RPM) limits and Tavily's 1,000 monthly credits.
 - *Production Enhancements:* Introduce persistent vector indices (Qdrant/Milvus) for multi-document semantic search and distributed async task queues (Temporal) for massive parallel crawls.
+
+## 10. Domain & Goal Description
+The agent addresses the domain of **Autonomous Technical Research & Competitive Intelligence**. The primary objective is to take any high-level natural language research goal, formulate an autonomous multi-step plan, gather external sources across websites, APIs, and documentation, eliminate irrelevant and duplicate content, extract verifiable evidence, and synthesize an executive report with key points, important findings, source references, and actionable insights.
+
+## 11. Assumptions & Mock Data Declaration
+- **Assumptions:** Target sources are accessible via public HTTP GET endpoints without requiring interactive logins or CAPTCHA solving. LLM endpoints follow standard OpenAI-compatible `/chat/completions` specifications.
+- **Mock Data Declaration:** For zero-credential local evaluation and deterministic CI testing, the agent provides an offline mock mode (`--mock` or `MOCK_MODE=true`). Mock data fixtures are strictly isolated in `app/providers/llm/mock.py` and `app/providers/search/mock.py`, dynamically extracting entities from the query to simulate multi-tool research without network dependencies. Live execution mode uses live Groq LLM inference and live Tavily search.
+

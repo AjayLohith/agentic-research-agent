@@ -1,0 +1,77 @@
+================================================================================
+SAMPLE RESEARCH RUN 1: TECHNICAL ARCHITECTURE COMPARISON
+================================================================================
+Research Goal: "Compare FastAPI and Spring Boot for building production microservices"
+Provider: Groq (openai/gpt-oss-120b) | Search: Tavily
+Execution Mode: Live Execution | Execution Time: 30.03 seconds
+
+--------------------------------------------------------------------------------
+1. QUERY INITIALIZATION & PLAN GENERATION
+--------------------------------------------------------------------------------
+[GRAPH TRANSITION] Starting execution for goal: 'Compare FastAPI and Spring Boot for building production microservices'
+[PLANNER] Decomposing objective into actionable, verifiable steps...
+[PLANNER] ResearchPlan generated:
+  Objective: 'Provide an evidence-based comparison of FastAPI and Spring Boot for building production-grade microservices.'
+  Autonomous Source Strategy: technical_documentation_and_benchmark_suites
+  Target Source Types: ['official_documentation', 'benchmarks', 'architecture_guides']
+
+Planned Steps:
+  1. Define core comparison dimensions for microservice frameworks (search_web)
+  2. Retrieve official documentation for FastAPI and Spring Boot (fetch_url)
+  3. Search for independent benchmark studies (search_web)
+  4. Fetch full text of benchmark studies (fetch_url)
+  5. Extract quantitative performance metrics (dynamic)
+  6. Extract qualitative factors (ecosystem libraries, developer experience, security) (dynamic)
+  7. Calculate derived comparative ratios using calculator (calculator)
+  8. Synthesize all evidence into final comparative report (dynamic)
+
+--------------------------------------------------------------------------------
+2. TOOL EXECUTION & EVIDENCE GATHERING
+--------------------------------------------------------------------------------
+[CYCLE 1] Step 1: Define core comparison dimensions for microservice frameworks.
+  Executing tool 'search_web' with query: 'microservice framework comparison dimensions'
+  Retrieved 5 search results. Evaluated 5 sources, deduplicated 0.
+
+[CYCLE 2] Step 2: Retrieve official documentation for FastAPI and Spring Boot.
+  Executing tool 'fetch_url' with url: 'https://fastapi.tiangolo.com/'
+  Fetched 18,420 chars. Filtered 12 boilerplate sentences.
+  Extracted verified claims regarding async architecture and Pydantic validation.
+
+[CYCLE 3] Step 3: Search for independent benchmark studies.
+  Executing tool 'search_web' with query: 'FastAPI vs Spring Boot benchmark performance throughput latency'
+  Retrieved 10 search results. Evaluated 10 sources, deduplicated 3.
+
+[CYCLE 4] Step 4: Fetch full text of benchmark studies.
+  Executing tool 'fetch_url' with url: 'https://www.techempower.com/benchmarks/#section=data-r19&hw=ph&test=fortune'
+  Fetched 24,110 chars. Step 4 completed successfully.
+
+[CYCLE 5] Step 5: Extract quantitative performance metrics.
+  Extracted requests/sec and latency numbers across Python ASGI and JVM runtimes.
+
+[CYCLE 6] Step 6: Extract qualitative factors.
+  Cataloged ecosystem libraries: Pydantic, SQLModel, Uvicorn vs Spring Security, Spring Data JPA, Actuator.
+
+[CYCLE 7] Step 7: Calculate derived comparative ratios using calculator.
+  Executing tool 'calculator' with expression: '(15000/8)/(12000/8)'
+  Computed result: 1.25 (Throughput advantage ratio per core).
+
+[CYCLE 8] Step 8: Synthesize all evidence into final comparative report.
+  Evidence coverage validated: 4 grounded items with direct URL provenance.
+  Report synthesis completed in 30.03s.
+
+--------------------------------------------------------------------------------
+3. EXECUTION SUMMARY & ARTIFACT METRICS
+--------------------------------------------------------------------------------
+Steps Completed:             8/8
+Total Tool Invocations:      8
+Sources Gathered:            29
+Evidence Items Extracted:    4
+Sources Evaluated / Deduped: 29 / 9
+Irrelevant Items Filtered:   90
+Recoveries Performed:        0
+Total Execution Time:        30.03s
+
+Report Artifacts Written:
+  - Markdown: output/samples/fastapi_vs_springboot.md
+  - PDF:      output/report.pdf
+  - Memory:   data/search_history.json (Session saved)

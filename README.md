@@ -3,7 +3,7 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Validation: Pydantic v2](https://img.shields.io/badge/validation-Pydantic%20v2-green.svg)](https://docs.pydantic.dev/)
-[![Tests: Pytest](https://img.shields.io/badge/tests-36%20passed-brightgreen.svg)](tests/)
+[![Tests: Pytest](https://img.shields.io/badge/tests-39%20passed-brightgreen.svg)](tests/)
 
 An autonomous, multi-tool AI research agent built from first principles for **Assessment Option 1 — Autonomous Research Agent**. It dynamically decomposes high-level user queries, orchestrates parallel web investigations, extracts and validates evidence, strips web boilerplate and irrelevant content, removes duplicate sources via URL normalization and content hashing, and synthesizes structured, publication-grade intelligence reports in Markdown, JSON, and PDF formats.
 

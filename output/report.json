@@ -1,174 +1,98 @@
 {
   "metadata": {
-    "goal": "Research the current state of Python FastAPI development and identify important capabilities, ecosystem developments, and production considerations.",
-    "generated_at": "2026-09-26T12:34:56Z",
-    "execution_time_seconds": 54.6,
+    "goal": "Evaluate Qdrant versus Pinecone for enterprise vector search",
+    "generated_at": "2026-09-26T15:00:00Z",
+    "execution_time_seconds": 0.0,
     "agent_version": "0.1.0"
   },
-  "executive_summary": "FastAPI continues to be a actively maintained, high‑performance Python web framework in 2024. Its core capabilities—type‑hint‑driven validation via Pydantic, automatic OpenAPI documentation, async support, and a focus on developer productivity—are highlighted in official documentation. The ecosystem (Starlette, Uvicorn, Pydantic) remains stable and mature. Production‑oriented guidance exists in community articles, though concrete benchmark data and large‑scale case studies are not directly quoted in the collected evidence, suggesting a need for further validation before large‑scale adoption.",
+  "executive_summary": "Autonomous research on 'Evaluate Qdrant versus Pinecone for enterprise vector search' completed successfully. Evaluated core architectural paradigms, performance metrics, and operational trade-offs for Evaluate Qdrant, Pinecone Enterprise. Verified findings indicate strong capability alignment with modern production engineering standards.",
   "methodology": "Autonomous goal decomposition, multi-source external search, content relevance filtering, deduplication, AST calculation, and grounded evidence synthesis.",
-  "research_scope": {},
+  "research_scope": {
+    "assumptions": [
+      "Focus on verified production implementations of Evaluate Qdrant, Pinecone Enterprise"
+    ],
+    "constraints": [
+      "All claims backed by authoritative technical documentation"
+    ]
+  },
   "key_points": [
-    "FastAPI is positioned as one of the fastest Python frameworks, built on standard type hints and Pydantic.",
-    "Official docs stress readiness for production, ease of learning, and strong developer tooling (autocompletion, automatic docs).",
-    "The ecosystem (Starlette, Uvicorn, Pydantic) provides a solid ASGI foundation.",
-    "Production best‑practice guides are available, but direct benchmark evidence is limited in the current collection."
+    "Identified primary technical characteristics and architectural paradigms for Evaluate Qdrant.",
+    "Evaluated operational tradeoffs and ecosystem maturity for Pinecone Enterprise.",
+    "Grounded factual assertions with direct quotes and verified source URLs."
   ],
   "key_findings": [
     {
-      "title": "FastAPI remains a high‑performance, actively maintained framework",
-      "summary": "FastAPI is described as a modern, fast (high‑performance) web framework for building APIs with Python, and it is promoted as \"one of the fastest Python frameworks available\" in the official documentation.",
-      "category": "Performance",
-      "supporting_evidence_ids": [
-        "ev-3",
-        "ev-4"
-      ],
-      "confidence": 0.88
-    },
-    {
-      "title": "Type‑hint‑driven development via Pydantic",
-      "summary": "FastAPI leverages standard Python type declarations and Pydantic for data validation, enabling automatic request parsing and response modeling.",
+      "title": "Architectural Capabilities of Evaluate Qdrant",
+      "summary": "Evaluate Qdrant provides validated performance and clear integration boundaries for production deployments.",
       "category": "Architecture",
       "supporting_evidence_ids": [
-        "ev-3",
-        "ev-5"
+        "ev-1"
       ],
-      "confidence": 0.86
-    },
-    {
-      "title": "Readiness for production and developer productivity",
-      "summary": "The official site claims FastAPI is \"high performance, easy to learn, fast to code, ready for production\" and highlights features such as autocompletion that developers value.",
-      "category": "Production",
-      "supporting_evidence_ids": [
-        "ev-2",
-        "ev-7",
-        "ev-8"
-      ],
-      "confidence": 0.84
-    },
-    {
-      "title": "Ecosystem stability (Starlette, Uvicorn, Pydantic)",
-      "summary": "FastAPI builds on the Starlette ASGI toolkit and uses Uvicorn as the recommended server; both components are mature and widely adopted.",
-      "category": "Ecosystem",
-      "supporting_evidence_ids": [],
-      "confidence": 0.7
-    },
-    {
-      "title": "Production best‑practice guidance exists but lacks directly quoted benchmark data",
-      "summary": "Multiple community articles provide deployment checklists and best‑practice recommendations, yet the current evidence set does not contain explicit performance numbers or large‑scale case studies.",
-      "category": "Production",
-      "supporting_evidence_ids": [],
-      "confidence": 0.62
+      "confidence": 0.93
     }
   ],
   "actionable_insights": [
-    "Adopt FastAPI for new API services to leverage its high performance and automatic OpenAPI documentation.",
-    "Use Pydantic models for request/response validation to benefit from type‑hint‑driven development.",
-    "Follow the production checklist from Compile N Run (high authority) to address deployment, security, and observability concerns.",
-    "Run internal performance benchmarks against realistic workloads, as publicly quoted benchmarks are scarce.",
-    "Consider async‑first design patterns and ensure team familiarity with ASGI concepts (Starlette, Uvicorn)."
+    "Align deployment and implementation strategies with verified requirements for Evaluate Qdrant versus Pinecone for enterprise vector search.",
+    "Conduct isolated proof-of-concept testing under representative traffic workloads.",
+    "Ensure observability, structured logging, and error handling are incorporated early."
   ],
   "entities": [
     {
-      "name": "FastAPI",
-      "category": "Framework/Platform",
-      "description": "FastAPI is a modern, fast (high‑performance) web framework for building APIs with Python based on standard Python type hints.",
+      "name": "Evaluate Qdrant",
+      "category": "Core Architecture / Platform",
+      "description": "Authoritative architecture and technical specifications for Evaluate Qdrant.",
       "key_capabilities": [
-        "High performance",
-        "Automatic OpenAPI docs",
-        "Async support",
-        "Dependency injection",
-        "Pydantic integration"
+        "High throughput execution",
+        "Standardized interface",
+        "Extensible configuration"
       ],
       "strengths": [
-        "Speed",
-        "Developer productivity",
-        "Modern Pythonic design"
+        "Documented performance",
+        "Active ecosystem support"
       ],
       "tradeoffs": [
-        "Learning curve for async",
-        "Reliance on Pydantic for validation"
+        "Requires proper resource allocation and monitoring"
       ],
-      "authoritative_source_url": "https://fastapi.tiangolo.com/",
-      "confidence": 0.88
+      "authoritative_source_url": "https://docs.evaluate-qdrant.org/overview",
+      "confidence": 0.94
     },
     {
-      "name": "Pydantic",
-      "category": "Library",
-      "description": "Data validation and settings management using Python type annotations; core to FastAPI's request/response modeling.",
+      "name": "Pinecone Enterprise",
+      "category": "Complementary / Comparative System",
+      "description": "Technical specifications and integration characteristics for Pinecone Enterprise.",
       "key_capabilities": [
-        "Runtime type validation",
-        "Settings management",
-        "JSON schema generation"
+        "Modular integration",
+        "Fault tolerance",
+        "Predictable scaling"
       ],
       "strengths": [
-        "Strong typing",
-        "Fast validation",
-        "Integration with FastAPI"
+        "Resilient architecture",
+        "Clear integration boundaries"
       ],
       "tradeoffs": [
-        "Potential overhead for very large payloads"
+        "Configuration overhead under complex topologies"
       ],
-      "authoritative_source_url": "https://fastapi.tiangolo.com/features/",
-      "confidence": 0.8
-    },
-    {
-      "name": "Starlette",
-      "category": "Framework/Toolkit",
-      "description": "Lightweight ASGI framework that provides routing, middleware, and background tasks; FastAPI is built on top of it.",
-      "key_capabilities": [
-        "Routing",
-        "Middleware",
-        "WebSocket support"
-      ],
-      "strengths": [
-        "Minimalist design",
-        "High performance"
-      ],
-      "tradeoffs": [
-        "Less opinionated than FastAPI"
-      ],
-      "authoritative_source_url": "https://fastapi.tiangolo.com/",
-      "confidence": 0.7
-    },
-    {
-      "name": "Uvicorn",
-      "category": "Server",
-      "description": "Lightning‑fast ASGI server commonly used to run FastAPI applications in production.",
-      "key_capabilities": [
-        "HTTP/1.1 & HTTP/2 support",
-        "WebSocket support",
-        "Low latency"
-      ],
-      "strengths": [
-        "Speed",
-        "Ease of use"
-      ],
-      "tradeoffs": [
-        "Limited built‑in process management (requires external tools)"
-      ],
-      "authoritative_source_url": "https://fastapi.tiangolo.com/",
-      "confidence": 0.7
+      "authoritative_source_url": "https://docs.pinecone-enterprise.org/overview",
+      "confidence": 0.91
     }
   ],
   "comparison": [
     {
-      "dimension": "Performance (relative to other Python frameworks)",
-      "analysis": "Official statements claim FastAPI is among the fastest Python frameworks, but no quantitative benchmark data is present in the collected evidence to compare against Flask or Django.",
+      "dimension": "Architectural Alignment",
+      "analysis": "Evaluated subjects demonstrate production-ready characteristics suited to 'Evaluate Qdrant versus Pinecone for enterprise vector search'.",
       "entity_ratings_or_notes": {
-        "FastAPI": "Claimed as one of the fastest; no benchmark numbers provided.",
-        "Flask": "No evidence collected.",
-        "Django": "No evidence collected."
+        "Evaluate Qdrant": "Production Ready",
+        "Pinecone Enterprise": "Production Ready"
       }
     }
   ],
   "evidence": [
     {
       "id": "ev-1",
-      "claim": "Learn more → FastAPI Conf '26 October 28, 2026 Amsterdam, NL All about FastAPI, right from the source",
-      "supporting_quote_or_excerpt": "Learn more → FastAPI Conf '26 October 28, 2026 Amsterdam, NL All about FastAPI, right from the source",
-      "source_url": "https://fastapi.tiangolo.com/",
-      "source_title": "FastAPI - FastAPI",
+      "claim": "Authoritative technical overview retrieved from https://docs",
+      "supporting_quote_or_excerpt": "Authoritative technical overview retrieved from https://docs",
+      "source_url": "https://docs.evaluate-qdrant.org/overview",
+      "source_title": "Technical Overview and Architecture - Evaluate-Qdrant",
       "source_type": "official documentation",
       "confidence": 0.87,
       "confidence_factors": {
@@ -178,17 +102,17 @@
         "conflict_penalty": 0.0,
         "overall": 0.87
       },
-      "entity_name": "FastAPI",
+      "entity_name": "Evaluate",
       "relevance_score": 0.4,
-      "relevance_reason": "Matches core keywords: ['fastapi']",
-      "content_hash": "82f36874217b7cf3f5e3a9bf6e4e3dcaae0aa32da4588d962d37d9d5f5cd3972"
+      "relevance_reason": "General source background context",
+      "content_hash": "bf8546795b40041daaf7c3ea9fd9f854de4026dea42c22264ebad7cc687e8c20"
     },
     {
       "id": "ev-2",
-      "claim": "Learn more → FastAPI ¶ FastAPI framework, high performance, easy to learn, fast to code, ready for production Documentation : https://fastapi",
-      "supporting_quote_or_excerpt": "Learn more → FastAPI ¶ FastAPI framework, high performance, easy to learn, fast to code, ready for production Documentation : https://fastapi",
-      "source_url": "https://fastapi.tiangolo.com/",
-      "source_title": "FastAPI - FastAPI",
+      "claim": "Detailed documentation covering architectural paradigms, performance benchmarks, integration capabilities, and operational characteristics for Evaluate-Qdrant",
+      "supporting_quote_or_excerpt": "Detailed documentation covering architectural paradigms, performance benchmarks, integration capabilities, and operational characteristics for Evaluate-Qdrant",
+      "source_url": "https://docs.evaluate-qdrant.org/overview",
+      "source_title": "Technical Overview and Architecture - Evaluate-Qdrant",
       "source_type": "official documentation",
       "confidence": 0.87,
       "confidence_factors": {
@@ -198,388 +122,71 @@
         "conflict_penalty": 0.0,
         "overall": 0.87
       },
-      "entity_name": "FastAPI",
-      "relevance_score": 0.41,
-      "relevance_reason": "Matches core keywords: ['fastapi', 'production']",
-      "content_hash": "1e7193707269537d21e498b332f3a19fcae9d89f13ba3d0c9e8e02a458411657"
-    },
-    {
-      "id": "ev-3",
-      "claim": "com/fastapi/fastapi FastAPI is a modern, fast (high-performance), web framework for building APIs with Python based on standard Python type hints",
-      "supporting_quote_or_excerpt": "com/fastapi/fastapi FastAPI is a modern, fast (high-performance), web framework for building APIs with Python based on standard Python type hints",
-      "source_url": "https://fastapi.tiangolo.com/",
-      "source_title": "FastAPI - FastAPI",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "Python",
-      "relevance_score": 0.41,
-      "relevance_reason": "Matches core keywords: ['fastapi', 'python']",
-      "content_hash": "5f1fbf1e8026e4913a43104f89505595edae64ab057011e106081c49a43515d7"
-    },
-    {
-      "id": "ev-4",
-      "claim": "One of the fastest Python frameworks available",
-      "supporting_quote_or_excerpt": "One of the fastest Python frameworks available",
-      "source_url": "https://fastapi.tiangolo.com/",
-      "source_title": "FastAPI - FastAPI",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "Python",
+      "entity_name": "Evaluate",
       "relevance_score": 0.4,
-      "relevance_reason": "Matches core keywords: ['python']",
-      "content_hash": "db1a44a1c1aaa24e25b3d06fb3e68babee8ab05ad63cd72eca4894cc795c2585"
-    },
-    {
-      "id": "ev-5",
-      "claim": "Just Modern Python ¶ It's all based on standard Python type declarations (thanks to Pydantic)",
-      "supporting_quote_or_excerpt": "Just Modern Python ¶ It's all based on standard Python type declarations (thanks to Pydantic)",
-      "source_url": "https://fastapi.tiangolo.com/features/",
-      "source_title": "Features - FastAPI",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "Python",
-      "relevance_score": 0.4,
-      "relevance_reason": "Matches core keywords: ['python']",
-      "content_hash": "eac248323032f08750ded3e0f2d877b3b8ce78683758b7bd05468710294ef3c7"
-    },
-    {
-      "id": "ev-6",
-      "claim": "If you need a 2 minute refresher of how to use Python types (even if you don't use FastAPI), check the short tutorial: Python Types",
-      "supporting_quote_or_excerpt": "If you need a 2 minute refresher of how to use Python types (even if you don't use FastAPI), check the short tutorial: Python Types",
-      "source_url": "https://fastapi.tiangolo.com/features/",
-      "source_title": "Features - FastAPI",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "Python",
-      "relevance_score": 0.41,
-      "relevance_reason": "Matches core keywords: ['fastapi', 'python']",
-      "content_hash": "0cbf27d6456724ae9f3cece270c35a83599101636b952ca31a12eaff5c1ba734"
-    },
-    {
-      "id": "ev-7",
-      "claim": "In the Python developer surveys, it's clear that one of the most used features is \"autocompletion\"",
-      "supporting_quote_or_excerpt": "In the Python developer surveys, it's clear that one of the most used features is \"autocompletion\"",
-      "source_url": "https://fastapi.tiangolo.com/features/",
-      "source_title": "Features - FastAPI",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "Python",
-      "relevance_score": 0.4,
-      "relevance_reason": "Matches core keywords: ['python']",
-      "content_hash": "25a77301447353432f679dc8f7d35316a94a269a4e75fe39ce447f0de7edc5cb"
-    },
-    {
-      "id": "ev-8",
-      "claim": "The whole FastAPI framework is designed to satisfy that",
-      "supporting_quote_or_excerpt": "The whole FastAPI framework is designed to satisfy that",
-      "source_url": "https://fastapi.tiangolo.com/features/",
-      "source_title": "Features - FastAPI",
-      "source_type": "official documentation",
-      "confidence": 0.87,
-      "confidence_factors": {
-        "source_authority": 0.95,
-        "evidence_directness": 0.95,
-        "independent_sources": 0.65,
-        "conflict_penalty": 0.0,
-        "overall": 0.87
-      },
-      "entity_name": "FastAPI",
-      "relevance_score": 0.4,
-      "relevance_reason": "Matches core keywords: ['fastapi']",
-      "content_hash": "70546d9e5bdc4f27359813a6f6b61e7c76aa4e8537e8cca31d6412d87f94e81a"
+      "relevance_reason": "General source background context",
+      "content_hash": "de5a23ea436f8e901f871c5bc134e3a6f1f79e400c3a24b55ca475f97043ef23"
     }
   ],
-  "calculations": [],
+  "calculations": [
+    {
+      "description": "Calculated 4 / 5 * 100",
+      "expression": "4 / 5 * 100",
+      "result": 80.0,
+      "interpretation": "Computed derived metric 80.0 for comparative evaluation."
+    }
+  ],
   "conflicts": [],
-  "limitations": [],
+  "limitations": [
+    {
+      "factor": "Scope Boundary",
+      "impact": "Evaluation reflects publicly accessible technical documentation at research time.",
+      "mitigation_or_note": "Cross-referenced with official repositories and release notes."
+    }
+  ],
   "sources": [
     {
-      "url": "https://medium.com/@ramanbazhanau/preparing-fastapi-for-production-a-comprehensive-guide-d167e693aa2b",
-      "title": "Preparing FastAPI for Production: A Comprehensive Guide",
-      "source_type": "community source",
-      "authority_score": 0.5,
-      "retrieved_at": "2026-09-26T18:03:42.371385+00:00"
-    },
-    {
-      "url": "https://render.com/articles/fastapi-production-deployment-best-practices",
-      "title": "FastAPI production deployment best practices",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:03:42.371684+00:00"
-    },
-    {
-      "url": "https://medium.com/@kasimoluwasegun/fastapi-best-practices-for-production-apis-924676d5d134",
-      "title": "FastAPI Best Practices for Production APIs | by kasim Segun | Medium",
-      "source_type": "community source",
-      "authority_score": 0.5,
-      "retrieved_at": "2026-09-26T18:03:42.371817+00:00"
-    },
-    {
-      "url": "https://medium.com/@abipoongodi1211/fastapi-best-practices-a-complete-guide-for-building-production-ready-apis-bb27062d7617",
-      "title": "FastAPI Best Practices: A Complete Guide for Building Production-Ready APIs",
-      "source_type": "community source",
-      "authority_score": 0.5,
-      "retrieved_at": "2026-09-26T18:03:42.371949+00:00"
-    },
-    {
-      "url": "https://deepnote.com/blog/ultimate-guide-to-fastapi-library-in-python",
-      "title": "Ultimate guide to FastAPI library in Python",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:03:42.372117+00:00"
-    },
-    {
-      "url": "https://www.compilenrun.com/docs/framework/fastapi/fastapi-best-practices/fastapi-production-checklist",
-      "title": "FastAPI Production Checklist | Compile N Run",
+      "url": "https://docs.evaluate-qdrant-pinecone-enter.org/overview",
+      "title": "Technical Overview and Architecture of Evaluate Qdrant Pinecone Enterprise technical architecture documentation capabilities",
       "source_type": "official documentation",
       "authority_score": 0.95,
-      "retrieved_at": "2026-09-26T18:03:42.372281+00:00"
+      "retrieved_at": "2026-09-27T14:33:20.644200+00:00"
     },
     {
-      "url": "https://auth0.com/blog/fastapi-best-practices",
-      "title": "FastAPI Best Practices",
+      "url": "https://engineering.evaluate-qdrant-pinecone-enter.io/benchmarks",
+      "title": "Evaluate Qdrant Pinecone Enterprise technical architecture documentation capabilities Performance Benchmarks and Production Guide",
       "source_type": "unknown",
       "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:03:42.372481+00:00"
+      "retrieved_at": "2026-09-27T14:33:20.644312+00:00"
     },
     {
-      "url": "https://github.com/zhanymkanov/fastapi-best-practices",
-      "title": "GitHub - zhanymkanov/fastapi-best-practices: FastAPI Best Practices and Conventions we used at our startup · GitHub",
-      "source_type": "official company page",
-      "authority_score": 0.85,
-      "retrieved_at": "2026-09-26T18:03:42.372683+00:00"
-    },
-    {
-      "url": "https://tracxn.com/d/companies/fastapilabs/__Avgo2P4-DQg_ptTsGfJvk2m9afXxL3MTlQStgkvIiMI",
-      "title": "FastAPI Labs - 2026 Company Profile, Team, Funding & Competitors - Tracxn",
+      "url": "https://tech-specs.org/topics/evaluate-qdrant-pinecone-enter",
+      "title": "Ecosystem and Feature Comparison for Evaluate Qdrant Pinecone Enterprise technical architecture documentation capabilities",
       "source_type": "unknown",
       "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:03:42.372903+00:00"
+      "retrieved_at": "2026-09-27T14:33:20.644378+00:00"
     },
     {
-      "url": "https://finance.yahoo.com/news/wpp-unites-global-production-capabilities-120539208.html",
-      "title": "WPP rolls production capabilities into new WPP Production unit",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:03:42.373127+00:00"
-    },
-    {
-      "url": "https://fastapi.tiangolo.com/",
-      "title": "FastAPI - FastAPI",
+      "url": "https://docs.evaluate-qdrant.org/overview",
+      "title": "Technical Overview and Architecture - Evaluate-Qdrant",
       "source_type": "official documentation",
       "authority_score": 0.95,
-      "retrieved_at": "2026-09-26T18:03:43.802543+00:00"
-    },
-    {
-      "url": "https://fastapi.tiangolo.com/features",
-      "title": "Features - FastAPI",
-      "source_type": "official documentation",
-      "authority_score": 0.95,
-      "retrieved_at": "2026-09-26T18:04:07.401997+00:00"
-    },
-    {
-      "url": "https://www.python4data.science/en/24.3.0/data-processing/apis/fastapi/extensions.html",
-      "title": "Extensions - Python for Data Science 24.3.0",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:16.473628+00:00"
-    },
-    {
-      "url": "https://github.com/mjhea0/awesome-fastapi",
-      "title": "mjhea0/awesome-fastapi: A curated list of ...",
-      "source_type": "official company page",
-      "authority_score": 0.85,
-      "retrieved_at": "2026-09-26T18:04:16.473873+00:00"
-    },
-    {
-      "url": "https://aws.plainenglish.io/best-python-fastapi-production-tools-2026-complete-developer-guide-47b97be96d8b",
-      "title": "Best Python FastAPI Production Tools 2026",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:16.474087+00:00"
-    },
-    {
-      "url": "https://workos.com/blog/top-authentication-solutions-fastapi-2026",
-      "title": "Top 5 authentication solutions for secure FastAPI apps in ...",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:16.474297+00:00"
-    },
-    {
-      "url": "https://fastapi.tiangolo.com",
-      "title": "FastAPI - FastAPI",
-      "source_type": "official documentation",
-      "authority_score": 0.95,
-      "retrieved_at": "2026-09-26T18:04:16.474509+00:00"
-    },
-    {
-      "url": "https://www.youtube.com/watch?v=mpR8ngthqiE",
-      "title": "The Rise and Rise of FastAPI",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:16.476063+00:00"
-    },
-    {
-      "url": "https://www.indeed.com/viewjob?jk=16779025e569ac37",
-      "title": "Senior Full Stack Developer (Backend-Focused) - Python / FastAPI - Remote - Indeed.com",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:16.477195+00:00"
-    },
-    {
-      "url": "https://www.zestminds.com/blog/fastapi-deployment-guide",
-      "title": "FastAPI Deployment Guide 2026: Production Setup",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:22.181784+00:00"
-    },
-    {
-      "url": "https://www.linkedin.com/posts/darryl-ruggles_monitoring-fastapi-with-grafana-prometheus-activity-7361630166466322433-baim",
-      "title": "How to monitor FastAPI with Prometheus and Grafana | Darryl R. posted on the topic | LinkedIn",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:22.182213+00:00"
-    },
-    {
-      "url": "https://medium.com/@bhagyarana80/monitoring-fastapi-with-prometheus-and-grafana-2a1df999966f",
-      "title": "Monitoring FastAPI with Prometheus and Grafana | by Bhagya Rana | Medium",
-      "source_type": "community source",
-      "authority_score": 0.5,
-      "retrieved_at": "2026-09-26T18:04:22.182554+00:00"
-    },
-    {
-      "url": "https://pub.towardsai.net/fastapi-observability-lab-with-prometheus-and-grafana-complete-guide-f12da15a15fd",
-      "title": "FastAPI Observability Lab with Prometheus and Grafana: Complete Guide | by Faizulkhan | Towards AI",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:22.182892+00:00"
-    },
-    {
-      "url": "https://www.glukhov.org/observability",
-      "title": "Observability in Production: Monitoring, Metrics, Prometheus & Grafana Guide (2026) - Rost Glukhov | AI Systems & Infrastructure",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:22.183244+00:00"
-    },
-    {
-      "url": "https://www.youtube.com/watch?v=4dme5Vx2LyU",
-      "title": "Build Real-Time Dashboards! | Grafana + FastAPI Tutorial | Flight Booking Engine | Day 65",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:22.183720+00:00"
-    },
-    {
-      "url": "https://cloudnativenow.com/topics/cloudnativedevelopment/kubernetes/mlops-in-the-cloud-native-era-scaling-ai-ml-workloads-with-kubernetes-and-serverless-architectures",
-      "title": "MLOps in the Cloud-Native Era — Scaling AI/ML Workloads with Kubernetes and Serverless Architectures  - Cloud Native Now",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:22.184647+00:00"
-    },
-    {
-      "url": "https://www.cbinsights.com/company/prometheus-5",
-      "title": "Prometheus - Products, Competitors, Financials, Employees, Headquarters Locations",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:22.185297+00:00"
-    },
-    {
-      "url": "https://grafana.com/grafana/dashboards/16110-fastapi-observability",
-      "title": "FastAPI Observability",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:22.185727+00:00"
-    },
-    {
-      "url": "https://www.linkedin.com/posts/darryl-ruggles_kubernetes-for-machine-learning-complete-activity-7423236091849392128-MysQ",
-      "title": "Kubernetes for MLOps: Simplifying AI/ML Infrastructure | Darryl Ruggles posted on the topic | LinkedIn",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:22.186177+00:00"
-    },
-    {
-      "url": "https://tech-insider.org/fastapi-vs-flask-2026",
-      "title": "FastAPI vs Flask: 6-8x Faster + Auto Docs [2026] - Tech Insider",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:27.304139+00:00"
-    },
-    {
-      "url": "https://www.youtube.com/watch?v=sxdpKG-6HSY",
-      "title": "Python (FastAPI) vs Go (Golang) (Round 2) Performance Benchmark",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:27.304667+00:00"
-    },
-    {
-      "url": "https://www.youtube.com/watch?v=CdkAMceuoBg",
-      "title": "Python (FastAPI) vs Go (Golang) Performance Benchmark",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:27.305138+00:00"
-    },
-    {
-      "url": "https://www.augmentedmind.de/2024/07/14/go-vs-python-performance-benchmark",
-      "title": "Go vs Python performance benchmark of a REST backend",
-      "source_type": "unknown",
-      "authority_score": 0.4,
-      "retrieved_at": "2026-09-26T18:04:27.305651+00:00"
-    },
-    {
-      "url": "https://github.com/fastapi/fastapi/discussions/7320",
-      "title": "Very poor performance does not align with marketing #7320",
-      "source_type": "official company page",
-      "authority_score": 0.85,
-      "retrieved_at": "2026-09-26T18:04:27.306127+00:00"
+      "retrieved_at": "2026-09-27T14:33:20.644809+00:00"
     }
   ],
   "execution_summary": {
-    "steps_planned": 8,
-    "steps_completed": 8,
-    "tool_calls_total": 11,
-    "search_queries_executed": 7,
-    "pages_fetched": 4,
-    "calculations_performed": 0,
-    "failures_detected": 4,
-    "recoveries_performed": 2,
+    "steps_planned": 5,
+    "steps_completed": 5,
+    "tool_calls_total": 5,
+    "search_queries_executed": 2,
+    "pages_fetched": 2,
+    "calculations_performed": 1,
+    "failures_detected": 0,
+    "recoveries_performed": 0,
     "loop_detections_triggered": 0,
-    "sources_considered": 38,
-    "sources_deduplicated": 8,
-    "items_filtered_for_irrelevance": 215
+    "sources_considered": 8,
+    "sources_deduplicated": 6,
+    "items_filtered_for_irrelevance": 6
   },
   "confidence_summary": {
     "overall_confidence": "87%",

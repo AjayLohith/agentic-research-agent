@@ -168,7 +168,7 @@ To run with code coverage:
 ```bash
 python -m pytest --cov=app --cov-report=term-missing
 ```
-* **Expected Result:** `36 passed in ~5.0s` with zero failures.
+* **Expected Result:** `39 passed in ~4.0s` with zero failures.
 
 ---
 

@@ -39,5 +39,5 @@ This audit checklist verifies compliance with all official requirements and bonu
 | **Intentional Failure Demo** | CLI flag `--demo-failure` injects simulated network timeout on first attempt. | CLI flag `--demo-failure`, `output/sample_run.log` | **PASS** |
 | **Offline Deterministic Mode** | Full offline mock mode requiring zero API keys or network connection. | `MOCK_MODE=true` or `--mock` flag | **PASS** |
 | **AST Calculator Sandbox** | Safe AST mathematical evaluator for ratios, percentages, and metrics without `eval()`. | `app/tools/calculator.py`, `tests/unit/test_calculator.py` | **PASS** |
-| **Automated Test Suite** | 36 unit and integration tests passing offline with Pytest. | `python -m pytest -v` (36/36 passed) | **PASS** |
+| **Automated Test Suite** | 39 unit and integration tests passing offline with Pytest. | `python -m pytest -v` (39/39 passed) | **PASS** |
 | **Credential Security** | Zero real credentials committed; `.env` gitignored; automated token redaction. | `git status`, `.gitignore`, `SafeJsonFormatter` | **PASS** |

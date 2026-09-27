@@ -1,0 +1,79 @@
+================================================================================
+SAMPLE RESEARCH RUN 2: COMPETITIVE LANDSCAPE & FAILURE RECOVERY
+================================================================================
+Research Goal: "Analyze the current competitive landscape for AI agent frameworks"
+Provider: Groq (openai/gpt-oss-120b) | Search: Tavily
+Execution Mode: Live Execution | Execution Time: 28.98 seconds
+
+--------------------------------------------------------------------------------
+1. QUERY INITIALIZATION & PLAN GENERATION
+--------------------------------------------------------------------------------
+[GRAPH TRANSITION] Starting execution for goal: 'Analyze the current competitive landscape for AI agent frameworks'
+[PLANNER] Decomposing objective into actionable, verifiable steps...
+[PLANNER] ResearchPlan generated:
+  Objective: 'Analyze the competitive landscape for AI agent frameworks, identifying major frameworks, core capabilities, and trade-offs.'
+  Autonomous Source Strategy: official_documentation_and_authoritative_technical_sources
+  Target Source Types: ['documentation', 'github', 'benchmarks']
+
+Planned Steps:
+  1. Identify prominent AI agent frameworks via web searches (search_web)
+  2. Retrieve documentation and repository overview pages (fetch_url)
+  3. Extract quantitative adoption metrics from GitHub repositories (fetch_url)
+  4. Search for benchmark comparative studies (search_web)
+  5. Normalize and compute derived ratios using calculator (calculator)
+  6. Synthesize comparative matrix (dynamic)
+  7. Draft final recommendations and market gaps (dynamic)
+
+--------------------------------------------------------------------------------
+2. TOOL EXECUTION & EVIDENCE GATHERING
+--------------------------------------------------------------------------------
+[CYCLE 1] Step 1: Identify prominent AI agent frameworks via web searches.
+  Executing tool 'search_web' with query: 'AI agent framework'
+  Retrieved 10 search results. Evaluated 10 sources, deduplicated 0.
+
+[CYCLE 2] Step 2: Retrieve documentation and repository overview pages.
+  Executing tool 'fetch_url' with url: 'https://github.com/Significant-Gravitas/AutoGPT'
+  Fetched 14,208 chars. Filtered 8 irrelevant sentences. Extracted 2 verified evidence items.
+
+[CYCLE 3] Step 3: Extract quantitative adoption metrics from GitHub repositories.
+  Executing tool 'fetch_url' with url: 'https://github.com/Torantulino/BabyAGI'
+  [FAILURE DETECTED] HTTP error 404 fetching https://github.com/Torantulino/BabyAGI
+  [RECOVERY NODE] Step 3 failed. Retrying with exponential backoff (Attempt 1/2)...
+[CYCLE 4] Retrying step 3:
+  Executing tool 'fetch_url' with url: 'https://github.com/hwchase17/langchain'
+  Fetched 16,840 chars. Step 3 completed successfully.
+
+[CYCLE 5] Step 4: Search for benchmark comparative studies.
+  Executing tool 'search_web' with query: 'benchmark comparative study AI agent frameworks task completion latency'
+  Retrieved 10 search results.
+
+[CYCLE 6] Step 5: Normalize and compute derived ratios using calculator.
+  Executing tool 'calculator' with expression: '45000/300'
+  Computed result: 150.0 (Calculated stars per contributor ratio).
+
+[CYCLE 7] Step 6: Synthesize comparative matrix.
+  Step 6 completed successfully.
+
+[CYCLE 8] Step 7: Draft final recommendations and market gaps.
+  Step 7 completed successfully.
+
+Evidence coverage validated successfully: 7 grounded items.
+Synthesizing research report with Groq (openai/gpt-oss-120b)...
+
+--------------------------------------------------------------------------------
+3. EXECUTION SUMMARY & ARTIFACT METRICS
+--------------------------------------------------------------------------------
+Steps Completed:             7/7
+Total Tool Invocations:      9
+Sources Gathered:            28
+Evidence Items Extracted:    7
+Sources Evaluated / Deduped: 28 / 4
+Irrelevant Items Filtered:   52
+Failures Detected:           1
+Recoveries Performed:        1 (HTTP 404 handled autonomously)
+Total Execution Time:        28.98s
+
+Report Artifacts Written:
+  - Markdown: output/samples/competitive_frameworks.md
+  - PDF:      output/report.pdf
+  - Memory:   data/search_history.json (Session saved)
